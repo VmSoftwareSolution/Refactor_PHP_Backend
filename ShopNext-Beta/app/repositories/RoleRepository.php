@@ -28,4 +28,18 @@ class RoleRepository {
 
         return null;
     }
+
+    public function findById(int $id): ?Role {
+        $stmt = $this->conn->prepare("SELECT * FROM roles WHERE id = ?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($row = $result->fetch_assoc()) {
+            return new Role($row['name'], $row['description']);
+        }
+
+        return null;
+    }
+
 }

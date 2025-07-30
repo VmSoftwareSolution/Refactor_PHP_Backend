@@ -3,7 +3,7 @@
 class Database {
     public static function connect() {
         $host = '127.0.0.1';
-        $db   = 'shopnext_bete';
+        $db   = 'shopnext_beta';
         $user = 'root';
         $pass = 'MySecretPassword';
 

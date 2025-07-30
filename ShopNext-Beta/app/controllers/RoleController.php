@@ -14,12 +14,24 @@ class RoleController {
     }
 
     public function createRole($data) {
-        $name = $data['name'] ?? '';
-        $description = $data['description'] ?? '';
+    $name = $data['name'] ?? '';
+    $description = $data['description'] ?? '';
 
-        $message = $this->service->create($name, $description);
-        echo $message;
+    try {
+        $this->service->create($name, $description);
+        echo "Rol creado exitosamente.";
+    } catch (InvalidArgumentException $e) {
+        http_response_code(400);
+        echo $e->getMessage();
+    } catch (RuntimeException $e) {
+        http_response_code(409);
+        echo $e->getMessage();
+    } catch (Throwable $e) {
+        http_response_code(500);
+        echo "Error interno del servidor.";
     }
+}
+
 
     public function getRoleById($data) {
         $id = (int) ($data['id'] ?? 0);

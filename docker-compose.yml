@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  mariadb:
+    image: mariadb:11.3
+    container_name: shopnext_beta
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: MySecretPassword
+      MARIADB_DATABASE: shopnext_beta
+      MARIADB_USER: root
+      MARIADB_PASSWORD: MySecretPassword
+    ports:
+      - "3306:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+
+volumes:
+  mariadb_data:

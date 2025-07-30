@@ -15,4 +15,17 @@ class RoleRepository {
         $stmt->bind_param("ss", $role->name, $role->description);
         return $stmt->execute();
     }
+
+    public function findByName(string $name): ?Role {
+        $stmt = $this->conn->prepare("SELECT * FROM roles WHERE name = ?");
+        $stmt->bind_param("s", $name);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($row = $result->fetch_assoc()) {
+            return new Role($row['name'], $row['description']);
+        }
+
+        return null;
+    }
 }

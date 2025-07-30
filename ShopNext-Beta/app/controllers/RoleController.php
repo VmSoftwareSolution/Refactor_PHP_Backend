@@ -17,13 +17,7 @@ class RoleController {
         $name = $data['name'] ?? '';
         $description = $data['description'] ?? '';
 
-        //FIX: delete logic from this
-        if (empty($name)) {
-            echo "Name is required.";
-            return;
-        }
-
-        $this->service->create($name, $description);
-        echo "Role created successfully.";
+        $message = $this->service->create($name, $description);
+        echo $message;
     }
 }

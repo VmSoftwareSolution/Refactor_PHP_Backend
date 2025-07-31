@@ -49,4 +49,11 @@ class RoleRepository {
         return $stmt->execute();
     }
 
+    public function update(Role $role): bool {
+        $stmt = $this->conn->prepare("UPDATE roles SET name = ?, description = ? WHERE id = ?");
+        $stmt->bind_param("ssi", $role->name, $role->description, $role->id);
+        return $stmt->execute();
+    }
+
+
 }

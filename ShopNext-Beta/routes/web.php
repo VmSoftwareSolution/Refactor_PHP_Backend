@@ -7,4 +7,7 @@ $routes = [
     '/role/delete'      => ['POST', 'RoleController@deleteRole'],
     '/role/edit'        => ['GET',  'RoleController@editRole'],
     '/role/update'      => ['POST', 'RoleController@updateRole'],
+
+    '/user/create' => ['GET', 'UserController@create'],
+    '/user/createUser'  => ['POST', 'UserController@createUser'],
 ];

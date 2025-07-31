@@ -23,7 +23,7 @@ class RoleRepository {
         $result = $stmt->get_result();
 
         if ($row = $result->fetch_assoc()) {
-            return new Role($row['name'], $row['description']);
+            return new Role($row['name'], $row['description'], (int)$row['id']);
         }
 
         return null;
@@ -36,10 +36,17 @@ class RoleRepository {
         $result = $stmt->get_result();
 
         if ($row = $result->fetch_assoc()) {
-            return new Role($row['name'], $row['description']);
+            return new Role($row['name'], $row['description'], (int)$row['id']);
         }
 
         return null;
+    }
+
+
+    public function deleteById(int $id): bool {
+        $stmt = $this->conn->prepare("DELETE FROM roles WHERE id = ?");
+        $stmt->bind_param("i", $id);
+        return $stmt->execute();
     }
 
 }

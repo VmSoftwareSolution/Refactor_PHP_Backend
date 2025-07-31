@@ -43,5 +43,20 @@ class RoleService {
         return $role;
     }
 
+    public function deleteById(int $id): void {
+        if ($id <= 0) {
+            throw new InvalidArgumentException("ID inválido. Debe ser mayor que cero.");
+        }
+
+        $role = $this->repository->findById($id);
+        if (!$role) {
+            throw new InvalidArgumentException("Rol no encontrado.");
+        }
+
+        $success = $this->repository->deleteById($id);
+        if (!$success) {
+            throw new RuntimeException("No se pudo eliminar el rol.");
+        }
+    }
 
 }

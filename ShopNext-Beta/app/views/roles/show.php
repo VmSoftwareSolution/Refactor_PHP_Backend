@@ -26,11 +26,32 @@
             font-size: 1.1em;
             color: #333;
         }
+        .actions {
+            margin-top: 2rem;
+            text-align: center;
+        }
+        .btn-delete {
+            background-color: #e74c3c;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .btn-delete:hover {
+            background-color: #c0392b;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h2>Información del Rol</h2>
+
+        <div>
+            <div class="label">ID:</div>
+            <div class="value"><?= htmlspecialchars($role->id) ?></div>
+        </div>
 
         <div>
             <div class="label">Nombre:</div>
@@ -40,6 +61,13 @@
         <div>
             <div class="label">Descripción:</div>
             <div class="value"><?= htmlspecialchars($role->description) ?></div>
+        </div>
+
+        <div class="actions">
+            <form action="/role/delete" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este rol?');">
+                <input type="hidden" name="id" value="<?= htmlspecialchars($role->id) ?>">
+                <button type="submit" class="btn-delete">Eliminar Rol</button>
+            </form>
         </div>
     </div>
 </body>

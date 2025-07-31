@@ -3,5 +3,6 @@
 $routes = [
     '/role/create' => ['GET', 'RoleController@create'],
     '/role/createRole'  => ['POST', 'RoleController@createRole'],
-    '/roles/findById'   => ['GET',  'RoleController@getRoleById']
+    '/roles/findById'   => ['GET',  'RoleController@getRoleById'],
+    '/role/delete'      => ['POST', 'RoleController@deleteRole'],
 ];

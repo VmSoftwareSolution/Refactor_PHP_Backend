@@ -59,4 +59,23 @@ class RoleService {
         }
     }
 
+    public function update(int $id, string $name, string $description): void {
+        if ($id <= 0 || trim($name) === '') {
+            throw new InvalidArgumentException("Datos inválidos para actualizar.");
+        }
+
+        $role = $this->repository->findById($id);
+        
+        if (!$role) {
+            throw new InvalidArgumentException("Rol no encontrado.");
+        }
+
+        $updatedRole = new Role($name, $description, $id);
+        $success = $this->repository->update($updatedRole);
+
+        if (!$success) {
+            throw new RuntimeException("No se pudo actualizar el rol.");
+        }
+    }
+
 }

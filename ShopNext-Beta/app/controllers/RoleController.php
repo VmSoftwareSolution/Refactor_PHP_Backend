@@ -63,6 +63,37 @@ class RoleController {
         }
     }
 
+    public function editRole($data) {
+        $id = (int) ($data['id'] ?? 0);
+        try {
+            $role = $this->service->getById($id);
+            require_once __DIR__ . '/../views/roles/edit.php';
+        } catch (InvalidArgumentException $e) {
+            http_response_code(400);
+            echo $e->getMessage();
+        }
+    }
+
+    public function updateRole($data) {
+        $id = (int) ($data['id'] ?? 0);
+        $name = $data['name'] ?? '';
+        $description = $data['description'] ?? '';
+
+        try {
+            $this->service->update($id, $name, $description);
+            echo "Rol actualizado exitosamente.";
+        } catch (InvalidArgumentException $e) {
+            http_response_code(400);
+            echo $e->getMessage();
+        } catch (RuntimeException $e) {
+            http_response_code(409);
+            echo $e->getMessage();
+        } catch (Throwable $e) {
+            http_response_code(500);
+            echo "Error interno del servidor.";
+        }
+    }
+
 
 
 }

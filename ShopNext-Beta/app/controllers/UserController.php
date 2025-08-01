@@ -1,5 +1,6 @@
 <?php
 
+require_once __DIR__ . '/../utils/ErrorHandler.php';
 require_once __DIR__ . '/../services/UserService.php'; 
 
 class UserController {
@@ -32,4 +33,15 @@ class UserController {
             echo "Error interno del servidor.";
         }
     }
+
+    public function getUserById($data) {
+        ErrorHandler::handle(function () use ($data) {
+            $id = (int) ($data['id'] ?? 0);
+            $user = $this->service->getById($id);
+            require_once __DIR__ . '/../views/user/show.php';
+        });
+    }
+
+    
+
 }

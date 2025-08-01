@@ -63,6 +63,12 @@
             <div class="value"><?= htmlspecialchars($user->role_id) ?></div>
         </div>
 
+        <div class="actions">
+            <form action="/user/delete" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este User?');">
+                <input type="hidden" name="id" value="<?= htmlspecialchars($user->id) ?>">
+                <button type="submit" class="btn-delete">Eliminar User</button>
+            </form>
+        </div>
     </div>
 </body>
 </html>

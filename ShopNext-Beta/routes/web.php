@@ -12,5 +12,6 @@ $routes = [
     '/user/createUser'  => ['POST', 'UserController@createUser'],
     '/user/findById'   => ['GET',  'UserController@getUserById'],
     '/user/edit'        => ['GET',  'UserController@editUser'],
+    '/user/delete'      => ['POST', 'UserController@deleteUser'],
     '/user/update'  => ['POST', 'UserController@updateUser'],
 ];

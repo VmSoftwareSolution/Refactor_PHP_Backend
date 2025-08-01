@@ -1,48 +1,40 @@
 <?php
 
+require_once __DIR__ . '/../utils/ValidationUtils.php';
 require_once __DIR__ . '/../repositories/UserRepository.php';
+require_once __DIR__ . '/../repositories/RoleRepository.php';
 require_once __DIR__ . '/../models/User.php';
 require_once __DIR__ . '/../models/Role.php';
 
 class UserService {
-    private UserRepository $repository;
+
+     private UserRepository $repository;
+    private RoleRepository $roleRepository;
 
     public function __construct() {
         $this->repository = new UserRepository();
+        $this->roleRepository = new RoleRepository();
     }
-    
 
     public function register(string $email, string $password): void {
         
-        if (trim($email) === '' || trim($password) === '') {
-            throw new InvalidArgumentException("Email y contraseña son requeridos.");
-        }
-
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            throw new InvalidArgumentException("Formato de email inválido.");
-        }
+        validateEmail($email);
+        validatePassword($password);
 
         $existing = $this->repository->existsByEmail($email);
-        if ($existing !== null) {
+        if ($existing) {
             throw new InvalidArgumentException("El email ya está registrado.");
-        }
-
-        $regex = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$/';
-        if (!preg_match($regex, $password)) {
-            throw new InvalidArgumentException(
-                "La contraseña debe tener al menos 6 caracteres, incluir una mayúscula, una minúscula, un número y un carácter especial."
-            );
         }
 
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-        $roleId = $this->repository->getDefaultRoleId();
-
-        if (!$roleId) {
+        $defaultRole = $this->roleRepository->findByName('cliente');
+        if (!$defaultRole) {
             throw new RuntimeException("Rol por defecto 'cliente' no encontrado.");
         }
 
-        $user = new User($email, $hashedPassword, $roleId);
+        $rolde_id = $defaultRole->id;
+        $user = new User($email, $hashedPassword, $rolde_id);
 
         $success = $this->repository->create($user);
 
@@ -50,4 +42,21 @@ class UserService {
             throw new RuntimeException("Error al registrar el usuario.");
         }
     }
+
+    public function getById(int $id): User {
+        if ($id <= 0) {
+            throw new InvalidArgumentException("ID inválido. Debe ser mayor que cero.");
+        }
+
+        $user = $this->repository->findById($id);
+
+        if (!$user) {
+            throw new InvalidArgumentException("Rol no encontrado.");
+        }
+
+        return $user;
+    }
+
+    
+
 }

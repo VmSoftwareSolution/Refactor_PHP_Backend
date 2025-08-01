@@ -27,6 +27,23 @@ class UserRepository {
         return (bool) $result->fetch_assoc();
     }
 
+    public function findById(int $id): ?User {
+        $stmt = $this->conn->prepare("SELECT * FROM users WHERE id = ?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($row = $result->fetch_assoc()) {
+        return new User(
+            $row['email'],
+            (int) $row['role_id'],
+            (int) $row['id']
+        );
+    }
+
+        return null;
+    }
+
     public function findByEmail(string $email): ?User {
         $stmt = $this->conn->prepare("SELECT * FROM users WHERE email = ?");
         $stmt->bind_param("s", $email);
@@ -39,7 +56,7 @@ class UserRepository {
 
         return null;
     }
-
+    
     public function getDefaultRoleId(): ?int {
         $stmt = $this->conn->prepare("SELECT id FROM roles WHERE name = 'cliente'");
         if (!$stmt) {

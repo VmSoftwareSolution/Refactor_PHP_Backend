@@ -8,7 +8,7 @@ require_once __DIR__ . '/../models/Role.php';
 
 class UserService {
 
-     private UserRepository $repository;
+    private UserRepository $repository;
     private RoleRepository $roleRepository;
 
     public function __construct() {
@@ -57,6 +57,24 @@ class UserService {
         return $user;
     }
 
-    
+    public function update(int $id, string $email, string $password, int $roleId): void {
+        
+        validateEmail($email);
+        validatePassword($password);
+
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+        if (!$this->roleRepository->findById($roleId)) {
+            throw new InvalidArgumentException("El rol indicado no existe.");
+        }
+
+        $user = new User($email, $hashedPassword, $roleId ,$id);
+
+        $success = $this->repository->update($user);
+
+        if (!$success) {
+            throw new RuntimeException("Error al actualizar el usuario.");
+        }
+    }
 
 }

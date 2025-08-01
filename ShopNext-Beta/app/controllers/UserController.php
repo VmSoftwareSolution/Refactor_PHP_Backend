@@ -35,13 +35,36 @@ class UserController {
     }
 
     public function getUserById($data) {
+
         ErrorHandler::handle(function () use ($data) {
             $id = (int) ($data['id'] ?? 0);
             $user = $this->service->getById($id);
             require_once __DIR__ . '/../views/user/show.php';
         });
+
     }
 
-    
+    public function editUser($data) {
+
+         ErrorHandler::handle(function () use ($data) {
+            $id = (int) ($data['id'] ?? 0);
+            $user = $this->service->getById($id);
+            require_once __DIR__ . '/../views/user/edit.php';
+        });
+
+    }
+
+    public function updateUser($data) {
+
+        ErrorHandler::handle(function () use ($data) {
+            $id = (int) ($data['id'] ?? 0);
+            $email = $data['email'] ?? '';
+            $password = $data['password'] ?? '';
+            $role_id = (int) ($data['role_id'] ?? 0);
+
+            $this->service->update($id, $email, $password, $role_id);
+            echo "User actualizado exitosamente.";
+        });
+    }
 
 }

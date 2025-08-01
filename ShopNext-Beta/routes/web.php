@@ -11,5 +11,6 @@ $routes = [
     '/user/create' => ['GET', 'UserController@create'],
     '/user/createUser'  => ['POST', 'UserController@createUser'],
     '/user/findById'   => ['GET',  'UserController@getUserById'],
-
+    '/user/edit'        => ['GET',  'UserController@editUser'],
+    '/user/update'  => ['POST', 'UserController@updateUser'],
 ];

@@ -66,5 +66,10 @@ class UserRepository {
 
     }
 
+    public function deleteById(int $id): bool {
+        $stmt = $this->conn->prepare("DELETE FROM users WHERE id = ?");
+        $stmt->bind_param("i", $id);
+        return $stmt->execute();
+    }
 }
 

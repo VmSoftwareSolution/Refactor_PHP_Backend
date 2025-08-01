@@ -77,4 +77,19 @@ class UserService {
         }
     }
 
+    public function deleteById(int $id): void {
+        if ($id <= 0) {
+            throw new InvalidArgumentException("ID inválido. Debe ser mayor que cero.");
+        }
+
+        $user = $this->repository->findById($id);
+        if (!$user) {
+            throw new InvalidArgumentException("User no encontrado.");
+        }
+
+        $success = $this->repository->deleteById($id);
+        if (!$success) {
+            throw new RuntimeException("No se pudo eliminar el User.");
+        }
+    }
 }

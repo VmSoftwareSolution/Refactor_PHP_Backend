@@ -16,22 +16,13 @@ class UserController {
     }
 
     public function createUser($data) {
-        $email = $data['email'] ?? '';
-        $password = $data['password'] ?? '';
-
-        try {
+       
+         ErrorHandler::handle(function () use ($data) {
+            $email = $data['email'] ?? '';
+            $password = $data['password'] ?? '';
             $this->service->register($email, $password);
             echo "Usuario creado exitosamente.";
-        } catch (InvalidArgumentException $e) {
-            http_response_code(400);
-            echo $e->getMessage();
-        } catch (RuntimeException $e) {
-            http_response_code(409);
-            echo $e->getMessage();
-        } catch (Throwable $e) {
-            http_response_code(500);
-            echo "Error interno del servidor.";
-        }
+         });
     }
 
     public function getUserById($data) {
@@ -67,4 +58,11 @@ class UserController {
         });
     }
 
+    public function deleteUser($data) {
+        ErrorHandler::handle(function () use ($data) {
+            $id = (int) ($data['id'] ?? 0);
+            $this->service->deleteById($id);
+            echo "User eliminado exitosamente.";
+        });
+    }
 }

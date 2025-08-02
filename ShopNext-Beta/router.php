@@ -16,4 +16,5 @@ foreach ($routes as $route => [$method, $handler]) {
 }
 
 http_response_code(404);
-echo "Route not found.";
+header('Content-Type: application/json; charset=utf-8');
+echo json_encode(['error' => 'Route not found.']);

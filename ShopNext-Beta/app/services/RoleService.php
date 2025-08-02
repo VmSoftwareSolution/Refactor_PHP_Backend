@@ -78,4 +78,20 @@ class RoleService {
         }
     }
 
+    public function getAll(int $limit = 100, int $offset = 0): array {
+        if ($limit <= 0 || $offset < 0) {
+            throw new InvalidArgumentException("Parámetros de paginación inválidos.");
+        }
+
+        $roles = $this->repository->findAll($limit, $offset);
+        $total = $this->repository->countAll();
+
+        return [
+            'data' => $roles,
+            'total' => $total,
+            'limit' => $limit,
+            'offset' => $offset,
+        ];
+    }
+
 }

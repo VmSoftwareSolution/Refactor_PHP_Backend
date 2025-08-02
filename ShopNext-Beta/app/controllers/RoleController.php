@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../services/RoleService.php'; 
+require_once __DIR__ . '/../utils/JsonResponder.php';
 
 class RoleController {
     private $service;
@@ -94,6 +95,33 @@ class RoleController {
         }
     }
 
+   public function listRoles(array $data): void {
+        $limit = isset($data['limit']) ? (int)$data['limit'] : 100;
+        $offset = isset($data['offset']) ? (int)$data['offset'] : 0;
+
+        try {
+            $result = $this->service->getAll($limit, $offset);
+            $payload = array_map(function($role) {
+                return [
+                    'id' => $role->id,
+                    'name' => $role->name,
+                    'description' => $role->description,
+                ];
+            }, $result['data']);
+
+            JsonResponder::success([
+                'data' => $payload,
+                'total' => $result['total'],
+                'limit' => $result['limit'],
+                'offset' => $result['offset'],
+                'count' => count($payload),
+            ]);
+        } catch (InvalidArgumentException $e) {
+            JsonResponder::error($e->getMessage(), 400);
+        } catch (Throwable $e) {
+            JsonResponder::error('Error interno del servidor.', 500);
+        }
+    }
 
 
 }

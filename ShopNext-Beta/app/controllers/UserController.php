@@ -2,6 +2,7 @@
 
 require_once __DIR__ . '/../utils/ErrorHandler.php';
 require_once __DIR__ . '/../services/UserService.php'; 
+require_once __DIR__ . '/../utils/JsonResponder.php';
 
 class UserController {
     
@@ -65,4 +66,31 @@ class UserController {
             echo "User eliminado exitosamente.";
         });
     }
+    
+    public function listUsers(array $data): void{
+
+    ErrorHandler::handle(function () use ($data) {
+        $limit = isset($data['limit']) ? (int) $data['limit'] : 100;
+        $offset = isset($data['offset']) ? (int) $data['offset'] : 0;
+
+        $result = $this->service->getAll($limit, $offset);
+
+        $payload = array_map(function ($user) {
+            return [
+                'id' => $user->id,
+                'email' => $user->email,
+                'role_id' => $user->role_id,
+            ];
+        }, $result['data']);
+
+        JsonResponder::success([
+            'data' => $payload,
+            'total' => $result['total'],
+            'limit' => $result['limit'],
+            'offset' => $result['offset'],
+            'count' => count($payload),
+        ]);
+    });
+}
+
 }

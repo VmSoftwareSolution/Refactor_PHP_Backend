@@ -43,6 +43,17 @@ class RoleService {
         return $role;
     }
 
+    public function getByName(string $name): Role {
+
+        $role = $this->repository->findByName($name);
+
+        if (!$role) {
+            throw new InvalidArgumentException("Rol no encontrado.");
+        }
+
+        return $role;
+    }
+
     public function deleteById(int $id): void {
         if ($id <= 0) {
             throw new InvalidArgumentException("ID inválido. Debe ser mayor que cero.");

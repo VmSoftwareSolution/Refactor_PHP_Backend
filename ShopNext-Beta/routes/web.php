@@ -10,10 +10,11 @@ $routes = [
     '/roles'              => ['GET',  'RoleController@listRoles'],
 
 
-    '/user/create' => ['GET', 'UserController@create'],
+    '/user/create'      => ['GET', 'UserController@create'],
     '/user/createUser'  => ['POST', 'UserController@createUser'],
-    '/user/findById'   => ['GET',  'UserController@getUserById'],
+    '/user/findById'    => ['GET',  'UserController@getUserById'],
     '/user/edit'        => ['GET',  'UserController@editUser'],
     '/user/delete'      => ['POST', 'UserController@deleteUser'],
-    '/user/update'  => ['POST', 'UserController@updateUser'],
+    '/user/update'      => ['POST', 'UserController@updateUser'],
+    '/users'            => ['GET',  'UserController@listUsers'],
 ];

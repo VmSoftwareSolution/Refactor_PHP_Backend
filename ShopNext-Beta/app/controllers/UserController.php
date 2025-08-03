@@ -91,6 +91,27 @@ class UserController {
             'count' => count($payload),
         ]);
     });
-}
+    }
+
+    public function changePasswordUser($data) {
+
+         ErrorHandler::handle(function () use ($data) {
+            $id = (int) ($data['id'] ?? 0);
+            $user = $this->service->getById($id);
+            require_once __DIR__ . '/../views/user/editUser.php';
+        });
+
+    }
+
+    public function changePassword($data){
+
+         ErrorHandler::handle(function () use ($data) {
+            $id = (int) ($data['id'] ?? 0);
+            $password = $data['password'] ?? '';
+            $this->service->changePassword($id, $password);
+            echo "contraseña actualizada";
+         });
+    }
+
 
 }

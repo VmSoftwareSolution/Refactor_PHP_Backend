@@ -14,4 +14,12 @@ $routes = [
     '/user/edit'        => ['GET',  'UserController@editUser'],
     '/user/delete'      => ['POST', 'UserController@deleteUser'],
     '/user/update'  => ['POST', 'UserController@updateUser'],
-];
+
+    '/persons'              => ['GET',  'PersonController@listPersons'],
+    '/persons/findById'     => ['GET',  'PersonController@getPersonById'],
+    '/persons/create'       => ['GET',  'PersonController@createPersonForm'],
+    '/persons/createPerson' => ['POST', 'PersonController@createPerson'],
+    '/persons/edit'         => ['GET',  'PersonController@editPersonForm'],
+    '/persons/update'       => ['POST', 'PersonController@updatePerson'],
+    '/persons/delete'       => ['POST', 'PersonController@deletePerson'],
+    ];

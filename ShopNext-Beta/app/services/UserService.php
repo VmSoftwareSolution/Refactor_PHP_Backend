@@ -2,18 +2,18 @@
 
 require_once __DIR__ . '/../utils/ValidationUtils.php';
 require_once __DIR__ . '/../repositories/UserRepository.php';
-require_once __DIR__ . '/../repositories/RoleRepository.php';
+require_once __DIR__ . '/../services/RoleService.php';
 require_once __DIR__ . '/../models/User.php';
 require_once __DIR__ . '/../models/Role.php';
 
 class UserService {
 
     private UserRepository $repository;
-    private RoleRepository $roleRepository;
+    private RoleService $roleService;
 
     public function __construct() {
         $this->repository = new UserRepository();
-        $this->roleRepository = new RoleRepository();
+        $this->roleService = new RoleService();
     }
 
     public function register(string $email, string $password): void {
@@ -28,13 +28,10 @@ class UserService {
 
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-        $defaultRole = $this->roleRepository->findByName('cliente');
-        if (!$defaultRole) {
-            throw new RuntimeException("Rol por defecto 'cliente' no encontrado.");
-        }
+        $defaultRole = $this->roleService->getByName('cliente');
 
-        $rolde_id = $defaultRole->id;
-        $user = new User($email, $hashedPassword, $rolde_id);
+        $role_id = $defaultRole->id;
+        $user = new User($email, $hashedPassword, $role_id);
 
         $success = $this->repository->create($user);
 
@@ -64,9 +61,7 @@ class UserService {
 
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-        if (!$this->roleRepository->findById($roleId)) {
-            throw new InvalidArgumentException("El rol indicado no existe.");
-        }
+        $this->roleService->getById($roleId);
 
         $user = new User($email, $hashedPassword, $roleId ,$id);
 
@@ -91,5 +86,21 @@ class UserService {
         if (!$success) {
             throw new RuntimeException("No se pudo eliminar el User.");
         }
+    }
+
+    public function getAll(int $limit = 100, int $offset = 0): array {
+        if ($limit <= 0 || $offset < 0) {
+            throw new InvalidArgumentException("Parámetros de paginación inválidos.");
+        }
+
+        $roles = $this->repository->findAll($limit, $offset);
+        $total = $this->repository->countAll();
+
+        return [
+            'data' => $roles,
+            'total' => $total,
+            'limit' => $limit,
+            'offset' => $offset,
+        ];
     }
 }

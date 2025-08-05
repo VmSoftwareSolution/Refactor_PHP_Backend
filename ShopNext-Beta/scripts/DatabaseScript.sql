@@ -14,3 +14,16 @@ CREATE TABLE users (
   role_id INT NOT NULL,
   FOREIGN KEY (role_id) REFERENCES roles(id)
 );
+
+-- Create person table
+CREATE TABLE persons (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    full_name VARCHAR(255) NOT NULL,
+    phone VARCHAR(50),
+    gender ENUM('male','female','other') DEFAULT 'other',
+    date_of_birth DATE,
+    avatar VARCHAR(512),
+    create_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    id_user INT NOT NULL,
+    CONSTRAINT fk_person_user FOREIGN KEY (id_user) REFERENCES users(id) ON DELETE CASCADE
+);

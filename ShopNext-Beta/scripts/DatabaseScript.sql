@@ -27,3 +27,13 @@ CREATE TABLE persons (
     id_user INT NOT NULL,
     CONSTRAINT fk_person_user FOREIGN KEY (id_user) REFERENCES users(id) ON DELETE CASCADE
 );
+
+CREATE TABLE products (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE,
+    description TEXT NOT NULL,
+    price INT NOT NULL,
+    stock INT NOT NULL,
+    category VARCHAR(100),
+    image TEXT
+);

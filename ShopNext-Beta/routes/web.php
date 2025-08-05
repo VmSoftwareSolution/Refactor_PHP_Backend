@@ -27,4 +27,7 @@ $routes = [
     '/persons/edit'         => ['GET',  'PersonController@editPersonForm'],
     '/persons/update'       => ['POST', 'PersonController@updatePerson'],
     '/persons/delete'       => ['POST', 'PersonController@deletePerson'],
+
+    '/products/create'          => ['GET',  'ProductController@create'],
+    '/products/createProduct'   => ['POST', 'ProductController@createProduct'],
     ];

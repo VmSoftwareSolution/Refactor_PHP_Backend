@@ -103,4 +103,22 @@ class UserService {
             'offset' => $offset,
         ];
     }
+
+   public function changePassword(int $id, string $password): void {
+
+    validatePassword($password);
+
+    $user = $this->repository->findById($id);
+    if (!$user) {
+        throw new InvalidArgumentException("Usuario no encontrado.");
+    }
+
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+    $success = $this->repository->updatePassword($id, $hashedPassword);
+
+    if (!$success) {
+        throw new RuntimeException("No se pudo actualizar la contraseña.");
+    }
+    }
 }

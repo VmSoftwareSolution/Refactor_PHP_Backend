@@ -91,5 +91,12 @@ class UserRepository {
         $row = $result->fetch_assoc();
         return (int)($row['total'] ?? 0);
     }
+
+     public function updatePassword(int $id, string $hashedPassword): bool {
+        $stmt = $this->conn->prepare("UPDATE users SET password = ? WHERE id = ?");
+        $stmt->bind_param("si", $hashedPassword, $id);
+        
+        return $stmt->execute();
+    }
 }
 

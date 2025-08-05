@@ -55,5 +55,27 @@ class RoleRepository {
         return $stmt->execute();
     }
 
+    public function findAll(int $limit = 100, int $offset = 0): array {
+        $stmt = $this->conn->prepare("SELECT * FROM roles ORDER BY id ASC LIMIT ? OFFSET ?");
+        $stmt->bind_param("ii", $limit, $offset);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $roles = [];
+        while ($row = $result->fetch_assoc()) {
+            $roles[] = new Role($row['name'], $row['description'], (int)$row['id']);
+        }
+
+        return $roles;
+    }
+
+    public function countAll(): int {
+        $result = $this->conn->query("SELECT COUNT(*) as total FROM roles");
+        $row = $result->fetch_assoc();
+        return (int)($row['total'] ?? 0);
+    }
+
+    
+
 
 }

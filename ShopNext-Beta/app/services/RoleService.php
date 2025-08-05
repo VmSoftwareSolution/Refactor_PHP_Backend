@@ -43,6 +43,17 @@ class RoleService {
         return $role;
     }
 
+    public function getByName(string $name): Role {
+
+        $role = $this->repository->findByName($name);
+
+        if (!$role) {
+            throw new InvalidArgumentException("Rol no encontrado.");
+        }
+
+        return $role;
+    }
+
     public function deleteById(int $id): void {
         if ($id <= 0) {
             throw new InvalidArgumentException("ID inválido. Debe ser mayor que cero.");
@@ -76,6 +87,22 @@ class RoleService {
         if (!$success) {
             throw new RuntimeException("No se pudo actualizar el rol.");
         }
+    }
+
+    public function getAll(int $limit = 100, int $offset = 0): array {
+        if ($limit <= 0 || $offset < 0) {
+            throw new InvalidArgumentException("Parámetros de paginación inválidos.");
+        }
+
+        $roles = $this->repository->findAll($limit, $offset);
+        $total = $this->repository->countAll();
+
+        return [
+            'data' => $roles,
+            'total' => $total,
+            'limit' => $limit,
+            'offset' => $offset,
+        ];
     }
 
 }

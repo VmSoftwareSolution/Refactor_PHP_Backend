@@ -71,5 +71,32 @@ class UserRepository {
         $stmt->bind_param("i", $id);
         return $stmt->execute();
     }
+
+    public function findAll(int $limit = 100, int $offset = 0): array {
+        $stmt = $this->conn->prepare("SELECT * FROM users ORDER BY id ASC LIMIT ? OFFSET ?");
+        $stmt->bind_param("ii", $limit, $offset);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $users = [];
+        while ($row = $result->fetch_assoc()) {
+            $users[] = new User($row['email'], $row['password'],  (int)$row['role_id'], (int)$row['id']);
+        }
+
+        return $users;
+    }
+
+    public function countAll(): int {
+        $result = $this->conn->query("SELECT COUNT(*) as total FROM users");
+        $row = $result->fetch_assoc();
+        return (int)($row['total'] ?? 0);
+    }
+
+     public function updatePassword(int $id, string $hashedPassword): bool {
+        $stmt = $this->conn->prepare("UPDATE users SET password = ? WHERE id = ?");
+        $stmt->bind_param("si", $hashedPassword, $id);
+        
+        return $stmt->execute();
+    }
 }
 

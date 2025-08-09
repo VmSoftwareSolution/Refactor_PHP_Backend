@@ -1,60 +1,56 @@
 <?php
-// controllers/ShoppingCartController.php
 
-require_once __DIR__ . '/../services/ShoppingCarService.php';
+require_once __DIR__ . '/../services/FavoriteService.php';
 require_once __DIR__ . '/../utils/ErrorHandler.php';
 require_once __DIR__ . '/../utils/JsonResponder.php';
 
-class ShoppingCarController {
-    private ShoppingCarService $service;
+class FavoriteController {
+    private FavoriteService $service;
 
     public function __construct() {
-        $this->service = new ShoppingCarService();
+        $this->service = new FavoriteService();
     }
 
-    public function getCarByPersonId($data) {
+    public function getMyFav($data) {
        ErrorHandler::handle(function () use ($data) {
         $id_person = (int)($data['id_person'] ?? 0);
-        $car = $this->service->getCar($id_person);
+        $fav = $this->service->getFavs($id_person);
 
-        require __DIR__ . '/../views/shoppingCar/show.php';
+        require __DIR__ . '/../views/favorites/show.php';
     });
     }
 
     public function addForm() {
-        require_once __DIR__ . '/../views/shoppingCar/add.php';
+        require_once __DIR__ . '/../views/favorites/add.php';
     }
 
     // Método que procesa la petición y llama al service
-    public function addProductToCar(array $data): void {
+    public function addToFavs(array $data): void {
         ErrorHandler::handle(function () use ($data) {
             $id_person = isset($data['id_person']) ? (int)$data['id_person'] : 0;
             $id_product = isset($data['id_product']) ? (int)$data['id_product'] : 0;
 
-            if ($id_person <= 0 || $id_product <= 0) {
-                throw new InvalidArgumentException("id_person e id_product son obligatorios y deben ser mayores a 0");
-            }
-
             $result = $this->service->addProduct($id_person, $id_product);
 
             JsonResponder::success([
-                'message' => 'Producto agregado correctamente al carrito',
-                'car' => $result
+                'message' => 'Producto agregado correctamente a lista de favoritos',
+                'fav' => $result
             ]);
         });
-    }
-    public function updateMyCar(array $data): void {
+     }
+
+     public function removeFromFavs(array $data): void {
         ErrorHandler::handle(function () use ($data) {
             $id_person = isset($data['id_person']) ? (int)$data['id_person'] : 0;
             $name = isset($data['name']) ? (string)$data['name'] : 0;
-            $quantity = isset($data['quantity']) ? (int)$data['quantity'] : 0;
 
-            $result = $this->service->updateProductQuantity($id_person, $name, $quantity);
+            $result = $this->service->removeProduct($id_person, $name);
 
             JsonResponder::success([
                 'message' => 'Producto eliminado correctamente de la lista de favoritos',
-                'car' => $result
+                'fav' => $result
             ]);
         });
-}
+    }
+
 }

@@ -18,26 +18,26 @@ class ShoppingCarService {
         $shoppingCar = new ShoppingCar(
             id_person: $idPerson,
             products: [],
-            total_price: 0.0
+            total_price: 0
          );
 
         $this->repository->create($shoppingCar);
     }
 
     public function getCar(int $id_person): ?array {
-        $cart = $this->repository->findByPersonId($id_person);
-        return $cart ? [
-            'id' => $cart->id,
-            'id_person' => $cart->id_person,
-            'total_price' => $cart->total_price,
-            'products' => $cart->products
+        $car = $this->repository->findByPersonId($id_person);
+        return $car ? [
+            'id' => $car->id,
+            'id_person' => $car->id_person,
+            'total_price' => $car->total_price,
+            'products' => $car->products
         ] : null;
     }
 
    public function addProduct(int $id_person, int $id_product): array {
-    $cart = $this->repository->findByPersonId($id_person);
-    if (!isset($cart->products) || !is_array($cart->products)) {
-        $cart->products = [];
+    $car = $this->repository->findByPersonId($id_person);
+    if (!isset($car->products) || !is_array($car->products)) {
+        $car->products = [];
     }
 
     $productInfo = $this->productRepo->getProductDetails($id_product);
@@ -60,7 +60,7 @@ class ShoppingCarService {
     }
 
     $found = false;
-    foreach ($cart->products as &$item) {
+    foreach ($car->products as &$item) {
         if ($item['name'] === $newProduct['name']) {
             $item['quantity']++;
             $found = true;
@@ -69,20 +69,55 @@ class ShoppingCarService {
     }
 
     if (!$found) {
-        $cart->products[] = $newProduct;
+        $car->products[] = $newProduct;
     }
 
-    $cart->total_price = isset($cart->total_price) ? (int) $cart->total_price : 0;
-    $cart->total_price += $newProduct['price'];
+    $car->total_price = isset($car->total_price) ? (int) $car->total_price : 0;
+    $car->total_price += $newProduct['price'];
 
-    $this->repository->updateCar($cart->id, $cart->products, $cart->total_price);
+    $this->repository->updateCar($car->id, $car->products, $car->total_price);
 
     return [
-        'id'          => $cart->id,
-        'id_person'   => $cart->id_person,
-        'total_price' => $cart->total_price,
-        'products'    => $cart->products
+        'id'          => $car->id,
+        'id_person'   => $car->id_person,
+        'total_price' => $car->total_price,
+        'products'    => $car->products
     ];
 }
+
+    public function updateProductQuantity(int $id_person, string $name, int $quantity): array {
+
+        $car = $this->repository->findByPersonId($id_person);
+        $updatedProducts = [];
+        $totalPrice = 0;
+
+        foreach ($car->products as $item) {
+            if ($item['name'] === $name) {
+                if ($quantity > 0) {
+                    $item['quantity'] = $quantity;
+                    $updatedProducts[] = $item;
+                }
+            } else {
+                $updatedProducts[] = $item;
+            }
+        }
+
+        foreach ($updatedProducts as $prod) {
+            $totalPrice += $prod['price'] * $prod['quantity'];
+        }
+
+        $car->products = array_values($updatedProducts);
+        $car->total_price = $totalPrice;
+
+        $this->repository->updateCar($car->id, $car->products, $car->total_price);
+
+        return [
+            'id'          => $car->id,
+            'id_person'   => $car->id_person,
+            'total_price' => $car->total_price,
+            'products'    => $car->products
+        ];
+    }
+
 
 }

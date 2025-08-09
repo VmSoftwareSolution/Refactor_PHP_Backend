@@ -23,3 +23,15 @@ function validatePassword(string $password): void {
         );
     }
 }
+
+    function validateString(string $value, string $field): void {
+        if (trim($value) === '') {
+            throw new InvalidArgumentException("El campo '$field' no puede estar vacío.");
+        }
+    }
+
+    function validateNonNegativeInt(int $value, string $field): void {
+        if ($value < 0) {
+            throw new InvalidArgumentException("El campo '$field' no puede ser negativo.");
+        }
+    }

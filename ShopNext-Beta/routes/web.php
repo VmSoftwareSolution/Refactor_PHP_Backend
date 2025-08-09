@@ -27,4 +27,22 @@ $routes = [
     '/persons/edit'         => ['GET',  'PersonController@editPersonForm'],
     '/persons/update'       => ['POST', 'PersonController@updatePerson'],
     '/persons/delete'       => ['POST', 'PersonController@deletePerson'],
+
+    '/products'                 => ['GET',  'ProductController@listProducts'],
+    '/products/create'          => ['GET',  'ProductController@create'],
+    '/products/createProduct'   => ['POST', 'ProductController@createProduct'],
+    '/products/findById'        => ['GET',  'ProductController@getProductById'],
+    '/products/delete'          => ['POST', 'ProductController@deleteProduct'],
+    '/products/edit'            => ['GET',  'ProductController@editProduct'],
+    '/products/update'          => ['POST', 'ProductController@updateProduct'],
+
+    '/shoppingCar/show'         => ['GET', 'ShoppingCarController@getCarByPersonId'],
+    '/shoppingCar/add'          => ['GET', 'ShoppingCarController@addForm'],
+    '/shoppingCar/addProduct'   => ['POST', 'ShoppingCarController@addProductToCar'],
+    '/shoppingCar/updateMyCar'   => ['POST', 'ShoppingCarController@updateMyCar'],
+
+    '/favorites/show'         => ['GET', 'FavoriteController@getMyFav'],
+    '/favorites/add'          => ['GET', 'FavoriteController@addForm'],
+    '/favorites/addFavorite'   => ['POST', 'FavoriteController@addToFavs'],
+    '/favorites/delete'     => ['POST', 'FavoriteController@removeFromFavs'],
     ];

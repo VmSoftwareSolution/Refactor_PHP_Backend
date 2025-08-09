@@ -3,14 +3,20 @@
 require_once __DIR__ . '/../repositories/PersonRepository.php';
 require_once __DIR__ . '/../repositories/UserRepository.php';
 require_once __DIR__ . '/../models/Person.php';
+require_once __DIR__ . '/../services/ShoppingCarService.php';
+require_once __DIR__ . '/../services/FavoriteService.php';
 
 class PersonService {
     private PersonRepository $repository;
     private UserRepository $userRepository;
+    private ShoppingCarService $shoppingCarService; 
+    private FavoriteService $favService;
 
     public function __construct() {
         $this->repository = new PersonRepository();
         $this->userRepository = new UserRepository();
+        $this->favService = new FavoriteService();
+        $this->shoppingCarService = new ShoppingCarService(); 
     }
 
     public function getById(int $id): Person {
@@ -60,7 +66,11 @@ class PersonService {
         if (!$success) {
             throw new RuntimeException("No se pudo crear la persona.");
         }
-    }
+
+        $idPerson = $this->repository->getLastInsertId(); 
+        $this->shoppingCarService->createEmptyCar($idPerson);
+        $this->favService->createEmptyFav($idPerson);
+        }
 
     public function update(int $id, array $data): void {
         $existing = $this->repository->findById($id);

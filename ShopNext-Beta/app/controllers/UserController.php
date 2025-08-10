@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../utils/ErrorHandler.php';
+require_once __DIR__ . '/../Error/ErrorHandler.php';
 require_once __DIR__ . '/../services/UserService.php'; 
 require_once __DIR__ . '/../utils/JsonResponder.php';
 
@@ -17,13 +17,12 @@ class UserController {
     }
 
     public function createUser($data) {
-       
-         ErrorHandler::handle(function () use ($data) {
+        ErrorHandler::handle(function () use ($data) {
             $email = $data['email'] ?? '';
             $password = $data['password'] ?? '';
             $this->service->register($email, $password);
             echo "Usuario creado exitosamente.";
-         });
+        });
     }
 
     public function getUserById($data) {
@@ -37,13 +36,11 @@ class UserController {
     }
 
     public function editUser($data) {
-
-         ErrorHandler::handle(function () use ($data) {
+        ErrorHandler::handle(function () use ($data) {
             $id = (int) ($data['id'] ?? 0);
             $user = $this->service->getById($id);
             require_once __DIR__ . '/../views/user/edit.php';
         });
-
     }
 
     public function updateUser($data) {

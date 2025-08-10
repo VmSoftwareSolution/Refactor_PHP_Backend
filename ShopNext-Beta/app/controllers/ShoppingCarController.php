@@ -1,6 +1,4 @@
 <?php
-// controllers/ShoppingCartController.php
-
 require_once __DIR__ . '/../services/ShoppingCarService.php';
 require_once __DIR__ . '/../utils/ErrorHandler.php';
 require_once __DIR__ . '/../utils/JsonResponder.php';
@@ -25,7 +23,6 @@ class ShoppingCarController {
         require_once __DIR__ . '/../views/shoppingCar/add.php';
     }
 
-    // Método que procesa la petición y llama al service
     public function addProductToCar(array $data): void {
         ErrorHandler::handle(function () use ($data) {
             $id_person = isset($data['id_person']) ? (int)$data['id_person'] : 0;

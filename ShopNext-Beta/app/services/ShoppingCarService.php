@@ -1,6 +1,4 @@
 <?php
-// services/ShoppingCartService.php
-
 require_once __DIR__ . '/../repositories/ShoppingCarRepository.php';
 require_once __DIR__ . '/../repositories/ProductRepository.php';
 require_once __DIR__ . '/../models/ShoppingCar.php';

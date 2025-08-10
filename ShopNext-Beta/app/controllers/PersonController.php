@@ -43,7 +43,7 @@ class PersonController {
     public function createPerson(array $data): void {
         try {
             $this->service->create($data);
-            header('Location: /persons'); // redirige al listado
+            header('Location: /persons');
             exit;
         } catch (Exception $e) {
             $error = $e->getMessage();

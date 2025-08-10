@@ -5,7 +5,6 @@ require_once __DIR__ . '/../utils/ValidationUtils.php';
 require_once __DIR__ . '/../models/Product.php';
 
 class ProductService {
-
     private ProductRepository $repository;
 
     public function __construct() {

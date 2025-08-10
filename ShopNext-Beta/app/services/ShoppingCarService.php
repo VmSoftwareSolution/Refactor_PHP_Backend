@@ -2,6 +2,9 @@
 require_once __DIR__ . '/../repositories/ShoppingCarRepository.php';
 require_once __DIR__ . '/../repositories/ProductRepository.php';
 require_once __DIR__ . '/../models/ShoppingCar.php';
+require_once __DIR__ . '/../utils/ValidationUtils.php';
+
+$messages = require __DIR__ . '/../utils/Message.php';
 
 class ShoppingCarService {
     private ShoppingCarRepository $repository;
@@ -33,37 +36,38 @@ class ShoppingCarService {
     }
 
    public function addProduct(int $id_person, int $id_product): array {
-    $car = $this->repository->findByPersonId($id_person);
-    if (!isset($car->products) || !is_array($car->products)) {
-        $car->products = [];
-    }
+        global $messages;
 
-    $productInfo = $this->productRepo->getProductDetails($id_product);
-    if (!$productInfo) {
-        throw new InvalidArgumentException("Producto no encontrado");
-    }
+        $car = $this->repository->findByPersonId($id_person);
 
-    $newProduct = [
-        'name'     => (string) $productInfo['name'],
-        'quantity' => 1,
-        'price'    => (int) $productInfo['price']
-    ];
-
-    if ($newProduct['price'] <= 0) {
-        throw new InvalidArgumentException("El precio del producto no es válido");
-    }
-
-    if ($newProduct['name'] === '') {
-        throw new InvalidArgumentException("El nombre del producto no puede estar vacío");
-    }
-
-    $found = false;
-    foreach ($car->products as &$item) {
-        if ($item['name'] === $newProduct['name']) {
-            $item['quantity']++;
-            $found = true;
-            break;
+        if (!isset($car->products) || !is_array($car->products)) {
+            $car->products = [];
         }
+
+        $productInfo = $this->productRepo->getProductDetails($id_product);
+        if (!$productInfo) {
+            throw new NotFoundException(
+                str_replace(
+                    ':value', 'Producto', 
+                    $messages['not_found']));
+        }
+
+        $newProduct = [
+            'name'     => (string) $productInfo['name'],
+            'quantity' => 1,
+            'price'    => (int) $productInfo['price']
+        ];
+
+        ValidatePrice($newProduct['price']);
+        IsNotEmpty($newProduct['name'], 'Nombre del producto');
+
+        $found = false;
+        foreach ($car->products as &$item) {
+            if ($item['name'] === $newProduct['name']) {
+                $item['quantity']++;
+                $found = true;
+                break;
+            }
     }
 
     if (!$found) {

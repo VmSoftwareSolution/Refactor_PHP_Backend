@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../services/ShoppingCarService.php';
-require_once __DIR__ . '/../utils/ErrorHandler.php';
+require_once __DIR__ . '/../Error/ErrorHandler.php';
 require_once __DIR__ . '/../utils/JsonResponder.php';
 
 class ShoppingCarController {

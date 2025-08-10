@@ -72,3 +72,11 @@ $messages = require_once __DIR__ . '/Message.php';
             throw new InvalidParameterException($messages['invalid_parameter']);
         }
     }
+
+    function ValidatePrice(int $price): void {
+        global $messages;
+
+        if ($price <= 0) {
+            throw new InvalidPriceException($messages['price_invalid']);
+        }
+    }

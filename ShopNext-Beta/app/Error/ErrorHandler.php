@@ -1,11 +1,16 @@
 <?php
-require_once __DIR__ . '/JsonErrorResponder.php';
+require_once __DIR__ . '/../utils/JsonResponder.php';
 
 class ErrorHandler
 {
     private static array $exceptionMap = [
-        InvalidArgumentException::class => 400,
         RuntimeException::class         => 409,
+        EmailRequiredException::class   => 400,
+        InvalidEmailFormatException::class => 400,
+        PasswordRequiredException::class => 400,
+        WeakPasswordException::class    => 400,
+        EmptyFieldException::class       => 400,
+        NegativeValueException::class    => 400,
     ];
 
     public static function handle(callable $callback): void
@@ -19,7 +24,7 @@ class ErrorHandler
                 ? "Error interno del servidor."
                 : $e->getMessage();
 
-            JsonErrorResponder::send($message, $status);
+            JsonResponder::error($message, $status);
         }
     }
 }

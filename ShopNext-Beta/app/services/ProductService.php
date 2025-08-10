@@ -13,10 +13,10 @@ class ProductService {
 
     public function create(string $name, string $description, int $price, int $stock, ?string $category = null, ?string $image = null): void {
 
-        validateString($name, 'name');
-        validateString($description, 'description');
-        validateNonNegativeInt($price, 'price');
-        validateNonNegativeInt($stock, 'stock');
+        IsNotEmpty($name, 'name');
+        IsNotEmpty($description, 'description');
+        IsNotNegativeNumber($price, 'price');
+        IsNotNegativeNumber($stock, 'stock');
 
         if ($this->repository->existsByName($name)) {
             throw new InvalidArgumentException("Ya existe un producto con ese nombre.");
@@ -62,10 +62,10 @@ class ProductService {
 
     public function update(int $id, string $name, string $description, int $price, int $stock, ?string $category = null, ?string $image = null): void {
         
-        validateString($name, 'name');
-        validateString($description, 'description');
-        validateNonNegativeInt($price, 'price');
-        validateNonNegativeInt($stock, 'stock');
+        IsNotEmpty($name, 'name');
+        IsNotEmpty($description, 'description');
+        IsNotNegativeNumber($price, 'price');
+        IsNotNegativeNumber($stock, 'stock');
 
        if ($this->repository->existsByName($name)) {
             throw new InvalidArgumentException("Ya existe un producto con ese nombre.");

@@ -52,3 +52,14 @@ CREATE TABLE favorites (
     products JSON NOT NULL,
     FOREIGN KEY (id_person) REFERENCES persons(id)
 );
+
+CREATE TABLE tickets (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    tittle VARCHAR(50) NOT NULL,
+    message VARCHAR(200) NOT NULL,
+    priority ENUM('low', 'medium', 'high') NOT NULL,
+    status ENUM('open', 'in_progress', 'closed') NOT NULL,
+    id_person INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_person) REFERENCES persons(id)
+);

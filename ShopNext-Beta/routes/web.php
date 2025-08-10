@@ -36,13 +36,20 @@ $routes = [
     '/products/edit'            => ['GET',  'ProductController@editProduct'],
     '/products/update'          => ['POST', 'ProductController@updateProduct'],
 
-    '/shoppingCar/show'         => ['GET', 'ShoppingCarController@getCarByPersonId'],
-    '/shoppingCar/add'          => ['GET', 'ShoppingCarController@addForm'],
-    '/shoppingCar/addProduct'   => ['POST', 'ShoppingCarController@addProductToCar'],
+    '/shoppingCar/show'          => ['GET', 'ShoppingCarController@getCarByPersonId'],
+    '/shoppingCar/add'           => ['GET', 'ShoppingCarController@addForm'],
+    '/shoppingCar/addProduct'    => ['POST', 'ShoppingCarController@addProductToCar'],
     '/shoppingCar/updateMyCar'   => ['POST', 'ShoppingCarController@updateMyCar'],
 
     '/favorites/show'         => ['GET', 'FavoriteController@getMyFav'],
     '/favorites/add'          => ['GET', 'FavoriteController@addForm'],
-    '/favorites/addFavorite'   => ['POST', 'FavoriteController@addToFavs'],
-    '/favorites/delete'     => ['POST', 'FavoriteController@removeFromFavs'],
+    '/favorites/addFavorite'  => ['POST', 'FavoriteController@addToFavs'],
+    '/favorites/delete'       => ['POST', 'FavoriteController@removeFromFavs'],
+    
+    '/tickets'                  => ['GET',  'TicketsController@listTickets'],
+    '/tickets/show'             => ['GET',  'TicketsController@getTicketById'],
+    '/tickets/create'           => ['GET',  'TicketsController@create'],
+    '/tickets/createTicket'     => ['POST', 'TicketsController@createTicket'],
+    '/tickets/edit'             => ['GET',  'TicketsController@editTicket'],
+    '/tickets/update'           => ['POST', 'TicketsController@updateTicket'],
     ];

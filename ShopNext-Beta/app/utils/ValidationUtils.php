@@ -80,3 +80,43 @@ $messages = require_once __DIR__ . '/Message.php';
             throw new InvalidPriceException($messages['price_invalid']);
         }
     }
+
+    function ValidateTittle(string $title, $field): void {
+        global $messages;
+
+        if (trim($title) === '') {
+            throw new EmptyFieldException(
+                str_replace(
+                    ':field', $field,
+                    $messages['field_empty'])
+            );
+        }
+
+        if (strlen($title) > 50) {
+            throw new MaxLengthExceededException(str_replace(
+                [':field', ':max'],
+                [$field, 50],
+                $messages['max_length_exceeded']
+            ));
+        }
+    }
+
+    function ValidateMessage(string $message): void {
+        global $messages;
+
+        if (trim($message) === '') {
+            throw new EmptyFieldException(
+                str_replace(
+                    ':field', $field,
+                    $messages['field_empty'])
+            );
+        }
+
+        if (strlen($message) > 200) {
+            throw new MaxLengthExceededException(str_replace(
+                [':field', ':max'],
+                ['message', 200],
+                $messages['max_length_exceeded']
+            ));
+        }
+    }

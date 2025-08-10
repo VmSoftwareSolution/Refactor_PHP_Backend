@@ -13,6 +13,7 @@ class NotFoundException extends InvalidArgumentException {}
 class InvalidParameterException extends InvalidArgumentException {}
 
 class AlreadyExistsException extends InvalidArgumentException {}
-
+class MaxLengthExceededException extends InvalidArgumentException {}
+class InvalidDataException extends InvalidArgumentException {}
 
 class UnexcpectedErrorException extends RuntimeException {}

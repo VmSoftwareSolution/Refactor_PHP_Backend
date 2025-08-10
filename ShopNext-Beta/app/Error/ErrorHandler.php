@@ -12,6 +12,8 @@ class ErrorHandler
         NegativeValueException::class    => 400,
         InvalidIdException::class        => 400,
         InvalidParameterException::class => 400,
+        MaxLengthExceededException::class => 400,
+        InvalidDataException::class => 400,
         NotFoundException::class        => 404,
         AlreadyExistsException::class    => 409,
         UnexcpectedErrorException::class => 500,

@@ -1,38 +1,54 @@
 <?php
 require_once __DIR__ . '/../Error/CustomException.php';
+$messages = require_once __DIR__ . '/Message.php';
+
 
     function validateEmail(string $email): void {
+        global $messages; 
+
         if (trim($email) === '') {
-            throw new EmailRequiredException("El email es requerido.");
+            throw new EmailRequiredException($messages['email_required']);
         }
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            throw new InvalidEmailFormatException("Formato de email inválido.");
+            throw new InvalidEmailFormatException($messages['email_invalid_format']);
         }
     }
 
     function validatePassword(string $password): void {
+        global $messages;
+
         if (trim($password) === '') {
-            throw new PasswordRequiredException("La contraseña es requerida.");
+            throw new PasswordRequiredException($messages['password_required']);
         }
 
         $regex = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$/';
 
         if (!preg_match($regex, $password)) {
-            throw new WeakPasswordException(
-                "La contraseña debe tener al menos 6 caracteres, incluir una mayúscula, una minúscula, un número y un carácter especial."
-            );
+            throw new WeakPasswordException($messages['password_weak']);
         }
     }
 
     function IsNotEmpty(string $value, string $field): void {
+        global $messages;
+
         if (trim($value) === '') {
-            throw new EmptyFieldException("El campo '$field' no puede estar vacío.");
+            throw new EmptyFieldException(
+                str_replace(
+                    ':field', $field,
+                    $messages['field_empty'])
+            );
         }
     }
 
     function IsNotNegativeNumber(int $value, string $field): void {
+        global $messages;
+
         if ($value < 0) {
-            throw new NegativeValueException("El campo '$field' no puede ser negativo.");
+            throw new NegativeValueException(
+                str_replace(
+                    ':field', $field, 
+                    $messages['field_negative'])
+            );
         }
     }

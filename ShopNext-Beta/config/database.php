@@ -5,7 +5,7 @@ class Database {
         $host = '127.0.0.1';
         $db   = 'shopnext_beta';
         $user = 'root';
-        $pass = 'MySecretPassword';
+        $pass = '';
 
         $conn = new mysqli($host, $user, $pass, $db);
 

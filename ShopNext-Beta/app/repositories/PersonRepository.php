@@ -66,7 +66,7 @@ class PersonRepository {
             $person->avatar,
             $person->id_user
         );
-        return $stmt->execute();
+         return $stmt->execute();
     }
 
     public function update(Person $person): bool {
@@ -97,5 +97,9 @@ class PersonRepository {
         $result = $this->conn->query("SELECT COUNT(*) as total FROM persons");
         $row = $result->fetch_assoc();
         return (int)($row['total'] ?? 0);
+    }
+
+    public function getLastInsertId(): int {
+        return (int) $this->conn->insert_id; 
     }
 }

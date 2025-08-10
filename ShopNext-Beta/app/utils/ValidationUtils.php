@@ -52,3 +52,23 @@ $messages = require_once __DIR__ . '/Message.php';
             );
         }
     }
+
+    function ValidateId(int $id): void {
+        global $messages;
+
+        if ($id <= 0) {
+            throw new InvalidIdException($messages['id_invalid']);
+        }
+    }
+
+    function ValidateParamPagination(int $offset, int $limit): void {
+        global $messages;
+
+        if ($offset < 0) {
+            throw new InvalidParameterException($messages['invalid_parameter']);
+        }
+
+        if ($limit <= 0) {
+            throw new InvalidParameterException($messages['invalid_parameter']);
+        }
+    }

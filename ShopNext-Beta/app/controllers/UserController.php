@@ -4,6 +4,8 @@ require_once __DIR__ . '/../Error/ErrorHandler.php';
 require_once __DIR__ . '/../services/UserService.php'; 
 require_once __DIR__ . '/../utils/JsonResponder.php';
 
+$messages = require __DIR__ . '/../utils/Message.php';
+
 class UserController {
     
     private $service;
@@ -17,11 +19,17 @@ class UserController {
     }
 
     public function createUser($data) {
-        ErrorHandler::handle(function () use ($data) {
+        global $messages;
+
+        ErrorHandler::handle(function () use ($data, $messages) {
             $email = $data['email'] ?? '';
             $password = $data['password'] ?? '';
             $this->service->register($email, $password);
-            echo "Usuario creado exitosamente.";
+
+            JsonResponder::success([
+                'status' => 201,
+                'message' => $messages['created_successfully'],
+            ]);
         });
     }
 
@@ -44,23 +52,33 @@ class UserController {
     }
 
     public function updateUser($data) {
+        global $messages;
 
-        ErrorHandler::handle(function () use ($data) {
+        ErrorHandler::handle(function () use ($data, $messages) {
             $id = (int) ($data['id'] ?? 0);
             $email = $data['email'] ?? '';
             $password = $data['password'] ?? '';
             $role_id = (int) ($data['role_id'] ?? 0);
 
             $this->service->update($id, $email, $password, $role_id);
-            echo "User actualizado exitosamente.";
+            JsonResponder::success([
+                'status' => 200,
+                'message' => $messages['updated_successfully'],
+            ]);
         });
     }
 
     public function deleteUser($data) {
-        ErrorHandler::handle(function () use ($data) {
+        global $messages;
+
+        ErrorHandler::handle(function () use ($data, $messages) {
             $id = (int) ($data['id'] ?? 0);
             $this->service->deleteById($id);
-            echo "User eliminado exitosamente.";
+           
+            JsonResponder::success([
+                'status' => 200,
+                'message' => $messages['deleted_successfully'],
+            ]);
         });
     }
     
@@ -101,13 +119,18 @@ class UserController {
     }
 
     public function changePassword($data){
+        global $messages;
 
-         ErrorHandler::handle(function () use ($data) {
+        ErrorHandler::handle(function () use ($data, $messages) {
             $id = (int) ($data['id'] ?? 0);
             $password = $data['password'] ?? '';
             $this->service->changePassword($id, $password);
-            echo "contraseña actualizada";
-         });
+            
+            JsonResponder::success([
+                'status' => 200,
+                'message' => $messages['update_password_success'],
+            ]);
+        });
     }
 
 

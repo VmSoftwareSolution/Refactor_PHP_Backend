@@ -3,6 +3,8 @@ require_once __DIR__ . '/../services/ShoppingCarService.php';
 require_once __DIR__ . '/../Error/ErrorHandler.php';
 require_once __DIR__ . '/../utils/JsonResponder.php';
 
+$messages = require __DIR__ . '/../utils/Message.php';
+
 class ShoppingCarController {
     private ShoppingCarService $service;
 
@@ -41,7 +43,9 @@ class ShoppingCarController {
         });
     }
     public function updateMyCar(array $data): void {
-        ErrorHandler::handle(function () use ($data) {
+        global $messages;
+
+        ErrorHandler::handle(function () use ($data,$messages) {
             $id_person = isset($data['id_person']) ? (int)$data['id_person'] : 0;
             $name = isset($data['name']) ? (string)$data['name'] : 0;
             $quantity = isset($data['quantity']) ? (int)$data['quantity'] : 0;
@@ -49,7 +53,7 @@ class ShoppingCarController {
             $result = $this->service->updateProductQuantity($id_person, $name, $quantity);
 
             JsonResponder::success([
-                'message' => 'Producto eliminado correctamente de la lista de favoritos',
+                'message' => $messages['updated_successfully'],
                 'car' => $result
             ]);
         });

@@ -18,4 +18,9 @@ return [
     'entity_already_exists' => ":entity ya existe.",
 
     'unexpected_error' => "Error inesperado. Por favor, inténtelo de nuevo más tarde.",
+
+    'created_successfully' => "creado exitosamente.",
+    'updated_successfully' => "actualizado exitosamente.",
+    'deleted_successfully' => "eliminado exitosamente.",
+    'update_password_success' => "Contraseña actualizada exitosamente.",
 ];

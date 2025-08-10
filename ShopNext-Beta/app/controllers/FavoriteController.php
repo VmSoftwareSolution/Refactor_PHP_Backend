@@ -4,6 +4,9 @@ require_once __DIR__ . '/../services/FavoriteService.php';
 require_once __DIR__ . '/../Error/ErrorHandler.php';
 require_once __DIR__ . '/../utils/JsonResponder.php';
 
+$messages = require __DIR__ . '/../utils/Message.php';
+
+
 class FavoriteController {
     private FavoriteService $service;
 
@@ -39,14 +42,16 @@ class FavoriteController {
      }
 
      public function removeFromFavs(array $data): void {
-        ErrorHandler::handle(function () use ($data) {
+        global $messages;
+
+        ErrorHandler::handle(function () use ($data, $messages) {
             $id_person = isset($data['id_person']) ? (int)$data['id_person'] : 0;
             $name = isset($data['name']) ? (string)$data['name'] : 0;
 
             $result = $this->service->removeProduct($id_person, $name);
 
             JsonResponder::success([
-                'message' => 'Producto eliminado correctamente de la lista de favoritos',
+                'message' => $messages['deleted_successfully'],
                 'fav' => $result
             ]);
         });

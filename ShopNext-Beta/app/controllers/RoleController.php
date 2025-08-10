@@ -4,6 +4,8 @@ require_once __DIR__ . '/../services/RoleService.php';
 require_once __DIR__ . '/../utils/JsonResponder.php';
 require_once __DIR__ . '/../Error/ErrorHandler.php';
 
+$messages = require __DIR__ . '/../utils/Message.php';
+
 class RoleController {
     private $service;
 
@@ -16,11 +18,17 @@ class RoleController {
     }
 
     public function createRole($data) {
-        ErrorHandler::handle(function () use ($data) {
+        global $messages;
+
+        ErrorHandler::handle(function () use ($data,$messages) {
             $this->service->create(
                 $data['name'] ?? '', 
                 $data['description'] ?? '');
-            echo "Rol creado exitosamente.";
+            
+            JsonResponder::success([
+                'status' => 201,
+                'message' => $messages['created_successfully'],
+            ]);
         });
     }
 
@@ -35,11 +43,16 @@ class RoleController {
     }
 
     public function deleteRole($data) {
-        ErrorHandler::handle(function () use ($data) {
+        global $messages;
+
+        ErrorHandler::handle(function () use ($data, $messages) {
             $id = (int) ($data['id'] ?? 0);
 
             $this->service->deleteById($id);
-            echo "Rol eliminado exitosamente.";
+            JsonResponder::success([
+                'status' => 200,
+                'message' => $messages['deleted_successfully'],
+            ]);
         });
     
     }
@@ -54,13 +67,18 @@ class RoleController {
     }
 
     public function updateRole($data) {
-        ErrorHandler::handle(function () use ($data) {
+        global $messages;
+
+        ErrorHandler::handle(function () use ($data, $messages) {
             $id = (int) ($data['id'] ?? 0);
             $name = $data['name'] ?? '';
             $description = $data['description'] ?? '';
 
             $this->service->update($id, $name, $description);
-            echo "Rol actualizado exitosamente.";
+            JsonResponder::success([
+                'status' => 200,
+                'message' => $messages['updated_successfully'],
+            ]);
         });
     }
 

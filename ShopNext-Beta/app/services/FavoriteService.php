@@ -2,6 +2,10 @@
 require_once __DIR__ . '/../repositories/FavoriteRepository.php';
 require_once __DIR__ . '/../repositories/ProductRepository.php';
 require_once __DIR__ . '/../models/Favorite.php';
+require_once __DIR__ . '/../models/Role.php';
+
+$messages = require __DIR__ . '/../utils/Message.php';
+
 
 class FavoriteService {
     private FavoriteRepository $repository;
@@ -37,8 +41,12 @@ class FavoriteService {
     }
 
     $productInfo = $this->productRepo->getProductDetails($id_product);
+
     if (!$productInfo) {
-        throw new InvalidArgumentException("Producto no encontrado");
+       throw new NotFoundException(
+                str_replace(
+                    ':value', 'Producto con ID ' . $id_product, 
+                    $messages['not_found']));
     }
 
     $newProduct = [
@@ -49,7 +57,10 @@ class FavoriteService {
     $found = false;
     foreach ($fav->products as &$item) {
         if ($item['name'] === $newProduct['name']) {
-            throw new InvalidArgumentException("El producto ya se encuentra en la lista.");
+            throw new AlreadyExistsException(
+                str_replace(
+                    ':entity', 'Producto', 
+                    $messages['entity_already_exists']));   
         }
     }
 
@@ -73,9 +84,11 @@ class FavoriteService {
             return $item['name'] !== $name;
         });
 
-    
         if (count($updatedProducts) === count($fav->products)) {
-            throw new InvalidArgumentException("El producto no se encuentra en la lista.");
+            throw new NotFoundException(
+                str_replace(
+                    ':value', 'Producto', 
+                    $messages['not_found']));
         }
     
         $fav->products = array_values($updatedProducts);

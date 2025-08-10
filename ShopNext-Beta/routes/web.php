@@ -37,6 +37,12 @@ $routes = [
     '/products/update'          => ['POST', 'ProductController@updateProduct'],
 
     '/shoppingCar/show'         => ['GET', 'ShoppingCarController@getCarByPersonId'],
-    '/shoppingCar/add'         => ['GET', 'ShoppingCarController@addForm'],
+    '/shoppingCar/add'          => ['GET', 'ShoppingCarController@addForm'],
     '/shoppingCar/addProduct'   => ['POST', 'ShoppingCarController@addProductToCar'],
+    '/shoppingCar/updateMyCar'   => ['POST', 'ShoppingCarController@updateMyCar'],
+
+    '/favorites/show'         => ['GET', 'FavoriteController@getMyFav'],
+    '/favorites/add'          => ['GET', 'FavoriteController@addForm'],
+    '/favorites/addFavorite'   => ['POST', 'FavoriteController@addToFavs'],
+    '/favorites/delete'     => ['POST', 'FavoriteController@removeFromFavs'],
     ];

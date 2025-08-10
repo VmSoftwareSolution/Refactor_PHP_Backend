@@ -45,3 +45,10 @@ CREATE TABLE shopping_car (
     products JSON NOT NULL,
     FOREIGN KEY (id_person) REFERENCES persons(id)
 );
+
+CREATE TABLE favorites (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_person INT NOT NULL,
+    products JSON NOT NULL,
+    FOREIGN KEY (id_person) REFERENCES persons(id)
+);

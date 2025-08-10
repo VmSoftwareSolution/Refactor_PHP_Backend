@@ -4,7 +4,7 @@ require_once __DIR__ . '/../repositories/ProductRepository.php';
 require_once __DIR__ . '/../models/ShoppingCar.php';
 
 class ShoppingCarService {
-    private ShoppingCarRepository $cartRepo;
+    private ShoppingCarRepository $repository;
     private ProductRepository $productRepo;
 
     public function __construct() {

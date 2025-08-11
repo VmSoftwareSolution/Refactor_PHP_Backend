@@ -1,8 +1,10 @@
 <?php
 
-require_once __DIR__ . '/../utils/ErrorHandler.php';
+require_once __DIR__ . '/../Error/ErrorHandler.php';
 require_once __DIR__ . '/../services/TicketsService.php';
 require_once __DIR__ . '/../utils/JsonResponder.php'; 
+
+$messages = require __DIR__ . '/../utils/Message.php';
 
 class TicketsController {
 
@@ -17,14 +19,20 @@ class TicketsController {
     }
 
     public function createTicket(array $data): void {
-    ErrorHandler::handle(function () use ($data) {
-        $tittle = $data['tittle'] ?? '';
-        $message = $data['message'] ?? '';
-        $id_person = isset($data['id_person']) ? (int)$data['id_person'] : -1;
-       
-        $this->service->create($tittle, $message, $id_person);
-        echo "Ticket creado exitosamente.";
-    });
+        global $messages;
+
+        ErrorHandler::handle(function () use ($data, $messages) {
+            $tittle = $data['tittle'] ?? '';
+            $message = $data['message'] ?? '';
+            $id_person = isset($data['id_person']) ? (int)$data['id_person'] : -1;
+        
+            $this->service->create($tittle, $message, $id_person);
+
+            JsonResponder::success([
+                'status' => 201,
+                'message' => $messages['created_successfully'],
+            ]);
+        });
     }
 
     public function listTickets(array $data): void{
@@ -78,8 +86,9 @@ class TicketsController {
     }
 
     public function updateTicket($data) {
+        global $messages;
 
-        ErrorHandler::handle(function () use ($data) {
+        ErrorHandler::handle(function () use ($data,$messages) {
         $id = (int) ($data['id'] ?? 0);
         $tittle = $data['tittle'] ?? '';
         $message = $data['message'] ?? '';
@@ -89,7 +98,10 @@ class TicketsController {
         $created_at = $data['created_at'] ?? null;
 
         $this->service->update($id, $tittle, $message, $priority, $status, $id_person, $created_at);
-            echo "Ticket actualizado exitosamente.";
+           JsonResponder::success([
+                'status' => 200,
+                'message' => $messages['updated_successfully'],
+            ]);
         });
     }
 }

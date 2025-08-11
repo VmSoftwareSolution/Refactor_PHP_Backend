@@ -3,87 +3,119 @@
 require_once __DIR__ . '/../repositories/ProductRepository.php';
 require_once __DIR__ . '/../utils/ValidationUtils.php';
 require_once __DIR__ . '/../models/Product.php';
+require_once __DIR__ . '/../models/Role.php';
+
+$messages = require __DIR__ . '/../utils/Message.php';
 
 class ProductService {
-
     private ProductRepository $repository;
 
     public function __construct() {
         $this->repository = new ProductRepository();
     }
 
-    public function create(string $name, string $description, int $price, int $stock, ?string $category = null, ?string $image = null): void {
+    public function create(
+        string $name, 
+        string $description, 
+        int $price, 
+        int $stock, 
+        ?string $category = null, 
+        ?string $image = null
+    ): void {
+        global $messages;
 
-        validateString($name, 'name');
-        validateString($description, 'description');
-        validateNonNegativeInt($price, 'price');
-        validateNonNegativeInt($stock, 'stock');
+        IsNotEmpty($name, 'name');
+        IsNotEmpty($description, 'description');
+        IsNotNegativeNumber($price, 'price');
+        IsNotNegativeNumber($stock, 'stock');
 
         if ($this->repository->existsByName($name)) {
-            throw new InvalidArgumentException("Ya existe un producto con ese nombre.");
+            throw new AlreadyExistsException(
+                str_replace(
+                    ':entity', 'Producto', 
+                    $messages['entity_already_exists'])); 
         }
 
         $product = new Product($name, $description, $price, $stock, $category, $image);
         $success = $this->repository->create($product);
 
         if (!$success) {
-            throw new RuntimeException("Error al crear el producto.");
+            throw new UnexcpectedErrorException($messages['unexpected_error']);
         }
     }
 
      public function getById(int $id): Product {
-        if ($id <= 0) {
-            throw new InvalidArgumentException("ID inválido. Debe ser mayor que cero.");
-        }
+        global $messages;
+
+        ValidateId($id);
 
         $product = $this->repository->findById($id);
 
         if (!$product) {
-            throw new InvalidArgumentException("producto no encontrado.");
+            throw new NotFoundException(
+                str_replace(
+                    ':value', 'Producto con ID ' . $id, 
+                    $messages['not_found']));
         }
 
         return $product;
     }
 
     public function deleteById(int $id): void {
-        if ($id <= 0) {
-            throw new InvalidArgumentException("ID inválido. Debe ser mayor que cero.");
-        }
+        global $messages;
+
+        ValidateId($id);
+  
 
         $product = $this->repository->findById($id);
         if (!$product) {
-            throw new InvalidArgumentException("Rol no encontrado.");
+            throw new NotFoundException(
+                str_replace(
+                    ':value', 'Producto con ID ' . $id, 
+                    $messages['not_found']));
         }
 
         $success = $this->repository->deleteById($id);
         if (!$success) {
-            throw new RuntimeException("No se pudo eliminar el rol.");
+            throw new UnexcpectedErrorException($messages['unexpected_error']);
         }
     }
 
-    public function update(int $id, string $name, string $description, int $price, int $stock, ?string $category = null, ?string $image = null): void {
+    public function update(
+        int $id, 
+        string $name, 
+        string $description, 
+        int $price, 
+        int $stock, 
+        ?string $category = null, 
+        ?string $image = null
+    ): void {
+        global $messages;
         
-        validateString($name, 'name');
-        validateString($description, 'description');
-        validateNonNegativeInt($price, 'price');
-        validateNonNegativeInt($stock, 'stock');
+        IsNotEmpty($name, 'name');
+        IsNotEmpty($description, 'description');
+        IsNotNegativeNumber($price, 'price');
+        IsNotNegativeNumber($stock, 'stock');
 
        if ($this->repository->existsByName($name)) {
-            throw new InvalidArgumentException("Ya existe un producto con ese nombre.");
+            throw new AlreadyExistsException(
+                str_replace(
+                    ':entity', 'Usuario', 
+                    $messages['entity_already_exists']));   
         }
 
         $product = new Product($name, $description, $price, $category, $image, $id);
         $success = $this->repository->update($product);
 
         if (!$success) {
-            throw new RuntimeException("Error al actualizar el usuario.");
+            throw new UnexcpectedErrorException($messages['unexpected_error']);
         }
     }
 
     public function getAll(int $limit = 100, int $offset = 0): array {
-        if ($limit <= 0 || $offset < 0) {
-            throw new InvalidArgumentException("Parámetros de paginación inválidos.");
-        }
+        global $messages;
+        
+        validateParamPagination($offset, $limit);
 
         $products = $this->repository->findAll($limit, $offset);
         $total = $this->repository->countAll();

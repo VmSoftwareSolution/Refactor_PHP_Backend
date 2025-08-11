@@ -1,8 +1,10 @@
 <?php
 
-require_once __DIR__ . '/../utils/ErrorHandler.php';
+require_once __DIR__ . '/../Error/ErrorHandler.php';
 require_once __DIR__ . '/../services/ProductService.php'; 
 require_once __DIR__ . '/../utils/JsonResponder.php';
+
+$messages = require __DIR__ . '/../utils/Message.php';
 
 class ProductController {
 
@@ -17,17 +19,22 @@ class ProductController {
     }
 
     public function createProduct(array $data): void {
-    ErrorHandler::handle(function () use ($data) {
-        $name = $data['name'] ?? '';
-        $description = $data['description'] ?? '';
-        $price = isset($data['price']) ? (int)$data['price'] : -1;
-        $stock = isset($data['stock']) ? (int)$data['stock'] : -1;
-        $category = $data['category'] ?? null;
-        $image = $data['image'] ?? null;
+        global $messages;
 
-        $this->service->create($name, $description, $price, $stock, $category, $image);
-        echo "Producto creado exitosamente.";
-    });
+        ErrorHandler::handle(function () use ($data, $messages) {
+            $name = $data['name'] ?? '';
+            $description = $data['description'] ?? '';
+            $price = isset($data['price']) ? (int)$data['price'] : -1;
+            $stock = isset($data['stock']) ? (int)$data['stock'] : -1;
+            $category = $data['category'] ?? null;
+            $image = $data['image'] ?? null;
+
+            $this->service->create($name, $description, $price, $stock, $category, $image);
+            JsonResponder::success([
+                'status' => 201,
+                'message' => $messages['created_successfully'],
+            ]);
+        });
     }
 
      public function getProductById($data) {
@@ -41,10 +48,15 @@ class ProductController {
     }
 
      public function deleteProduct($data) {
-        ErrorHandler::handle(function () use ($data) {
+        global $messages;
+
+        ErrorHandler::handle(function () use ($data, $messages) {
             $id = (int) ($data['id'] ?? 0);
             $this->service->deleteById($id);
-            echo "User eliminado exitosamente.";
+            JsonResponder::success([
+                'status' => 200,
+                'message' => $messages['deleted_successfully'],
+            ]);
         });
     }
 
@@ -59,8 +71,9 @@ class ProductController {
     }
 
     public function updateProduct($data) {
+        global $messages;
 
-        ErrorHandler::handle(function () use ($data) {
+        ErrorHandler::handle(function () use ($data, $messages) {
         $id = (int) ($data['id'] ?? 0);
         $name = $data['name'] ?? '';
         $description = $data['description'] ?? '';
@@ -70,7 +83,10 @@ class ProductController {
         $image = $data['image'] ?? null;
 
         $this->service->update($id, $name, $description, $price, $stock, $category, $image);
-            echo "Producto actualizado exitosamente.";
+              JsonResponder::success([
+                'status' => 200,
+                'message' => $messages['updated_successfully'],
+            ]);
         });
     }
 

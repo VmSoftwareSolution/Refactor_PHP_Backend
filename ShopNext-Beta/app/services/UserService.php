@@ -6,6 +6,8 @@ require_once __DIR__ . '/../services/RoleService.php';
 require_once __DIR__ . '/../models/User.php';
 require_once __DIR__ . '/../models/Role.php';
 
+$messages = require __DIR__ . '/../utils/Message.php';
+
 class UserService {
 
     private UserRepository $repository;
@@ -17,13 +19,19 @@ class UserService {
     }
 
     public function register(string $email, string $password): void {
+
+        global $messages;
         
         validateEmail($email);
         validatePassword($password);
 
         $existing = $this->repository->existsByEmail($email);
+
         if ($existing) {
-            throw new InvalidArgumentException("El email ya está registrado.");
+            throw new AlreadyExistsException(
+                str_replace(
+                    ':entity', 'Usuario', 
+                    $messages['entity_already_exists']));   
         }
 
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
@@ -36,26 +44,30 @@ class UserService {
         $success = $this->repository->create($user);
 
         if (!$success) {
-            throw new RuntimeException("Error al registrar el usuario.");
+            throw new UnexcpectedErrorException($messages['unexpected_error']);
         }
     }
 
     public function getById(int $id): User {
-        if ($id <= 0) {
-            throw new InvalidArgumentException("ID inválido. Debe ser mayor que cero.");
-        }
+        global $messages;
+
+        ValidateId($id);
 
         $user = $this->repository->findById($id);
 
         if (!$user) {
-            throw new InvalidArgumentException("Rol no encontrado.");
+            throw new NotFoundException(
+                str_replace(
+                    ':value', 'Usuario con ID ' . $id, 
+                    $messages['not_found']));
         }
 
         return $user;
     }
 
     public function update(int $id, string $email, string $password, int $roleId): void {
-        
+        global $messages;
+
         validateEmail($email);
         validatePassword($password);
 
@@ -68,30 +80,34 @@ class UserService {
         $success = $this->repository->update($user);
 
         if (!$success) {
-            throw new RuntimeException("Error al actualizar el usuario.");
+            throw new UnexcpectedErrorException($messages['unexpected_error']);
         }
     }
 
     public function deleteById(int $id): void {
-        if ($id <= 0) {
-            throw new InvalidArgumentException("ID inválido. Debe ser mayor que cero.");
-        }
+        global $messages;
+
+        ValidateId($id);
 
         $user = $this->repository->findById($id);
+        
         if (!$user) {
-            throw new InvalidArgumentException("User no encontrado.");
+            throw new NotFoundException(
+                str_replace(
+                    ':value', 'Usuario con ID ' . $id, 
+                    $messages['not_found']));
         }
 
         $success = $this->repository->deleteById($id);
         if (!$success) {
-            throw new RuntimeException("No se pudo eliminar el User.");
+            throw new UnexcpectedErrorException($messages['unexpected_error']);
         }
     }
 
     public function getAll(int $limit = 100, int $offset = 0): array {
-        if ($limit <= 0 || $offset < 0) {
-            throw new InvalidArgumentException("Parámetros de paginación inválidos.");
-        }
+        global $messages;
+        
+        validateParamPagination($offset, $limit);
 
         $roles = $this->repository->findAll($limit, $offset);
         $total = $this->repository->countAll();
@@ -104,21 +120,22 @@ class UserService {
         ];
     }
 
-   public function changePassword(int $id, string $password): void {
+    public function changePassword(int $id, string $password): void {
+        global $messages;
 
-    validatePassword($password);
+        validatePassword($password);
 
-    $user = $this->repository->findById($id);
-    if (!$user) {
-        throw new InvalidArgumentException("Usuario no encontrado.");
-    }
+        $user = $this->repository->findById($id);
+        if (!$user) {
+            throw new NotFoundException($messages['not_found']);
+        }
 
-    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-    $success = $this->repository->updatePassword($id, $hashedPassword);
+        $success = $this->repository->updatePassword($id, $hashedPassword);
 
-    if (!$success) {
-        throw new RuntimeException("No se pudo actualizar la contraseña.");
-    }
+        if (!$success) {
+            throw new UnexcpectedErrorException($messages['unexpected_error']);
+        }
     }
 }

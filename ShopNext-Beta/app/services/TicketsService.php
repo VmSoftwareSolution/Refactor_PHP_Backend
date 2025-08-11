@@ -2,6 +2,9 @@
 
 require_once __DIR__ . '/../repositories/TicketsRepository.php';
 require_once __DIR__ . '/../models/Tickets.php';
+require_once __DIR__ . '/../utils/ValidationUtils.php';
+
+$messages = require __DIR__ . '/../utils/Message.php';
 
 class TicketsService {
 
@@ -15,15 +18,11 @@ class TicketsService {
     }
 
     public function create(string $tittle, string $message, int $id_person): void {
+        global $messages;
 
-         if ($tittle === '' || strlen($tittle) > 50) {
-            throw new InvalidArgumentException("El campo 'tittle' es requerido y máximo 50 caracteres.");
-        }
+        ValidateTittle($tittle, "Titulo");
+        ValidateMessage($message);
 
-        if ($message === '' || strlen($message) > 200) {
-            throw new InvalidArgumentException("El campo 'message' es requerido y máximo 200 caracteres.");
-        }
-        
         $priority = 'high';
         $status = 'open';
 
@@ -33,14 +32,12 @@ class TicketsService {
         $success = $this->repository->create($ticket);
 
         if (!$success) {
-            throw new RuntimeException("Error al crear el ticket.");
+            throw new UnexcpectedErrorException($messages['unexpected_error']);
         }
     }
 
     public function getAll(int $limit = 100, int $offset = 0): array {
-        if ($limit <= 0 || $offset < 0) {
-            throw new InvalidArgumentException("Parámetros de paginación inválidos.");
-        }
+        ValidateParamPagination($offset, $limit);
 
         $products = $this->repository->findAll($limit, $offset);
         $total = $this->repository->countAll();
@@ -54,37 +51,49 @@ class TicketsService {
     }
 
     public function getById(int $id): Tickets {
-        if ($id <= 0) {
-            throw new InvalidArgumentException("ID inválido. Debe ser mayor que cero.");
-        }
+        global $messages;
+
+        ValidateId($id);
 
         $ticket = $this->repository->findById($id);
 
         if (!$ticket) {
-            throw new InvalidArgumentException("producto no encontrado.");
+           throw new NotFoundException(
+                str_replace(
+                    ':value', 'Ticket con ID ' . $id, 
+                    $messages['not_found']));;
         }
 
         return $ticket;
     }
 
-    public function update(int $id,  string $tittle, string $message, string $priority, string $status, int $id_person, string $created_at): void {
+    public function update(
+        int $id,  
+        string $tittle, 
+        string $message, 
+        string $priority, 
+        string $status, 
+        int $id_person, 
+        string $created_at
+    ): void {
+        global $messages;
         
         $priority = strtolower(trim($priority));
         $status   = strtolower(trim($status));
 
        if (!in_array($priority, $this->validPriorities, true)) {
-            throw new InvalidArgumentException("Valor inválido para 'priority'. Valores permitidos: " . implode(', ', $this->validPriorities));
+            throw new InvalidDataException($message['invalid_data'] . implode(', ', $this->validPriorities));
         }
 
         if (!in_array($status, $this->validStatuses, true)) {
-            throw new InvalidArgumentException("Valor inválido para 'status'. Valores permitidos: " . implode(', ', $this->validStatuses));
+            throw new InvalidDataException($message['invalid_data']  . implode(', ', $this->validStatuses));
         }
 
         $ticket = new Tickets($tittle, $message, $priority, $status, $id_person, $created_at, $id);
         $success = $this->repository->update($ticket);
 
         if (!$success) {
-            throw new RuntimeException("Error al actualizar el Ticket.");
+            throw new UnexcpectedErrorException($messages['unexpected_error']);
         }
     }
 }

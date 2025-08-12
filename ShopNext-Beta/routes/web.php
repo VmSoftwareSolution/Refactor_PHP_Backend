@@ -52,4 +52,11 @@ $routes = [
     '/tickets/createTicket'     => ['POST', 'TicketsController@createTicket'],
     '/tickets/edit'             => ['GET',  'TicketsController@editTicket'],
     '/tickets/update'           => ['POST', 'TicketsController@updateTicket'],
+
+    '/orders/fromCar'           => ['GET',  'OrderController@fromCar'],
+    '/orders/OrderFromCar'      => ['POST', 'OrderController@OrderFromCar'],
+    '/orders/fromProduct'       => ['GET',  'OrderController@fromProduct'],
+    '/orders/OrderFromProduct'  => ['POST', 'OrderController@OrderFromProduct'],
+    '/orders/show'              => ['GET',  'OrderController@getOrderById'],
+    '/orders/updateStatus'      => ['POST', 'OrderController@updateStatus'],
     ];

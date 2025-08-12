@@ -63,3 +63,13 @@ CREATE TABLE tickets (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (id_person) REFERENCES persons(id)
 );
+
+CREATE TABLE orders (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    products JSON NOT NULL,
+    total_price INT NOT NULL DEFAULT 0
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    status ENUM('open', 'in_progress', 'closed') NOT NULL,
+    id_person INT NOT NULL,
+    FOREIGN KEY (id_person) REFERENCES persons(id)
+);

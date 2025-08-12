@@ -73,3 +73,12 @@ CREATE TABLE orders (
     id_person INT NOT NULL,
     FOREIGN KEY (id_person) REFERENCES persons(id)
 );
+
+CREATE TABLE shipments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_order INT NOT NULL,
+    address VARCHAR(255) NOT NULL,
+    status ENUM('pending', 'shipped', 'delivered') NOT NULL,
+    created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_order) REFERENCES orders(id)
+);

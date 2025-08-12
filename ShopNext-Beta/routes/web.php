@@ -59,4 +59,9 @@ $routes = [
     '/orders/OrderFromProduct'  => ['POST', 'OrderController@OrderFromProduct'],
     '/orders/show'              => ['GET',  'OrderController@getOrderById'],
     '/orders/updateStatus'      => ['POST', 'OrderController@updateStatus'],
+
+    '/shipments/create'             => ['GET',  'ShipmentController@create'],
+    '/shipments/createShipment'     => ['POST', 'ShipmentController@createShipment'],
+    '/shipments/show'               => ['GET',  'ShipmentController@getShipmentById'],
+    '/shipments/updateStatus'       => ['POST', 'ShipmentController@updateStatus'],
     ];

@@ -82,3 +82,12 @@ CREATE TABLE shipments (
     created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (id_order) REFERENCES orders(id)
 );
+
+CREATE TABLE payloads (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_order INT NOT NULL,
+    method ENUM('VISA', 'MASTERCARD', 'PAYPAL') NOT NULL,
+    status ENUM('complete', 'in_progress', 'canceled') NOT NULL,
+    payment_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_order) REFERENCES orders(id)
+);

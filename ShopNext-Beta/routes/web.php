@@ -64,4 +64,10 @@ $routes = [
     '/shipments/createShipment'     => ['POST', 'ShipmentController@createShipment'],
     '/shipments/show'               => ['GET',  'ShipmentController@getShipmentById'],
     '/shipments/updateStatus'       => ['POST', 'ShipmentController@updateStatus'],
+
+    '/payloads/create'             => ['GET',  'PayloadController@create'],
+    '/payloads/createPayload'      => ['POST', 'PayloadController@createPayload'],
+    '/payloads/show'               => ['GET',  'PayloadController@getPayloadById'],
+    '/payloads/updateStatus'       => ['POST', 'PayloadController@updateStatus'],
+
     ];

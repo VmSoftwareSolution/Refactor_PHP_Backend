@@ -7,7 +7,7 @@ class Tickets {
     public $priority;
     public $status;
     public $id_person;
-    public $create_at;
+    public $created_at; 
     
     public function __construct(
         $tittle,
@@ -23,7 +23,7 @@ class Tickets {
         $this->priority   = $priority;
         $this->status     = $status;
         $this->id_person  = $id_person;
-        $this->created_at = $created_at ?? date('Y-m-d H:i:s');
+        $this->created_at = $created_at ?? date('Y-m-d H:i:s'); 
         $this->id         = $id;
     }
 }

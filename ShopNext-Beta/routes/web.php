@@ -8,6 +8,9 @@ $routes = [
     '/role/edit'        => ['GET',  'RoleController@editRole'],
     '/role/update'      => ['POST', 'RoleController@updateRole'],
     '/roles'              => ['GET',  'RoleController@listRoles'],
+    '/roles/list' => ['GET', 'RoleController@listRolesView'],
+
+
 
 
     '/user/create'          => ['GET', 'UserController@create'],
@@ -19,6 +22,8 @@ $routes = [
     '/users'                => ['GET',  'UserController@listUsers'],
     '/user/editUser'        => ['GET',  'UserController@changePasswordUser'],
     '/user/changePassword'  => ['POST', 'UserController@changePassword'],
+    '/users/view' => ['GET', 'UserController@usersView'],
+
 
     '/persons'              => ['GET',  'PersonController@listPersons'],
     '/persons/findById'     => ['GET',  'PersonController@getPersonById'],
@@ -35,6 +40,8 @@ $routes = [
     '/products/delete'          => ['POST', 'ProductController@deleteProduct'],
     '/products/edit'            => ['GET',  'ProductController@editProduct'],
     '/products/update'          => ['POST', 'ProductController@updateProduct'],
+    '/products/list' => ['GET', 'ProductController@listProductsView'],
+
 
     '/shoppingCar/show'          => ['GET', 'ShoppingCarController@getCarByPersonId'],
     '/shoppingCar/add'           => ['GET', 'ShoppingCarController@addForm'],
@@ -52,4 +59,6 @@ $routes = [
     '/tickets/createTicket'     => ['POST', 'TicketsController@createTicket'],
     '/tickets/edit'             => ['GET',  'TicketsController@editTicket'],
     '/tickets/update'           => ['POST', 'TicketsController@updateTicket'],
+    '/tickets/list' => ['GET', 'TicketsController@listTicketsView'],
+
     ];

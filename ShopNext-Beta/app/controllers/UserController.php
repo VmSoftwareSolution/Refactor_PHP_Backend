@@ -133,5 +133,12 @@ class UserController {
         });
     }
 
+    public function usersView() {
+        ErrorHandler::handle(function () {
+            require_once __DIR__ . '/../views/user/list.php';
+        });
+    }
+
+
 
 }

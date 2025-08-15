@@ -104,4 +104,17 @@ class TicketsController {
             ]);
         });
     }
+
+    public function listTicketsView(array $data = []): void
+    {
+        ErrorHandler::handle(function () use ($data) {
+            $limit = isset($data['limit']) ? (int)$data['limit'] : 100;
+            $offset = isset($data['offset']) ? (int)$data['offset'] : 0;
+            $result = $this->service->getAll($limit, $offset);
+
+            $tickets = $result['data'];  // <-- PASAMOS ESTE ARRAY A LA VISTA
+            require_once __DIR__ . '/../views/tickets/list.php';
+        });
+    }
+
 }

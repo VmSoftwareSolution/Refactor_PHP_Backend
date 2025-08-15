@@ -102,6 +102,13 @@ class RoleService {
                     $messages['not_found']));
         }
 
+        $existing = $this->repository->findByName($name);
+        if ($existing !== null && $existing->id !== $id) {
+            throw new AlreadyExistsException(
+                str_replace(':entity', 'Rol', $messages['entity_already_exists'])
+            );
+        }
+
         $updatedRole = new Role($name, $description, $id);
         $success = $this->repository->update($updatedRole);
 

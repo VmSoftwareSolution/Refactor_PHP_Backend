@@ -106,5 +106,13 @@ class RoleController {
         });
     }
 
+    public function listRolesView($data = []) {
+        ErrorHandler::handle(function () use ($data) {
+            $result = $this->service->getAll();
+            $roles = $result['data']; 
+            require_once __DIR__ . '/../views/roles/list.php';
+        });
+    }
+
 
 }

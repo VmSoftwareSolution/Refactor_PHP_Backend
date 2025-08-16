@@ -84,7 +84,7 @@ a.cancel-link:hover {
     <h2>Crear Persona</h2>
     <div id="messageContainer"></div>
 
-    <form action="/persons/createPerson" method="post">
+    <form id="createPersonForm" action="/persons/createPerson" method="post">
         <label>Nombre completo:
             <input type="text" name="full_name" required>
         </label>
@@ -109,9 +109,13 @@ a.cancel-link:hover {
             <input type="text" name="avatar">
         </label>
 
-        <label>ID Usuario:
-            <input type="number" name="id_user" required>
-        </label>
+        <label>Usuario:</label>
+        <select name="id_user" required>
+            <option value="">Seleccione un usuario</option>
+            <?php foreach ($users as $user): ?>
+                <option value="<?= $user->id ?>"><?= htmlspecialchars($user->email) ?></option>
+            <?php endforeach; ?>
+        </select>
 
         <button type="submit">Crear Persona</button>
     </form>
@@ -121,6 +125,7 @@ a.cancel-link:hover {
 <script>
 function showMessage(type, message) {
     const messageContainer = document.getElementById('messageContainer');
+    messageContainer.innerHTML = ''; 
     const messageBox = document.createElement('div');
     messageBox.className = `message-box ${type}`;
     const icon = type === 'success' ? '✅' : '⚠️';
@@ -137,6 +142,29 @@ function showMessage(type, message) {
         }, 5000);
     }
 }
+
+const form = document.getElementById('createPersonForm');
+form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(form);
+
+    try {
+        const response = await fetch(form.action, {
+            method: form.method,
+            body: formData
+        });
+
+        if (!response.ok) {
+            const data = await response.json();
+            showMessage('error', data.error || 'Ocurrió un error');
+        } else {
+            showMessage('success', 'Persona creada correctamente');
+            setTimeout(() => window.location.href = '/persons', 1000);
+        }
+    } catch (err) {
+        showMessage('error', 'Error de conexión con el servidor');
+    }
+});
 </script>
 </body>
 </html>

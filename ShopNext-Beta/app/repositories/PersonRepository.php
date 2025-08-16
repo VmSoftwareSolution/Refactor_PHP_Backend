@@ -102,4 +102,20 @@ class PersonRepository {
     public function getLastInsertId(): int {
         return (int) $this->conn->insert_id; 
     }
+
+    public function existsByUserId(int $id_user, ?int $excludePersonId = null): bool {
+        if ($excludePersonId) {
+            $stmt = $this->conn->prepare("SELECT COUNT(*) as total FROM persons WHERE id_user = ? AND id != ?");
+            $stmt->bind_param("ii", $id_user, $excludePersonId);
+        } else {
+            $stmt = $this->conn->prepare("SELECT COUNT(*) as total FROM persons WHERE id_user = ?");
+            $stmt->bind_param("i", $id_user);
+        }
+
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        return (int)$row['total'] > 0;
+    }
+
 }

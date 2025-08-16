@@ -31,8 +31,16 @@ class PersonController {
     }
 
     public function createPersonForm(): void {
+    ErrorHandler::handle(function () {
+        require_once __DIR__ . '/../services/UserService.php';
+        $userService = new UserService();
+        $usersResult = $userService->getAll(PHP_INT_MAX, 0); 
+        $users = $usersResult['data'];
+
         require_once __DIR__ . '/../views/persons/create.php';
-    }
+    });
+}
+
 
     public function createPerson(array $data): void {
         ErrorHandler::handle(function () use ($data) {
@@ -45,11 +53,18 @@ class PersonController {
     public function editPersonForm(array $data): void {
         ErrorHandler::handle(function () use ($data) {
             $id = isset($data['id']) ? (int)$data['id'] : 0;
-            
+
             $person = $this->service->getById($id);
+
+            require_once __DIR__ . '/../services/UserService.php';
+            $userService = new UserService();
+            $usersResult = $userService->getAll(PHP_INT_MAX, 0); 
+            $users = $usersResult['data'];
+
             require_once __DIR__ . '/../views/persons/edit.php';
         });
     }
+
 
     public function updatePerson(array $data): void {
         ErrorHandler::handle(function () use ($data) {

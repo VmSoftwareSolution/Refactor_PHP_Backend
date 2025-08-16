@@ -1,12 +1,11 @@
--- Create role table
+-- Roles
 CREATE TABLE roles (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     description VARCHAR(200)
 );
 
-INSERT INTO roles (name) VALUES ('cliente'), ('admin'); -- valores base
-
+-- Users
 CREATE TABLE users (
   id INT AUTO_INCREMENT PRIMARY KEY,
   email VARCHAR(100) NOT NULL UNIQUE,
@@ -15,7 +14,7 @@ CREATE TABLE users (
   FOREIGN KEY (role_id) REFERENCES roles(id)
 );
 
--- Create person table
+-- Persons
 CREATE TABLE persons (
     id INT AUTO_INCREMENT PRIMARY KEY,
     full_name VARCHAR(255) NOT NULL,
@@ -28,6 +27,7 @@ CREATE TABLE persons (
     CONSTRAINT fk_person_user FOREIGN KEY (id_user) REFERENCES users(id) ON DELETE CASCADE
 );
 
+-- Products
 CREATE TABLE products (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL UNIQUE,
@@ -38,6 +38,7 @@ CREATE TABLE products (
     image TEXT
 );
 
+-- Shopping Car
 CREATE TABLE shopping_car (
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_person INT NOT NULL,
@@ -46,6 +47,7 @@ CREATE TABLE shopping_car (
     FOREIGN KEY (id_person) REFERENCES persons(id)
 );
 
+-- Favorites
 CREATE TABLE favorites (
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_person INT NOT NULL,
@@ -53,6 +55,7 @@ CREATE TABLE favorites (
     FOREIGN KEY (id_person) REFERENCES persons(id)
 );
 
+-- Tickets
 CREATE TABLE tickets (
     id INT AUTO_INCREMENT PRIMARY KEY,
     tittle VARCHAR(50) NOT NULL,
@@ -64,16 +67,18 @@ CREATE TABLE tickets (
     FOREIGN KEY (id_person) REFERENCES persons(id)
 );
 
+-- Orders
 CREATE TABLE orders (
     id INT AUTO_INCREMENT PRIMARY KEY,
     products JSON NOT NULL,
-    total_price INT NOT NULL DEFAULT 0
+    total_price INT NOT NULL DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     status ENUM('open', 'in_progress', 'closed') NOT NULL,
     id_person INT NOT NULL,
     FOREIGN KEY (id_person) REFERENCES persons(id)
 );
 
+-- Shipments
 CREATE TABLE shipments (
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_order INT NOT NULL,
@@ -83,6 +88,7 @@ CREATE TABLE shipments (
     FOREIGN KEY (id_order) REFERENCES orders(id)
 );
 
+-- Payloads
 CREATE TABLE payloads (
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_order INT NOT NULL,

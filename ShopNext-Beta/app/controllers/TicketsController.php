@@ -15,7 +15,13 @@ class TicketsController {
     }
 
     public function create() {
-        require_once __DIR__ . '/../views/tickets/create.php';
+        require_once __DIR__ . '/../services/PersonService.php';
+
+        $personService = new PersonService();
+        $personsResult = $personService->getAll();
+        $persons = $personsResult['data'];
+
+        require __DIR__ . '/../views/tickets/create.php';
     }
 
     public function createTicket(array $data): void {
@@ -76,14 +82,19 @@ class TicketsController {
     }
 
     public function editTicket($data) {
-
-         ErrorHandler::handle(function () use ($data) {
+        ErrorHandler::handle(function () use ($data) {
             $id = (int) ($data['id'] ?? 0);
             $ticket = $this->service->getById($id);
+
+            require_once __DIR__ . '/../services/PersonService.php';
+            $personService = new PersonService();
+            $personsResult = $personService->getAll();
+            $persons = $personsResult['data'];
+
             require_once __DIR__ . '/../views/tickets/edit.php';
         });
-
     }
+
 
     public function updateTicket($data) {
         global $messages;
@@ -112,7 +123,7 @@ class TicketsController {
             $offset = isset($data['offset']) ? (int)$data['offset'] : 0;
             $result = $this->service->getAll($limit, $offset);
 
-            $tickets = $result['data'];  // <-- PASAMOS ESTE ARRAY A LA VISTA
+            $tickets = $result['data']; 
             require_once __DIR__ . '/../views/tickets/list.php';
         });
     }

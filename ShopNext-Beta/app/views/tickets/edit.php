@@ -30,13 +30,15 @@ label {
     font-weight: bold;
     color: #555;
 }
-input, select {
+input[type="text"], input[type="number"], select {
     width: 100%;
     padding: 10px;
     margin-top: 5px;
     border-radius: 8px;
     border: 1px solid #ccc;
     font-size: 1rem;
+    background: #fff;
+    font-family: inherit;
 }
 button {
     padding: 12px;
@@ -65,6 +67,9 @@ button:hover {
 .message-box.success {
     background: #e8f5e8;
     color: #2e7d32;
+}
+input.error, select.error {
+    border-color: #e74c3c;
 }
 </style>
 </head>
@@ -96,8 +101,17 @@ button:hover {
             <option value="closed" <?= $ticket->status === 'closed' ? 'selected' : '' ?>>Cerrado</option>
         </select>
 
-        <label for="id_person">ID Persona</label>
-        <input type="number" name="id_person" id="id_person" value="<?= htmlspecialchars($ticket->id_person) ?>">
+        <label for="id_person">Persona</label>
+        <select id="id_person" name="id_person" required>
+            <option value="">-- Seleccione una persona --</option>
+            <?php foreach ($persons as $person): ?>
+                <option value="<?= htmlspecialchars($person->id) ?>"
+                    <?= $ticket->id_person == $person->id ? 'selected' : '' ?>>
+                    <?= htmlspecialchars($person->full_name) ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+
 
         <label>Creado el</label>
         <div style="padding:10px; background:#f4f4f4; border-radius:8px;"><?= htmlspecialchars($ticket->created_at) ?></div>
@@ -113,6 +127,7 @@ document.getElementById('editTicketForm').addEventListener('submit', async funct
     const submitBtn = document.getElementById('submitBtn');
     const messageContainer = document.getElementById('messageContainer');
     const formData = new FormData(form);
+
     messageContainer.innerHTML = '';
     submitBtn.disabled = true;
     submitBtn.textContent = 'Actualizando ticket...';
@@ -124,8 +139,10 @@ document.getElementById('editTicketForm').addEventListener('submit', async funct
 
         if (response.ok && result.status === 200) {
             showMessage('success', result.message || 'Ticket actualizado exitosamente');
+            clearInputErrors();
         } else {
             showMessage('error', result.message || 'Error al actualizar el ticket');
+            highlightErrorFields(result.errors || {});
         }
     } catch (error) {
         showMessage('error', 'Error de conexión. Intenta nuevamente.');
@@ -144,6 +161,7 @@ function showMessage(type, message) {
     const title = type === 'success' ? '¡Éxito!' : 'Error:';
     messageBox.innerHTML = `<strong>${icon} ${title}</strong> ${message}`;
     messageContainer.appendChild(messageBox);
+
     if (type === 'success') {
         setTimeout(() => {
             messageBox.style.opacity = '0';
@@ -153,6 +171,17 @@ function showMessage(type, message) {
             }, 500);
         }, 5000);
     }
+}
+
+function clearInputErrors() {
+    document.querySelectorAll('input.error, select.error').forEach(el => el.classList.remove('error'));
+}
+
+function highlightErrorFields(errors) {
+    Object.keys(errors).forEach(fieldName => {
+        const field = document.getElementById(fieldName);
+        if (field) field.classList.add('error');
+    });
 }
 </script>
 </body>

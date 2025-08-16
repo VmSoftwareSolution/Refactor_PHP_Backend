@@ -29,13 +29,15 @@
             margin-top: 15px;
             color: #555;
         }
-        input[type="text"], input[type="number"] {
+        input[type="text"], input[type="number"], select {
             width: 100%;
             padding: 10px;
             margin-top: 5px;
             border-radius: 8px;
             border: 1px solid #ccc;
             box-sizing: border-box;
+            background: #fff;
+            font-family: inherit;
         }
         button {
             margin-top: 20px;
@@ -65,7 +67,7 @@
             background: #e8f5e8;
             color: #2e7d32;
         }
-        input.error {
+        input.error, select.error {
             border-color: #e74c3c;
         }
     </style>
@@ -81,8 +83,15 @@
         <label for="message">Mensaje:</label>
         <input type="text" id="message" name="message">
 
-        <label for="id_person">ID Persona:</label>
-        <input type="number" id="id_person" name="id_person">
+        <label for="id_person">Persona:</label>
+        <select id="id_person" name="id_person" required>
+            <option value="">-- Seleccione una persona --</option>
+            <?php foreach ($persons as $person): ?>
+                <option value="<?= htmlspecialchars($person->id) ?>">
+                    <?= htmlspecialchars($person->full_name) ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
 
         <button type="submit" id="submitBtn">Crear Ticket</button>
     </form>
@@ -147,7 +156,7 @@ function showMessage(type, message) {
 }
 
 function clearInputErrors() {
-    document.querySelectorAll('input.error').forEach(input => input.classList.remove('error'));
+    document.querySelectorAll('input.error, select.error').forEach(el => el.classList.remove('error'));
 }
 
 function highlightErrorFields(errors) {

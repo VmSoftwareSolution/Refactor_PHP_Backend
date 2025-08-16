@@ -56,7 +56,6 @@ $routes = [
     '/tickets/update'           => ['POST', 'TicketsController@updateTicket'],
     '/tickets/list' => ['GET', 'TicketsController@listTicketsView'],
 
-
     '/orders/fromCar'           => ['GET',  'OrderController@fromCar'],
     '/orders/OrderFromCar'      => ['POST', 'OrderController@OrderFromCar'],
     '/orders/fromProduct'       => ['GET',  'OrderController@fromProduct'],

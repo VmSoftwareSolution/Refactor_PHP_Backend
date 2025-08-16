@@ -13,8 +13,14 @@ class OrderController {
     }
 
     public function fromCar() {
+        require_once __DIR__ . '/../services/PersonService.php';
+            $personService = new PersonService();
+            $personsResult = $personService->getAll(PHP_INT_MAX, 0);
+            $persons = $personsResult['data'];
+        
         require_once __DIR__ . '/../views/orders/fromCar.php';
     }
+
 
     public function OrderFromCar(array $data): void {
         ErrorHandler::handle(function () use ($data) {
@@ -27,6 +33,7 @@ class OrderController {
             $result = $this->service->createFromCar($id_person);
 
             JsonResponder::success([
+                'status' => 200,
                 'message' => 'Orden creada exitosamente',
                 'car' => $result
             ]);
@@ -34,6 +41,16 @@ class OrderController {
     }
 
     public function fromProduct() {
+        require_once __DIR__ . '/../services/PersonService.php';
+        $personService = new PersonService();
+        $personsResult = $personService->getAll(PHP_INT_MAX, 0);
+        $persons = $personsResult['data'];
+
+        require_once __DIR__ . '/../services/ProductService.php';
+        $productService = new ProductService();
+        $productsResult = $productService->getAll(PHP_INT_MAX, 0);
+        $products = $productsResult['data'];
+
         require_once __DIR__ . '/../views/orders/fromProduct.php';
     }
 
@@ -50,7 +67,7 @@ class OrderController {
         });
     }
 
-    public function getOrderById($data) {
+   public function getOrderById($data) {
         ErrorHandler::handle(function () use ($data) {
             $id = (int)($data['id'] ?? 0);
             $order = $this->service->getOrder($id);

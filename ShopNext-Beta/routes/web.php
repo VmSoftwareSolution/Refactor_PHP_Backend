@@ -52,4 +52,22 @@ $routes = [
     '/tickets/createTicket'     => ['POST', 'TicketsController@createTicket'],
     '/tickets/edit'             => ['GET',  'TicketsController@editTicket'],
     '/tickets/update'           => ['POST', 'TicketsController@updateTicket'],
+
+    '/orders/fromCar'           => ['GET',  'OrderController@fromCar'],
+    '/orders/OrderFromCar'      => ['POST', 'OrderController@OrderFromCar'],
+    '/orders/fromProduct'       => ['GET',  'OrderController@fromProduct'],
+    '/orders/OrderFromProduct'  => ['POST', 'OrderController@OrderFromProduct'],
+    '/orders/show'              => ['GET',  'OrderController@getOrderById'],
+    '/orders/updateStatus'      => ['POST', 'OrderController@updateStatus'],
+
+    '/shipments/create'             => ['GET',  'ShipmentController@create'],
+    '/shipments/createShipment'     => ['POST', 'ShipmentController@createShipment'],
+    '/shipments/show'               => ['GET',  'ShipmentController@getShipmentById'],
+    '/shipments/updateStatus'       => ['POST', 'ShipmentController@updateStatus'],
+
+    '/payloads/create'             => ['GET',  'PayloadController@create'],
+    '/payloads/createPayload'      => ['POST', 'PayloadController@createPayload'],
+    '/payloads/show'               => ['GET',  'PayloadController@getPayloadById'],
+    '/payloads/updateStatus'       => ['POST', 'PayloadController@updateStatus'],
+
     ];

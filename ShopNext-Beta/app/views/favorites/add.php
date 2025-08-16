@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Agregar Producto al Carrito</title>
+<title>Agregar Producto a Favoritos</title>
 <style>
 body {
     display: flex;
@@ -30,7 +30,7 @@ label {
     font-weight: bold;
     color: #555;
 }
-input[type="number"] {
+select, input[type="number"] {
     width: 100%;
     padding: 10px;
     margin-top: 5px;
@@ -71,39 +71,74 @@ button:hover {
 </head>
 <body>
 <div class="container">
-    <h2>Agregar Producto al Carrito</h2>
+    <h2>Agregar Producto a Mis Favoritos</h2>
     <div id="messageContainer"></div>
 
-    <form action="/favorites/addFavorite" method="POST">
-        <label for="id_person">ID Persona:</label>
-        <input type="number" name="id_person" id="id_person" required>
+    <form action="/favorites/addFavorite" method="post">
+    <label for="id_person">Selecciona Persona:</label>
+    <select id="id_person" name="id_person" required>
+        <?php foreach ($persons as $person): ?>
+            <option value="<?= htmlspecialchars($person->id) ?>">
+                <?= htmlspecialchars($person->full_name) ?>
+            </option>
+        <?php endforeach; ?>
+    </select>
 
-        <label for="id_product">ID Producto:</label>
-        <input type="number" name="id_product" id="id_product" required>
+    <label for="id_product">Selecciona Producto:</label>
+    <select id="id_product" name="id_product" required>
+        <?php foreach ($products as $product): ?>
+            <option value="<?= htmlspecialchars($product->id) ?>">
+                <?= htmlspecialchars($product->name) ?> - $<?= htmlspecialchars($product->price) ?>
+            </option>
+        <?php endforeach; ?>
+    </select>
 
-        <button type="submit">Agregar al Carrito</button>
-    </form>
+    <button type="submit">Agregar a Favoritos</button>
+</form>
+
 </div>
 
 <script>
+const form = document.querySelector('form'); // selecciona tu único form
+const messageContainer = document.getElementById('messageContainer');
+
 function showMessage(type, message) {
-    const messageContainer = document.getElementById('messageContainer');
     const messageBox = document.createElement('div');
     messageBox.className = `message-box ${type}`;
     const icon = type === 'success' ? '✅' : '⚠️';
     const title = type === 'success' ? '¡Éxito!' : 'Error:';
     messageBox.innerHTML = `<strong>${icon} ${title}</strong> ${message}`;
+    messageContainer.innerHTML = ''; 
     messageContainer.appendChild(messageBox);
+
     if (type === 'success') {
         setTimeout(() => {
             messageBox.style.opacity = '0';
             messageBox.style.transform = 'translateY(-10px)';
-            setTimeout(() => {
-                if (messageBox.parentNode) messageBox.parentNode.removeChild(messageBox);
-            }, 500);
+            setTimeout(() => messageBox.remove(), 500);
         }, 5000);
     }
 }
+
+form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const formData = new FormData(form);
+
+    fetch('/favorites/addFavorite', { 
+        method: 'POST',
+        body: formData
+    })
+    .then(async response => {
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.message || 'Error desconocido');
+        showMessage('success', data.message);
+        form.reset();
+    })
+    .catch(error => {
+        showMessage('error', error.message);
+    });
+});
 </script>
+
 </body>
 </html>

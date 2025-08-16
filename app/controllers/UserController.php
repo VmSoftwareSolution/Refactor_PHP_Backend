@@ -146,6 +146,27 @@ class UserController {
         });
     }
 
+    public function loginView() {
+        ErrorHandler::handle(function () {
+            require_once __DIR__ . '/../views/user/login.php';
+        });
+    }
 
+    public function login($data) {
+        global $messages;
+
+        ErrorHandler::handle(function () use ($data, $messages) {
+            $email = $data['email'] ?? '';
+            $password = $data['password'] ?? '';
+
+            $user = $this->service->login($email, $password);
+
+            JsonResponder::success([
+                'status' => 200,
+                'message' => $messages['login_success'],
+                'role_id' => $user->role_id, 
+            ]);
+        });
+    }
 
 }

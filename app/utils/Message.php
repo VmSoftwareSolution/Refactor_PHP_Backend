@@ -2,6 +2,8 @@
 return [
     'email_required' => "El email es requerido.",
     'email_invalid_format' => "Formato de email inválido.",
+    'invalid_credentials' => "Credenciales Invalidas",
+    'login_success' => "Login Exitoso",
 
     'password_required' => "La contraseña es requerida.",
     'password_weak' => "La contraseña debe tener al menos 6 caracteres, incluir una mayúscula, una minúscula, un número y un carácter especial.",

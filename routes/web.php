@@ -20,6 +20,9 @@ $routes = [
     '/user/editUser'        => ['GET',  'UserController@changePasswordUser'],
     '/user/changePassword'  => ['POST', 'UserController@changePassword'],
     '/users/view' => ['GET', 'UserController@usersView'],
+    '/user/login'      => ['GET',  'UserController@loginView'],  
+    '/user/loginUser'  => ['POST', 'UserController@login'],      
+
 
     '/persons'              => ['GET',  'PersonController@listPersons'],
     '/persons/findById'     => ['GET',  'PersonController@getPersonById'],

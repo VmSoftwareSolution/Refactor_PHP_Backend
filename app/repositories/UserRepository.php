@@ -58,6 +58,25 @@ class UserRepository {
         return null;
     }
 
+    public function findByEmailFull(string $email): ?User {
+        $stmt = $this->conn->prepare("SELECT * FROM users WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($row = $result->fetch_assoc()) {
+            return new User(
+                $row['email'],
+                $row['password'], 
+                (int)$row['role_id'],
+                (int)$row['id']
+            );
+        }
+
+        return null;
+    }
+
+
     public function update(User $user): bool {
         $stmt = $this->conn->prepare("UPDATE users SET email = ?, password = ?, role_id = ? WHERE id = ?");
         $stmt->bind_param("ssii", $user->email, $user->password, $user->role_id, $user->id);

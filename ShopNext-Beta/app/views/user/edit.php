@@ -33,7 +33,7 @@ label {
     font-weight: bold;
     color: #555;
 }
-input[type="text"], input[type="email"], input[type="number"] {
+input[type="text"], input[type="email"], input[type="number"], select {
     width: 100%;
     padding: 12px;
     margin-bottom: 20px;
@@ -42,7 +42,7 @@ input[type="text"], input[type="email"], input[type="number"] {
     transition: all 0.3s ease;
     box-sizing: border-box;
 }
-input:focus {
+input:focus, select:focus {
     border-color: #2575fc;
     box-shadow: 0 0 5px rgba(37,117,252,0.5);
     outline: none;
@@ -65,9 +65,9 @@ button:disabled {
     background: #ccc;
     cursor: not-allowed;
 }
-input.error {
+input.error, select.error {
     border-color: #ff4b5c !important;
-    box-shadow: 0 0 5px rgba(255, 75, 92, 0.5) !important;
+    box-shadow: 0 0 5px rgba(255, 75, 92,0.5) !important;
 }
 .message-box {
     padding: 15px;
@@ -109,8 +109,14 @@ input.error {
         <label>Email:</label>
         <input type="email" name="email" id="email" value="<?= htmlspecialchars($user->email) ?>" required>
 
-        <label>ROL ID:</label>
-        <input type="number" name="role_id" id="role_id" value="<?= htmlspecialchars($user->role_id) ?>" required>
+        <label>ROL:</label>
+        <select name="role_id" id="role_id" required>
+            <?php foreach ($roles as $role): ?>
+                <option value="<?= $role->id ?>" <?= $user->role_id == $role->id ? 'selected' : '' ?>>
+                    <?= htmlspecialchars($role->name) ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
 
         <button type="submit" id="submitBtn">Actualizar Usuario</button>
     </form>
@@ -169,7 +175,7 @@ function showMessage(type, message) {
 }
 
 function clearInputErrors() {
-    document.querySelectorAll('input.error').forEach(input => input.classList.remove('error'));
+    document.querySelectorAll('input.error, select.error').forEach(input => input.classList.remove('error'));
 }
 
 function highlightErrorFields(errors) {

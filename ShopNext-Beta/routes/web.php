@@ -10,9 +10,6 @@ $routes = [
     '/roles'              => ['GET',  'RoleController@listRoles'],
     '/roles/list' => ['GET', 'RoleController@listRolesView'],
 
-
-
-
     '/user/create'          => ['GET', 'UserController@create'],
     '/user/createUser'      => ['POST', 'UserController@createUser'],
     '/user/findById'        => ['GET',  'UserController@getUserById'],
@@ -23,7 +20,6 @@ $routes = [
     '/user/editUser'        => ['GET',  'UserController@changePasswordUser'],
     '/user/changePassword'  => ['POST', 'UserController@changePassword'],
     '/users/view' => ['GET', 'UserController@usersView'],
-
 
     '/persons'              => ['GET',  'PersonController@listPersons'],
     '/persons/findById'     => ['GET',  'PersonController@getPersonById'],

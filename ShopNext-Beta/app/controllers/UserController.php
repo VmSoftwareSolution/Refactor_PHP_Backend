@@ -47,9 +47,16 @@ class UserController {
         ErrorHandler::handle(function () use ($data) {
             $id = (int) ($data['id'] ?? 0);
             $user = $this->service->getById($id);
+
+            require_once __DIR__ . '/../services/RoleService.php';
+            $roleService = new RoleService();
+            $rolesResult = $roleService->getAll();
+            $roles = $rolesResult['data'];
+
             require_once __DIR__ . '/../views/user/edit.php';
         });
     }
+
 
     public function updateUser($data) {
         global $messages;
@@ -132,6 +139,13 @@ class UserController {
             ]);
         });
     }
+
+    public function usersView() {
+        ErrorHandler::handle(function () {
+            require_once __DIR__ . '/../views/user/list.php';
+        });
+    }
+
 
 
 }

@@ -96,6 +96,8 @@ class OrderService {
     }
     
      public function getOrder(int $id): ?Order {
+        global $messages;
+        
         if ($id <= 0) {
              throw new NotFoundException(
                 str_replace(':value', 'orden', $messages['not_found'])

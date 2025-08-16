@@ -10,7 +10,7 @@ $messages = require __DIR__ . '/../utils/Message.php';
 
 class PersonService {
     private PersonRepository $repository;
-    private UserRepository $userRepository;//FIX: change to service 
+    private UserRepository $userRepository;
     private ShoppingCarService $shoppingCarService; 
     private FavoriteService $favService;
 
@@ -49,10 +49,19 @@ class PersonService {
     }
 
     public function create(array $data): void {
+        global $messages;
+        
         IsNotEmpty($data['full_name'] ?? '', 'full_name');
         IsNotEmpty($data['id_user'] ?? '', 'id_user');
       
         $id_user = (int)$data['id_user'];
+
+        if ($this->repository->existsByUserId($id_user)) {
+            throw new AlreadyExistsException(str_replace(
+                    ':entity', 'Usuario', 
+                    $messages['entity_already_exists']));
+        }
+
 
         if (!$this->userRepository->findById($id_user)) {
             throw new NotFoundException( 
@@ -97,6 +106,13 @@ class PersonService {
 
         $full_name = $data['full_name'] ?? $existing->full_name;
         $id_user = isset($data['id_user']) ? (int)$data['id_user'] : $existing->id_user;
+
+        if ($this->repository->existsByUserId($id_user)) {
+            throw new AlreadyExistsException(str_replace(
+                    ':entity', 'Usuario', 
+                    $messages['entity_already_exists']));
+        }
+        
         $phone = $data['phone'] ?? $existing->phone;
         $gender = $data['gender'] ?? $existing->gender;
         $date_of_birth = $data['date_of_birth'] ?? $existing->date_of_birth;

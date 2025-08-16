@@ -22,8 +22,21 @@ class ShoppingCarController {
     }
 
     public function addForm() {
+        require_once __DIR__ . '/../services/PersonService.php';
+        require_once __DIR__ . '/../services/ProductService.php';
+
+        $personService = new PersonService();
+        $personsResult = $personService->getAll(PHP_INT_MAX, 0);
+        $persons = $personsResult['data'];
+
+        $productService = new ProductService();
+        $productsResult = $productService->getAll(PHP_INT_MAX, 0);
+        $products = $productsResult['data'];
+
         require_once __DIR__ . '/../views/shoppingCar/add.php';
     }
+
+
 
     public function addProductToCar(array $data): void {
         ErrorHandler::handle(function () use ($data) {

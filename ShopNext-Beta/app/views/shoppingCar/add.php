@@ -30,7 +30,7 @@ label {
     font-weight: bold;
     color: #555;
 }
-input[type="number"] {
+select {
     width: 100%;
     padding: 10px;
     margin-top: 5px;
@@ -74,36 +74,70 @@ button:hover {
     <h2>Agregar Producto al Carrito</h2>
     <div id="messageContainer"></div>
 
-    <form action="/shoppingCar/addProduct" method="POST">
-        <label for="id_person">ID Persona:</label>
-        <input type="number" name="id_person" id="id_person" required>
+    <form id="addProductForm">
+        <label for="id_person">Persona:</label>
+        <select name="id_person" id="id_person" required>
+            <option value="">Seleccione una persona</option>
+            <?php foreach ($persons as $person): ?>
+                <option value="<?= htmlspecialchars($person->id) ?>">
+                    <?= htmlspecialchars($person->full_name) ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
 
-        <label for="id_product">ID Producto:</label>
-        <input type="number" name="id_product" id="id_product" required>
+        <label for="id_product">Producto:</label>
+        <select name="id_product" id="id_product" required>
+            <option value="">Seleccione un producto</option>
+            <?php foreach ($products as $product): ?>
+                <option value="<?= htmlspecialchars($product->id) ?>">
+                    <?= htmlspecialchars($product->name) ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
 
         <button type="submit">Agregar al Carrito</button>
     </form>
 </div>
 
 <script>
+const form = document.getElementById('addProductForm');
+const messageContainer = document.getElementById('messageContainer');
+
 function showMessage(type, message) {
-    const messageContainer = document.getElementById('messageContainer');
     const messageBox = document.createElement('div');
     messageBox.className = `message-box ${type}`;
     const icon = type === 'success' ? '✅' : '⚠️';
     const title = type === 'success' ? '¡Éxito!' : 'Error:';
     messageBox.innerHTML = `<strong>${icon} ${title}</strong> ${message}`;
+    messageContainer.innerHTML = ''; // Limpiar mensajes anteriores
     messageContainer.appendChild(messageBox);
     if (type === 'success') {
         setTimeout(() => {
             messageBox.style.opacity = '0';
             messageBox.style.transform = 'translateY(-10px)';
-            setTimeout(() => {
-                if (messageBox.parentNode) messageBox.parentNode.removeChild(messageBox);
-            }, 500);
+            setTimeout(() => messageBox.remove(), 500);
         }, 5000);
     }
 }
+
+form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const formData = new FormData(form);
+
+    fetch('/shoppingCar/addProduct', {
+        method: 'POST',
+        body: formData
+    })
+    .then(async response => {
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.message || 'Error desconocido');
+        showMessage('success', data.message);
+        form.reset();
+    })
+    .catch(error => {
+        showMessage('error', error.message);
+    });
+});
 </script>
 </body>
 </html>

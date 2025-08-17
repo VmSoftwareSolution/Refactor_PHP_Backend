@@ -110,6 +110,10 @@
             <input type="password" name="password" id="password" required>
             <button type="submit" id="submitBtn">Crear Usuario</button>
         </form>
+        <p style="margin-top: 15px; font-size: 14px; color: #555;">
+            ¿Ya tienes cuenta? 
+            <a href="http://localhost:8000/user/login" style="color: #2575fc; text-decoration: none;">Inicia sesión aquí</a>
+        </p>
     </div>
     <script>
         document.getElementById('createUserForm').addEventListener('submit', async function(e) {
@@ -129,6 +133,7 @@
                 });
                 const result = await response.json();
                 if (response.ok && result.status === 201) {
+                    window.location.href = 'http://localhost:8000/user/login';
                     showMessage('success', result.message || 'Usuario creado exitosamente');
                     form.reset();
                     clearInputErrors();

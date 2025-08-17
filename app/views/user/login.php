@@ -110,6 +110,10 @@
             <input type="password" name="password" id="password" required>
             <button type="submit" id="submitBtn">Iniciar Sesión</button>
         </form>
+        <p style="margin-top: 15px; font-size: 14px; color: #555;">
+            ¿No tienes una cuenta? 
+            <a href="http://localhost:8000/user/create" style="color: #2575fc; text-decoration: none;">Crear cuenta aquí</a>
+        </p>
     </div>
     <script>
         document.getElementById('loginForm').addEventListener('submit', async function(e) {
@@ -130,6 +134,7 @@
                 const result = await response.json();
                 if (response.ok && result.status === 200) {
                     localStorage.setItem('role_id', result.role_id);
+                    window.location.href = 'http://localhost:8000/products/list';
                     showMessage('success', result.message || 'Login exitoso');
                     form.reset();
                     clearInputErrors();

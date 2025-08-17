@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <title>Productos</title>
 <style>
-/* Layout general */
 body {
     margin: 0;
     display: flex;
@@ -13,32 +12,27 @@ body {
     min-height: 100vh;
 }
 
-/* Sidebar */
 .navbar {
     flex-shrink: 0;
 }
 
-/* Contenido */
 .main-content {
     flex-grow: 1;
     padding: 2rem;
     color: #fff;
 }
 
-/* Título */
 h1 {
     text-align: center;
     margin-bottom: 2rem;
 }
 
-/* Grid de productos */
 .container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 20px;
 }
 
-/* Tarjetas */
 .card {
     background: #fff;
     border-radius: 12px;
@@ -69,7 +63,6 @@ h1 {
     margin: 10px 0;
 }
 
-/* Acciones */
 .card .actions {
     display: flex;
     justify-content: space-between;
@@ -109,13 +102,6 @@ h1 {
                     <p>Stock: <?= htmlspecialchars($product['stock'] ?? '0') ?></p>
                     <p>Categoria: <?= htmlspecialchars($product['category'] ?? '-') ?></p>
 
-                    <div class="actions">
-                        <a href="/products/edit?id=<?= htmlspecialchars($product['id']) ?>" class="btn btn-edit">Editar</a>
-                        <form action="/products/delete" method="POST" style="display:inline;">
-                            <input type="hidden" name="id" value="<?= htmlspecialchars($product['id']) ?>">
-                            <button type="submit" class="btn btn-delete" onclick="return confirm('¿Seguro que deseas eliminar este producto?');">Eliminar</button>
-                        </form>
-                    </div>
                 </div>
             <?php endforeach; ?>
         <?php else: ?>

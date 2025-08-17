@@ -133,6 +133,7 @@
                 const result = await response.json();
                 if (response.ok && result.status === 200) {
                     localStorage.setItem('role_id', result.role_id);
+                    localStorage.setItem('id_person', result.id_person);
                     window.location.href = 'http://localhost:8000/products/list';
                     showMessage('success', result.message || 'Login exitoso');
                     form.reset();

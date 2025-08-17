@@ -159,14 +159,18 @@ class UserController {
             $email = $data['email'] ?? '';
             $password = $data['password'] ?? '';
 
-            $user = $this->service->login($email, $password);
+            $loginResult = $this->service->login($email, $password);
+            $user = $loginResult['user'];
+            $id_person = $loginResult['id_person'];
 
             JsonResponder::success([
                 'status' => 200,
                 'message' => $messages['login_success'],
-                'role_id' => $user->role_id, 
+                'role_id' => $user->role_id,
+                'id_person' => $id_person,
             ]);
         });
     }
+
 
 }

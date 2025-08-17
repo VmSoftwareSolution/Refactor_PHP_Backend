@@ -118,4 +118,25 @@ class PersonRepository {
         return (int)$row['total'] > 0;
     }
 
+    public function findByUserId(int $id_user): ?Person {
+        $stmt = $this->conn->prepare("SELECT * FROM persons WHERE id_user = ?");
+        $stmt->bind_param("i", $id_user);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($row = $result->fetch_assoc()) {
+            return new Person(
+                $row['full_name'],
+                (int)$row['id_user'],
+                $row['phone'],
+                $row['gender'],
+                $row['date_of_birth'],
+                $row['avatar'],
+                (int)$row['id'],
+                $row['create_at']
+            );
+        }
+        return null;
+    }
+
+
 }

@@ -154,4 +154,21 @@ class PersonService {
             throw new UnexcpectedErrorException($messages['unexpected_error']);
         }
     }
+
+    public function getByUserId(int $id_user): Person {
+        global $messages;
+
+        validateId($id_user);
+
+        $person = $this->repository->findByUserId($id_user);
+
+        if (!$person) {
+            throw new NotFoundException(
+                str_replace(':value', 'Persona con ID de usuario ' . $id_user, $messages['not_found'])
+            );
+        }
+
+        return $person;
+    }
+
 }

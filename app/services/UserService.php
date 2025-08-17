@@ -139,7 +139,7 @@
                 }
             }
 
-        public function login(string $email, string $password): User {
+       public function login(string $email, string $password): array {
             global $messages;
 
             validateEmail($email);
@@ -158,8 +158,21 @@
                 throw new InvalidCredentials($messages['invalid_credentials']);
             }
 
-            return $user;
+            require_once __DIR__ . '/PersonService.php';
+            $personService = new PersonService();
+            try {
+                $person = $personService->getByUserId($user->id);
+                $id_person = $person->id;
+            } catch (NotFoundException $e) {
+                $id_person = null;
+            }
+
+            return [
+                'user' => $user,
+                'id_person' => $id_person
+            ];
         }
+
 
 
     }

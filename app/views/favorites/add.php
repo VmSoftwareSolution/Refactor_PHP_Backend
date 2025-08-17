@@ -30,7 +30,7 @@ label {
     font-weight: bold;
     color: #555;
 }
-select, input[type="number"] {
+select {
     width: 100%;
     padding: 10px;
     margin-top: 5px;
@@ -70,37 +70,27 @@ button:hover {
 </style>
 </head>
 <body>
-    <?php include __DIR__ . '/../layouts/sideBar.php'; ?>
+<?php include __DIR__ . '/../layouts/sideBar.php'; ?>
 <div class="container">
     <h2>Agregar Producto a Mis Favoritos</h2>
     <div id="messageContainer"></div>
 
-    <form action="/favorites/addFavorite" method="post">
-    <label for="id_person">Selecciona Persona:</label>
-    <select id="id_person" name="id_person" required>
-        <?php foreach ($persons as $person): ?>
-            <option value="<?= htmlspecialchars($person->id) ?>">
-                <?= htmlspecialchars($person->full_name) ?>
-            </option>
-        <?php endforeach; ?>
-    </select>
+    <form id="addFavoriteForm">
+        <label for="id_product">Selecciona Producto:</label>
+        <select id="id_product" name="id_product" required>
+            <?php foreach ($products as $product): ?>
+                <option value="<?= htmlspecialchars($product->id) ?>">
+                    <?= htmlspecialchars($product->name) ?> - $<?= htmlspecialchars($product->price) ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
 
-    <label for="id_product">Selecciona Producto:</label>
-    <select id="id_product" name="id_product" required>
-        <?php foreach ($products as $product): ?>
-            <option value="<?= htmlspecialchars($product->id) ?>">
-                <?= htmlspecialchars($product->name) ?> - $<?= htmlspecialchars($product->price) ?>
-            </option>
-        <?php endforeach; ?>
-    </select>
-
-    <button type="submit">Agregar a Favoritos</button>
-</form>
-
+        <button type="submit">Agregar a Favoritos</button>
+    </form>
 </div>
 
 <script>
-const form = document.querySelector('form'); // selecciona tu único form
+const form = document.getElementById('addFavoriteForm');
 const messageContainer = document.getElementById('messageContainer');
 
 function showMessage(type, message) {
@@ -123,7 +113,14 @@ function showMessage(type, message) {
 
 form.addEventListener('submit', function(e) {
     e.preventDefault();
+    const id_person = localStorage.getItem('id_person');
+    if (!id_person) {
+        showMessage('error', 'No se encontró el ID de usuario.');
+        return;
+    }
+
     const formData = new FormData(form);
+    formData.append('id_person', id_person); 
 
     fetch('/favorites/addFavorite', { 
         method: 'POST',

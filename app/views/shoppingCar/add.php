@@ -70,22 +70,12 @@ button:hover {
 </style>
 </head>
 <body>
-    <?php include __DIR__ . '/../layouts/sideBar.php'; ?>
+<?php include __DIR__ . '/../layouts/sideBar.php'; ?>
 <div class="container">
     <h2>Agregar Producto al Carrito</h2>
     <div id="messageContainer"></div>
 
     <form id="addProductForm">
-        <label for="id_person">Persona:</label>
-        <select name="id_person" id="id_person" required>
-            <option value="">Seleccione una persona</option>
-            <?php foreach ($persons as $person): ?>
-                <option value="<?= htmlspecialchars($person->id) ?>">
-                    <?= htmlspecialchars($person->full_name) ?>
-                </option>
-            <?php endforeach; ?>
-        </select>
-
         <label for="id_product">Producto:</label>
         <select name="id_product" id="id_product" required>
             <option value="">Seleccione un producto</option>
@@ -110,7 +100,7 @@ function showMessage(type, message) {
     const icon = type === 'success' ? '✅' : '⚠️';
     const title = type === 'success' ? '¡Éxito!' : 'Error:';
     messageBox.innerHTML = `<strong>${icon} ${title}</strong> ${message}`;
-    messageContainer.innerHTML = ''; // Limpiar mensajes anteriores
+    messageContainer.innerHTML = ''; 
     messageContainer.appendChild(messageBox);
     if (type === 'success') {
         setTimeout(() => {
@@ -123,7 +113,14 @@ function showMessage(type, message) {
 
 form.addEventListener('submit', function(e) {
     e.preventDefault();
+    const id_person = localStorage.getItem('id_person');
+    if (!id_person) {
+        showMessage('error', 'No se encontró el ID de usuario.');
+        return;
+    }
+
     const formData = new FormData(form);
+    formData.append('id_person', id_person);
 
     fetch('/shoppingCar/addProduct', {
         method: 'POST',

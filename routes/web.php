@@ -1,0 +1,79 @@
+<?php
+
+$routes = [
+    '/role/create' => ['GET', 'RoleController@create'],
+    '/role/createRole'  => ['POST', 'RoleController@createRole'],
+    '/roles/findById'   => ['GET',  'RoleController@getRoleById'],
+    '/role/delete'      => ['POST', 'RoleController@deleteRole'],
+    '/role/edit'        => ['GET',  'RoleController@editRole'],
+    '/role/update'      => ['POST', 'RoleController@updateRole'],
+    '/roles'              => ['GET',  'RoleController@listRoles'],
+    '/roles/list' => ['GET', 'RoleController@listRolesView'],
+
+    '/user/create'          => ['GET', 'UserController@create'],
+    '/user/createUser'      => ['POST', 'UserController@createUser'],
+    '/user/findById'        => ['GET',  'UserController@getUserById'],
+    '/user/edit'            => ['GET',  'UserController@editUser'],
+    '/user/delete'          => ['POST', 'UserController@deleteUser'],
+    '/user/update'          => ['POST', 'UserController@updateUser'],
+    '/users'                => ['GET',  'UserController@listUsers'],
+    '/user/editUser'        => ['GET',  'UserController@changePasswordUser'],
+    '/user/changePassword'  => ['POST', 'UserController@changePassword'],
+    '/users/view' => ['GET', 'UserController@usersView'],
+    '/user/login'      => ['GET',  'UserController@loginView'],  
+    '/user/loginUser'  => ['POST', 'UserController@login'],      
+
+
+    '/persons'              => ['GET',  'PersonController@listPersons'],
+    '/persons/findById'     => ['GET',  'PersonController@getPersonById'],
+    '/persons/create'       => ['GET',  'PersonController@createPersonForm'],
+    '/persons/createPerson' => ['POST', 'PersonController@createPerson'],
+    '/persons/edit'         => ['GET',  'PersonController@editPersonForm'],
+    '/persons/update'       => ['POST', 'PersonController@updatePerson'],
+    '/persons/delete'       => ['POST', 'PersonController@deletePerson'],
+
+    '/products'                 => ['GET',  'ProductController@listProducts'],
+    '/products/create'          => ['GET',  'ProductController@create'],
+    '/products/createProduct'   => ['POST', 'ProductController@createProduct'],
+    '/products/findById'        => ['GET',  'ProductController@getProductById'],
+    '/products/delete'          => ['POST', 'ProductController@deleteProduct'],
+    '/products/edit'            => ['GET',  'ProductController@editProduct'],
+    '/products/update'          => ['POST', 'ProductController@updateProduct'],
+    '/products/list' => ['GET', 'ProductController@listProductsView'],
+
+    '/shoppingCar/show'          => ['GET', 'ShoppingCarController@getCarByPersonId'],
+    '/shoppingCar/add'           => ['GET', 'ShoppingCarController@addForm'],
+    '/shoppingCar/addProduct'    => ['POST', 'ShoppingCarController@addProductToCar'],
+    '/shoppingCar/updateMyCar'   => ['POST', 'ShoppingCarController@updateMyCar'],
+
+    '/favorites/show'         => ['GET', 'FavoriteController@getMyFav'],
+    '/favorites/add'          => ['GET', 'FavoriteController@addForm'],
+    '/favorites/addFavorite'  => ['POST', 'FavoriteController@addToFavs'],
+    '/favorites/delete'       => ['POST', 'FavoriteController@removeFromFavs'],
+    
+    '/tickets'                  => ['GET',  'TicketsController@listTickets'],
+    '/tickets/show'             => ['GET',  'TicketsController@getTicketById'],
+    '/tickets/create'           => ['GET',  'TicketsController@create'],
+    '/tickets/createTicket'     => ['POST', 'TicketsController@createTicket'],
+    '/tickets/edit'             => ['GET',  'TicketsController@editTicket'],
+    '/tickets/update'           => ['POST', 'TicketsController@updateTicket'],
+    '/tickets/list' => ['GET', 'TicketsController@listTicketsView'],
+
+    '/orders/fromCar'           => ['GET',  'OrderController@fromCar'],
+    '/orders/OrderFromCar'      => ['POST', 'OrderController@OrderFromCar'],
+    '/orders/fromProduct'       => ['GET',  'OrderController@fromProduct'],
+    '/orders/OrderFromProduct'  => ['POST', 'OrderController@OrderFromProduct'],
+    '/orders/show'              => ['GET',  'OrderController@getOrderById'],
+    '/orders/updateStatus'      => ['POST', 'OrderController@updateStatus'],
+
+    '/shipments/create'             => ['GET',  'ShipmentController@create'],
+    '/shipments/createShipment'     => ['POST', 'ShipmentController@createShipment'],
+    '/shipments/show'               => ['GET',  'ShipmentController@getShipmentById'],
+    '/shipments/updateStatus'       => ['POST', 'ShipmentController@updateStatus'],
+
+    '/payloads/create'             => ['GET',  'PayloadController@create'],
+    '/payloads/createPayload'      => ['POST', 'PayloadController@createPayload'],
+    '/payloads/show'               => ['GET',  'PayloadController@getPayloadById'],
+    '/payloads/updateStatus'       => ['POST', 'PayloadController@updateStatus'],
+
+    ];

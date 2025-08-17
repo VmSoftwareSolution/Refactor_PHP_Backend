@@ -1,3 +1,8 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Menú</title>
 <style>
 .navbar {
     background-color: #1e1e2f;
@@ -81,96 +86,18 @@
     transform: rotate(90deg);
 }
 </style>
+</head>
+<body>
 
 <div class="navbar">
     <h2>Menú</h2>
 
-    <!-- Roles -->
-    <div class="section">
-        <div class="section-header" onclick="toggleSection('rolesSection', this)">
-            Roles <span class="arrow">▶</span>
-        </div>
-        <div id="rolesSection" class="section-content">
-            <a href="/roles/list">📋 Listar Roles</a>
-            <a href="/role/create">➕ Crear Rol</a>
-            <a href="#" onclick="toggleInput('roleEdit')">✏️ Editar Rol</a>
-            <div id="roleEdit" class="input-box">
-                <input type="number" id="roleEditId" placeholder="ID Rol">
-                <button onclick="goToId('/role/edit', 'roleEditId')">Editar</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Usuarios -->
-    <div class="section">
-        <div class="section-header" onclick="toggleSection('usersSection', this)">
-            Usuarios <span class="arrow">▶</span>
-        </div>
-        <div id="usersSection" class="section-content">
-            <a href="/users/view">👥 Listar Usuarios</a>
-            <a href="/user/create">➕ Crear Usuario</a>
-            <a href="#" onclick="toggleInput('Edit')">✏️ Editar Usuario</a>
-            <div id="Edit" class="input-box">
-                <input type="number" id="editId" placeholder="ID Usuario">
-                <button onclick="goToId('/user/edit', 'editId')">Editar</button>
-            </div>
-            <a href="#" onclick="toggleInput('EditPassword')">✏️ Editar Contraseña</a>
-             <div id="EditPassword" class="input-box">
-                <input type="number" id="userEditId" placeholder="ID Usuario">
-                <button onclick="goToId('/user/editUser', 'userEditId')">Editar</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Personas -->
-    <div class="section">
-        <div class="section-header" onclick="toggleSection('personsSection', this)">
-            Personas <span class="arrow">▶</span>
-        </div>
-        <div id="personsSection" class="section-content">
-            <a href="/persons">👤 Listar Personas</a>
-            <a href="/persons/create">➕ Crear Persona</a>
-            <a href="#" onclick="toggleInput('personShow')">🔍 Buscar Persona</a>
-            <div id="personShow" class="input-box">
-                <input type="number" id="personId" placeholder="ID Persona">
-                <button onclick="goToId('/persons/findById', 'personId')">Ir</button>
-            </div>
-            <a href="#" onclick="toggleInput('personEdit')">✏️ Editar Persona</a>
-            <div id="personEdit" class="input-box">
-                <input type="number" id="personEditId" placeholder="ID Persona">
-                <button onclick="goToId('/persons/edit', 'personEditId')">Editar</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Productos -->
-    <div class="section">
-        <div class="section-header" onclick="toggleSection('productsSection', this)">
-            Productos <span class="arrow">▶</span>
-        </div>
-        <div id="productsSection" class="section-content">
-            <a href="/products/list">📦 Listar Productos</a>
-            <a href="/products/create">➕ Crear Producto</a>
-            <a href="#" onclick="toggleInput('productShow')">🔍 Buscar Producto</a>
-            <div id="productShow" class="input-box">
-                <input type="number" id="productId" placeholder="ID Producto">
-                <button onclick="goToId('/products/findById', 'productId')">Ir</button>
-            </div>
-            <a href="#" onclick="toggleInput('productEdit')">✏️ Editar Producto</a>
-            <div id="productEdit" class="input-box">
-                <input type="number" id="productEditId" placeholder="ID Producto">
-                <button onclick="goToId('/products/edit', 'productEditId')">Editar</button>
-            </div>
-        </div>
-    </div>
-
     <!-- Tickets -->
-    <div class="section">
+    <div class="section" id="ticketsSectionWrapper">
         <div class="section-header" onclick="toggleSection('ticketsSection', this)">
             Tickets <span class="arrow">▶</span>
         </div>
         <div id="ticketsSection" class="section-content">
-            <a href="/tickets/list">🎟️ Listar Tickets</a>
             <a href="/tickets/create">➕ Crear Ticket</a>
             <a href="#" onclick="toggleInput('ticketEdit')">✏️ Editar Ticket</a>
             <div id="ticketEdit" class="input-box">
@@ -180,38 +107,8 @@
         </div>
     </div>
 
-       <!-- ShoppingCar -->
-    <div class="section">
-        <div class="section-header" onclick="toggleSection('shoppingCarSection', this)">
-            Carrito <span class="arrow">▶</span>
-        </div>
-        <div id="shoppingCarSection" class="section-content">
-            <a href="#" onclick="toggleInput('shoppingCar')">🛒 Ver Mi Carrito</a>
-            <div id="shoppingCar" class="input-box">
-                <input type="number" id="id" placeholder="ID shoppingCar">
-               <button onclick="goToId('/shoppingCar/show', 'id', 'id_person')">Buscar</button>
-            </div>
-            <a href="/shoppingCar/add">➕ Agregar Producto</a>
-        </div>
-    </div>
-
-    <!-- Favorites -->
-    <div class="section">
-        <div class="section-header" onclick="toggleSection('favoritesSection', this)">
-            Favoritos <span class="arrow">▶</span>
-        </div>
-        <div id="favoritesSection" class="section-content">
-            <a href="#" onclick="toggleInput('favorites')">⭐ Mis Favoritos</a>
-            <div id="favorites" class="input-box">
-                <input type="number" id="favoriteId" placeholder="ID Favorito">
-                <button onclick="goToId('/favorites/show', 'favoriteId', 'id_person')">Buscar</button>
-            </div>
-            <a href="/favorites/add">➕ Agregar a Favoritos</a>
-        </div>
-    </div>
-
-    <!-- Orders -->
-    <div class="section">
+    <!-- Órdenes -->
+    <div class="section" id="ordersSectionWrapper">
         <div class="section-header" onclick="toggleSection('ordersSection', this)">
             Órdenes <span class="arrow">▶</span>
         </div>
@@ -226,35 +123,46 @@
         </div>
     </div>
 
-    <!-- Shipments -->
-    <div class="section">
-        <div class="section-header" onclick="toggleSection('shipmentsSection', this)">
-            Envíos <span class="arrow">▶</span>
+    <!-- Carrito -->
+    <div class="section" id="shoppingCarSectionWrapper">
+        <div class="section-header" onclick="toggleSection('shoppingCarSection', this)">
+            Carrito <span class="arrow">▶</span>
         </div>
-        <div id="shipmentsSection" class="section-content">
-            <a href="/shipments/create">🚚 Crear Envío</a>
-            <a href="#" onclick="toggleInput('shipmentShow')">🔍 Buscar Envío</a>
-            <div id="shipmentShow" class="input-box">
-                <input type="number" id="shipmentId" placeholder="ID Envío">
-                <button onclick="goToId('/shipments/show', 'shipmentId')">Ir</button>
+        <div id="shoppingCarSection" class="section-content">
+            <a href="#" onclick="toggleInput('shoppingCar')">🛒 Ver Mi Carrito</a>
+            <div id="shoppingCar" class="input-box">
+                <input type="number" id="id" placeholder="ID shoppingCar">
+                <button onclick="goToId('/shoppingCar/show', 'id', 'id_person')">Buscar</button>
             </div>
+            <a href="/shoppingCar/add">➕ Agregar Producto</a>
         </div>
     </div>
 
-    <!-- Payloads -->
-    <div class="section">
+    <!-- Favoritos -->
+    <div class="section" id="favoritesSectionWrapper">
+        <div class="section-header" onclick="toggleSection('favoritesSection', this)">
+            Favoritos <span class="arrow">▶</span>
+        </div>
+        <div id="favoritesSection" class="section-content">
+            <a href="#" onclick="toggleInput('favorites')">⭐ Mis Favoritos</a>
+            <div id="favorites" class="input-box">
+                <input type="number" id="favoriteId" placeholder="ID Favorito">
+                <button onclick="goToId('/favorites/show', 'favoriteId', 'id_person')">Buscar</button>
+            </div>
+            <a href="/favorites/add">➕ Agregar a Favoritos</a>
+        </div>
+    </div>
+
+    <!-- Pagos -->
+    <div class="section" id="payloadsSectionWrapper">
         <div class="section-header" onclick="toggleSection('payloadsSection', this)">
             Pagos <span class="arrow">▶</span>
         </div>
         <div id="payloadsSection" class="section-content">
             <a href="/payloads/create">💳 Crear Pago</a>
-            <a href="#" onclick="toggleInput('payloadShow')">🔍 Buscar Pago</a>
-            <div id="payloadShow" class="input-box">
-                <input type="number" id="payloadId" placeholder="ID Pago">
-                <button onclick="goToId('/payloads/show', 'payloadId')">Ir</button>
-            </div>
         </div>
     </div>
+
 </div>
 
 <script>
@@ -264,10 +172,7 @@ function toggleInput(id) {
 }
 function goToId(baseRoute, inputId, paramName = "id") {
     const id = document.getElementById(inputId).value.trim();
-    if (!id) {
-        alert("Por favor ingresa un ID");
-        return;
-    }
+    if (!id) { alert("Por favor ingresa un ID"); return; }
     window.location.href = baseRoute + "?" + paramName + "=" + id;
 }
 function toggleSection(sectionId, header) {
@@ -282,4 +187,37 @@ function toggleSection(sectionId, header) {
         arrow.classList.add("open");
     }
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    const roleId = localStorage.getItem('role_id');
+
+    if(roleId === "1"){
+        const ticketsContent = document.getElementById("ticketsSection");
+        Array.from(ticketsContent.children).forEach(el => {
+            if(!el.textContent.includes("Crear Ticket")) el.style.display = "none";
+        });
+
+        const ordersContent = document.getElementById("ordersSection");
+        Array.from(ordersContent.children).forEach(el => {
+            if(el.textContent.includes("Buscar Orden")) el.style.display = "none";
+        });
+
+        const payloadsContent = document.getElementById("payloadsSection");
+        Array.from(payloadsContent.children).forEach(el => {
+            if(!el.textContent.includes("Crear Pago")) el.style.display = "none";
+        });
+
+        ["shoppingCarSectionWrapper", "favoritesSectionWrapper"].forEach(id => {
+            document.getElementById(id).style.display = "block";
+        });
+
+    } else if(roleId === "2"){
+        ["ticketsSectionWrapper","ordersSectionWrapper","shoppingCarSectionWrapper","favoritesSectionWrapper","payloadsSectionWrapper"].forEach(id => {
+            document.getElementById(id).style.display = "block";
+        });
+    }
+});
 </script>
+
+</body>
+</html>

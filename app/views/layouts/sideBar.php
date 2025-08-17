@@ -165,15 +165,14 @@ function goToFavorites() {
     window.location.href = '/favorites/show?id_person=' + personId;
 }
 
-// Mostrar/ocultar secciones según rol
 document.addEventListener('DOMContentLoaded', function() {
     const roleId = localStorage.getItem('role_id');
 
-    if(roleId === "1"){ // Cliente
+    if(roleId === "1"){ 
         ["shoppingCarSectionWrapper", "favoritesSectionWrapper"].forEach(id => {
             document.getElementById(id).style.display = "block";
         });
-    } else if(roleId === "2"){ // Admin
+    } else if(roleId === "2"){ 
         ["ticketsSectionWrapper","ordersSectionWrapper","shoppingCarSectionWrapper","favoritesSectionWrapper","payloadsSectionWrapper"].forEach(id => {
             document.getElementById(id).style.display = "block";
         });

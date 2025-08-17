@@ -86,11 +86,10 @@
                             <td><?= htmlspecialchars($p['name']) ?></td>
                             <td>$<?= number_format($p['price'], 0) ?></td>
                             <td>
-                                <form action="/favorites/delete" method="POST" style="display:inline;">
-                                    <input type="hidden" name="id_person" value="<?= $id_person ?>">
-                                    <input type="hidden" name="name" value="<?= htmlspecialchars($p['name']) ?>">
-                                    <button type="submit" class="btn-delete">Eliminar</button>
-                                </form>
+                                <button class="btn-delete" 
+                                        onclick="removeFavorite('<?= $id_person ?>', '<?= htmlspecialchars($p['name'], ENT_QUOTES) ?>')">
+                                    Eliminar
+                                </button>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -98,5 +97,33 @@
             </table>
         <?php endif; ?>
     </div>
+
+    <script>
+        async function removeFavorite(id_person, name) {
+            if (!confirm(`¿Seguro que quieres eliminar "${name}" de tus favoritos?`)) return;
+
+            try {
+                const formData = new FormData();
+                formData.append('id_person', id_person);
+                formData.append('name', name);
+
+                const response = await fetch('/favorites/delete', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    window.location.reload();
+                } else {
+                    alert(result.message || 'Ocurrió un error al eliminar');
+                }
+            } catch (error) {
+                console.error(error);
+                alert('Error de conexión. Intenta nuevamente.');
+            }
+        }
+    </script>
 </body>
 </html>

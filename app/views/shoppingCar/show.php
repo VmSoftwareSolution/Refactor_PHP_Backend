@@ -110,22 +110,20 @@
                         <tr>
                             <td><?= htmlspecialchars($p['name']) ?></td>
                             <td>
-                                <form action="/shoppingCar/updateMyCar" method="POST" style="display:inline;">
-                                    <input type="hidden" name="id_person" value="<?= (int)$car['id_person'] ?>">
-                                    <input type="hidden" name="name" value="<?= htmlspecialchars($p['name']) ?>">
-                                    <input type="number" name="quantity" value="<?= (int)$p['quantity'] ?>" min="0">
-                                    <button type="submit" class="btn-update">Actualizar</button>
-                                </form>
+                                <input type="number" id="quantity-<?= htmlspecialchars($p['name'], ENT_QUOTES) ?>" 
+                                       value="<?= (int)$p['quantity'] ?>" min="0">
                             </td>
                             <td>$<?= number_format($p['price'], 0) ?></td>
                             <td>$<?= number_format($p['price'] * $p['quantity'], 0) ?></td>
                             <td>
-                                <form action="/shoppingCar/updateMyCar" method="POST" style="display:inline;">
-                                    <input type="hidden" name="id_person" value="<?= (int)$car['id_person'] ?>">
-                                    <input type="hidden" name="name" value="<?= htmlspecialchars($p['name']) ?>">
-                                    <input type="hidden" name="quantity" value="0">
-                                    <button type="submit" class="btn-delete">Eliminar</button>
-                                </form>
+                                <button class="btn-update" 
+                                        onclick="updateQuantity('<?= htmlspecialchars($p['name'], ENT_QUOTES) ?>')">
+                                    Actualizar
+                                </button>
+                                <button class="btn-delete" 
+                                        onclick="deleteProduct('<?= htmlspecialchars($p['name'], ENT_QUOTES) ?>')">
+                                    Eliminar
+                                </button>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -139,5 +137,74 @@
             </table>
         <?php endif; ?>
     </div>
+
+    <script>
+        const id_person = localStorage.getItem('id_person');
+
+        async function updateQuantity(name) {
+            const quantityInput = document.getElementById(`quantity-${name}`);
+            const quantity = quantityInput.value;
+
+            if (!id_person) {
+                alert("No se encontró el ID de usuario.");
+                return;
+            }
+
+            try {
+                const formData = new FormData();
+                formData.append('id_person', id_person);
+                formData.append('name', name);
+                formData.append('quantity', quantity);
+
+                const response = await fetch('/shoppingCar/updateMyCar', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    window.location.reload();
+                } else {
+                    alert(result.message || 'Error al actualizar la cantidad.');
+                }
+            } catch (error) {
+                console.error(error);
+                alert('Error de conexión. Intenta nuevamente.');
+            }
+        }
+
+        async function deleteProduct(name) {
+            if (!confirm(`¿Seguro que quieres eliminar "${name}" del carrito?`)) return;
+
+            if (!id_person) {
+                alert("No se encontró el ID de usuario.");
+                return;
+            }
+
+            try {
+                const formData = new FormData();
+                formData.append('id_person', id_person);
+                formData.append('name', name);
+                formData.append('quantity', 0);
+
+                const response = await fetch('/shoppingCar/updateMyCar', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    window.location.reload();
+                } else {
+                    alert(result.message || 'Error al eliminar el producto.');
+                }
+            } catch (error) {
+                console.error(error);
+                alert('Error de conexión. Intenta nuevamente.');
+            }
+        }
+    </script>
 </body>
 </html>

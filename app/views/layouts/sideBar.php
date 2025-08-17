@@ -45,39 +45,20 @@
     margin-left: 10px;
     margin-top: 5px;
 }
-.section-content a {
+.section-content a, .section-content button {
     color: #ccc;
     text-decoration: none;
     padding: 8px;
     border-radius: 5px;
     transition: background 0.2s;
-}
-.section-content a:hover {
-    background: #333;
-    color: white;
-}
-.input-box {
-    margin: 8px 0;
-    display: none;
-    flex-direction: column;
-    gap: 6px;
-}
-.input-box input {
-    padding: 6px;
-    border-radius: 5px;
+    background: none;
     border: none;
-    outline: none;
-}
-.input-box button {
-    padding: 6px;
-    border: none;
-    background: #2575fc;
-    color: white;
-    border-radius: 5px;
+    text-align: left;
     cursor: pointer;
 }
-.input-box button:hover {
-    background: #1a5fd8;
+.section-content a:hover, .section-content button:hover {
+    background: #333;
+    color: white;
 }
 .arrow {
     transition: transform 0.3s;
@@ -99,11 +80,7 @@
         </div>
         <div id="ticketsSection" class="section-content">
             <a href="/tickets/create">➕ Crear Ticket</a>
-            <a href="#" onclick="toggleInput('ticketEdit')">✏️ Editar Ticket</a>
-            <div id="ticketEdit" class="input-box">
-                <input type="number" id="ticketEditId" placeholder="ID Ticket">
-                <button onclick="goToId('/tickets/edit', 'ticketEditId')">Editar</button>
-            </div>
+            <a href="/tickets/edit">✏️ Editar Ticket</a>
         </div>
     </div>
 
@@ -115,11 +92,6 @@
         <div id="ordersSection" class="section-content">
             <a href="/orders/fromCar">🛒 Orden desde Carrito</a>
             <a href="/orders/fromProduct">📦 Orden desde Producto</a>
-            <a href="#" onclick="toggleInput('orderShow')">🔍 Buscar Orden</a>
-            <div id="orderShow" class="input-box">
-                <input type="number" id="orderId" placeholder="ID Orden">
-                <button onclick="goToId('/orders/show', 'orderId')">Ir</button>
-            </div>
         </div>
     </div>
 
@@ -129,11 +101,9 @@
             Carrito <span class="arrow">▶</span>
         </div>
         <div id="shoppingCarSection" class="section-content">
-            <a href="#" onclick="toggleInput('shoppingCar')">🛒 Ver Mi Carrito</a>
-            <div id="shoppingCar" class="input-box">
-                <input type="number" id="id" placeholder="ID shoppingCar">
-                <button onclick="goToId('/shoppingCar/show', 'id', 'id_person')">Buscar</button>
-            </div>
+            <button onclick="goToShoppingCar()">
+                🛒 Ver Mi Carrito
+            </button>
             <a href="/shoppingCar/add">➕ Agregar Producto</a>
         </div>
     </div>
@@ -144,11 +114,9 @@
             Favoritos <span class="arrow">▶</span>
         </div>
         <div id="favoritesSection" class="section-content">
-            <a href="#" onclick="toggleInput('favorites')">⭐ Mis Favoritos</a>
-            <div id="favorites" class="input-box">
-                <input type="number" id="favoriteId" placeholder="ID Favorito">
-                <button onclick="goToId('/favorites/show', 'favoriteId', 'id_person')">Buscar</button>
-            </div>
+            <button onclick="goToFavorites()">
+                ⭐ Mis Favoritos
+            </button>
             <a href="/favorites/add">➕ Agregar a Favoritos</a>
         </div>
     </div>
@@ -166,15 +134,6 @@
 </div>
 
 <script>
-function toggleInput(id) {
-    const box = document.getElementById(id);
-    box.style.display = (box.style.display === "flex") ? "none" : "flex";
-}
-function goToId(baseRoute, inputId, paramName = "id") {
-    const id = document.getElementById(inputId).value.trim();
-    if (!id) { alert("Por favor ingresa un ID"); return; }
-    window.location.href = baseRoute + "?" + paramName + "=" + id;
-}
 function toggleSection(sectionId, header) {
     const section = document.getElementById(sectionId);
     const arrow = header.querySelector(".arrow");
@@ -188,30 +147,33 @@ function toggleSection(sectionId, header) {
     }
 }
 
+function goToShoppingCar() {
+    const personId = localStorage.getItem('id_person');
+    if (!personId) {
+        alert("No se encontró el ID de la persona en localStorage");
+        return;
+    }
+    window.location.href = '/shoppingCar/show?id_person=' + personId;
+}
+
+function goToFavorites() {
+    const personId = localStorage.getItem('id_person');
+    if (!personId) {
+        alert("No se encontró el ID de la persona en localStorage");
+        return;
+    }
+    window.location.href = '/favorites/show?id_person=' + personId;
+}
+
+// Mostrar/ocultar secciones según rol
 document.addEventListener('DOMContentLoaded', function() {
     const roleId = localStorage.getItem('role_id');
 
-    if(roleId === "1"){
-        const ticketsContent = document.getElementById("ticketsSection");
-        Array.from(ticketsContent.children).forEach(el => {
-            if(!el.textContent.includes("Crear Ticket")) el.style.display = "none";
-        });
-
-        const ordersContent = document.getElementById("ordersSection");
-        Array.from(ordersContent.children).forEach(el => {
-            if(el.textContent.includes("Buscar Orden")) el.style.display = "none";
-        });
-
-        const payloadsContent = document.getElementById("payloadsSection");
-        Array.from(payloadsContent.children).forEach(el => {
-            if(!el.textContent.includes("Crear Pago")) el.style.display = "none";
-        });
-
+    if(roleId === "1"){ // Cliente
         ["shoppingCarSectionWrapper", "favoritesSectionWrapper"].forEach(id => {
             document.getElementById(id).style.display = "block";
         });
-
-    } else if(roleId === "2"){
+    } else if(roleId === "2"){ // Admin
         ["ticketsSectionWrapper","ordersSectionWrapper","shoppingCarSectionWrapper","favoritesSectionWrapper","payloadsSectionWrapper"].forEach(id => {
             document.getElementById(id).style.display = "block";
         });

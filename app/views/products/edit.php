@@ -63,6 +63,7 @@ button:hover {
 </style>
 </head>
 <body>
+    <?php include __DIR__ . '/../layouts/sideBar.php'; ?>
 <div class="container">
     <h2>Editar Producto</h2>
 

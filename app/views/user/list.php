@@ -70,6 +70,7 @@ button:hover {
 </style>
 </head>
 <body>
+    <?php include __DIR__ . '/../layouts/sideBar.php'; ?>
 <div class="container">
     <h2>Usuarios Registrados</h2>
     <div id="messageContainer"></div>

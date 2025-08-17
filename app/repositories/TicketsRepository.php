@@ -76,8 +76,10 @@ class TicketsRepository {
     public function update(Tickets $ticket): bool {
         $stmt = $this->conn->prepare("UPDATE tickets SET tittle = ?, message = ?, priority = ?, status = ?, id_person = ?, created_at = ? WHERE id = ?");
         $stmt->bind_param("ssssisi", $ticket->tittle, $ticket->message, $ticket->priority, $ticket->status, $ticket->id_person, $ticket->created_at ,$ticket->id);
-
+        
+        if (!$stmt->execute()) {
+            throw new Exception("Error en UPDATE: " . $stmt->error);
+        }
         return $stmt->execute();
-
     }
 }

@@ -85,6 +85,7 @@ select.error {
 </style>
 </head>
 <body>
+    <?php include __DIR__ . '/../layouts/sideBar.php'; ?>
 <div class="container">
     <h2>Crear Orden Desde El Carrito</h2>
     <div id="messageContainer"></div>

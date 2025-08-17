@@ -66,6 +66,7 @@ tr:hover {
 </style>
 </head>
 <body>
+    <?php include __DIR__ . '/../layouts/sideBar.php'; ?>
 <div class="container">
     <h2>Lista de Tickets</h2>
     <div id="messageContainer"></div>

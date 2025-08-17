@@ -74,6 +74,7 @@ input.error, select.error {
 </style>
 </head>
 <body>
+    <?php include __DIR__ . '/../layouts/sideBar.php'; ?>
 <div class="container">
     <h2>Editar Ticket</h2>
     <div id="messageContainer"></div>
@@ -113,8 +114,12 @@ input.error, select.error {
         </select>
 
 
-        <label>Creado el</label>
-        <div style="padding:10px; background:#f4f4f4; border-radius:8px;"><?= htmlspecialchars($ticket->created_at) ?></div>
+        <label for="created_at">Creado el</label>
+        <input type="hidden" id="created_at" name="created_at" value="<?= htmlspecialchars($ticket->created_at) ?>">
+        <div style="padding:10px; background:#f4f4f4; border-radius:8px;">
+        <?= htmlspecialchars($ticket->created_at) ?>
+        </div>
+
 
         <button type="submit" id="submitBtn">Actualizar Ticket</button>
     </form>

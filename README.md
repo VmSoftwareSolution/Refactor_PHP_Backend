@@ -12,4 +12,4 @@ C:\xampp\php>
 
 Ejecutar el comando
 
-php -S localhost:8000 -t "C:\Users\Juan E\Proyectos\Refactor_PHP_Backend\ShopNext-Beta\public"
+php -S localhost:8000 -t "C:\Users\Juan E\Proyectos\Refactor_PHP_Backend\app\public"

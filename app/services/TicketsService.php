@@ -82,11 +82,11 @@ class TicketsService {
         $status   = strtolower(trim($status));
 
        if (!in_array($priority, $this->validPriorities, true)) {
-            throw new InvalidDataException($message['invalid_data'] . implode(', ', $this->validPriorities));
+            throw new InvalidDataException($messages['invalid_data'] . implode(', ', $this->validPriorities));
         }
 
         if (!in_array($status, $this->validStatuses, true)) {
-            throw new InvalidDataException($message['invalid_data']  . implode(', ', $this->validStatuses));
+            throw new InvalidDataException($messages['invalid_data']  . implode(', ', $this->validStatuses));
         }
 
         $ticket = new Tickets($tittle, $message, $priority, $status, $id_person, $created_at, $id);

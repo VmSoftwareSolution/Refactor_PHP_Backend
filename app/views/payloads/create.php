@@ -85,6 +85,7 @@ select.error {
 </style>
 </head>
 <body>
+    <?php include __DIR__ . '/../layouts/sideBar.php'; ?>
 <div class="container">
     <h2>Crear Pago</h2>
 

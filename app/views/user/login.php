@@ -99,6 +99,7 @@
     </style>
 </head>
 <body>
+    <?php include __DIR__ . '/../layouts/sideBar.php'; ?>
     <div class="container">
         <h2>Login</h2>
         <div id="messageContainer"></div>

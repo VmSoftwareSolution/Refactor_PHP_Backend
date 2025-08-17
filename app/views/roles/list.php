@@ -83,6 +83,7 @@ button:hover {
 </style>
 </head>
 <body>
+    <?php include __DIR__ . '/../layouts/sideBar.php'; ?>
 <div class="container">
     <h2>Roles Registrados</h2>
     <div id="messageContainer"></div>

@@ -4,17 +4,41 @@
 <meta charset="UTF-8">
 <title>Productos</title>
 <style>
+/* Layout general */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
-    padding: 2rem;
+    display: flex;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(135deg, #6a11cb, #2575fc);
+    min-height: 100vh;
 }
+
+/* Sidebar */
+.navbar {
+    flex-shrink: 0;
+}
+
+/* Contenido */
+.main-content {
+    flex-grow: 1;
+    padding: 2rem;
+    color: #fff;
+}
+
+/* Título */
+h1 {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+/* Grid de productos */
 .container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 20px;
 }
+
+/* Tarjetas */
 .card {
     background: #fff;
     border-radius: 12px;
@@ -23,6 +47,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    color: #333;
 }
 .card img {
     max-width: 100%;
@@ -32,7 +57,6 @@ body {
 .card h3 {
     margin: 0 0 10px 0;
     font-size: 1.2rem;
-    color: #333;
 }
 .card p {
     margin: 5px 0;
@@ -44,6 +68,8 @@ body {
     color: #2575fc;
     margin: 10px 0;
 }
+
+/* Acciones */
 .card .actions {
     display: flex;
     justify-content: space-between;
@@ -65,31 +91,37 @@ body {
 </style>
 </head>
 <body>
-<h1 style="text-align:center; color:#fff; margin-bottom:2rem;">Lista de Productos</h1>
-<div class="container">
-<?php if (!empty($products)) : ?>
-    <?php foreach ($products as $product) : ?>
-        <div class="card">
-            <?php if(!empty($product['image'])): ?>
-                <img src="<?= htmlspecialchars($product['image']) ?>" alt="<?= htmlspecialchars($product['name'] ?? '') ?>">
-            <?php endif; ?>
-            <h3><?= htmlspecialchars($product['name'] ?? '') ?></h3>
-            <p><?= htmlspecialchars($product['description'] ?? '') ?></p>
-            <p class="price">$<?= htmlspecialchars($product['price'] ?? '0') ?></p>
-            <p>Stock: <?= htmlspecialchars($product['stock'] ?? '0') ?></p>
-            <p>Categoria: <?= htmlspecialchars($product['category'] ?? '-') ?></p>
-            <div class="actions">
-                <a href="/products/edit?id=<?= htmlspecialchars($product['id']) ?>" class="btn btn-edit">Editar</a>
-                <form action="/products/delete" method="POST" style="display:inline;">
-                    <input type="hidden" name="id" value="<?= htmlspecialchars($product['id']) ?>">
-                    <button type="submit" class="btn btn-delete" onclick="return confirm('¿Seguro que deseas eliminar este producto?');">Eliminar</button>
-                </form>
-            </div>
+    <?php include __DIR__ . '/../layouts/sideBar.php'; ?>
+
+    <div class="main-content">
+        <h1>Lista de Productos</h1>
+
+        <div class="container">
+        <?php if (!empty($products)) : ?>
+            <?php foreach ($products as $product) : ?>
+                <div class="card">
+                    <?php if(!empty($product['image'])): ?>
+                        <img src="<?= htmlspecialchars($product['image']) ?>" alt="<?= htmlspecialchars($product['name'] ?? '') ?>">
+                    <?php endif; ?>
+                    <h3><?= htmlspecialchars($product['name'] ?? '') ?></h3>
+                    <p><?= htmlspecialchars($product['description'] ?? '') ?></p>
+                    <p class="price">$<?= htmlspecialchars($product['price'] ?? '0') ?></p>
+                    <p>Stock: <?= htmlspecialchars($product['stock'] ?? '0') ?></p>
+                    <p>Categoria: <?= htmlspecialchars($product['category'] ?? '-') ?></p>
+
+                    <div class="actions">
+                        <a href="/products/edit?id=<?= htmlspecialchars($product['id']) ?>" class="btn btn-edit">Editar</a>
+                        <form action="/products/delete" method="POST" style="display:inline;">
+                            <input type="hidden" name="id" value="<?= htmlspecialchars($product['id']) ?>">
+                            <button type="submit" class="btn btn-delete" onclick="return confirm('¿Seguro que deseas eliminar este producto?');">Eliminar</button>
+                        </form>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <p style="text-align:center; grid-column:1/-1;">No hay productos disponibles</p>
+        <?php endif; ?>
         </div>
-    <?php endforeach; ?>
-<?php else: ?>
-    <p style="color:#fff; text-align:center; grid-column:1/-1;">No hay productos disponibles</p>
-<?php endif; ?>
-</div>
+    </div>
 </body>
 </html>

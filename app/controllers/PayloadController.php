@@ -55,8 +55,8 @@ class PayloadController {
             $result = $this->service->changePayloadStatus($id, $status);
 
             JsonResponder::success([
+                'status' => 200,
                 'message' => $messages['updated_successfully'],
-                'order' => $result
             ]);
         });
     }

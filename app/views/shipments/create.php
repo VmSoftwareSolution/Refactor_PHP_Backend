@@ -82,6 +82,7 @@ input.error {
 </style>
 </head>
 <body>
+    <?php include __DIR__ . '/../layouts/sideBar.php'; ?>
 <div class="container">
     <h1>Crear Entrega</h1>
 

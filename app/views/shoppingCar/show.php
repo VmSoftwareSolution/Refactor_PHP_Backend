@@ -88,6 +88,7 @@
     </style>
 </head>
 <body>
+    <?php include __DIR__ . '/../layouts/sideBar.php'; ?>
     <div class="container">
         <h1>🛒 Carrito de Compras</h1>
 

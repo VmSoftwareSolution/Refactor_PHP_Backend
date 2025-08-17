@@ -80,6 +80,7 @@ a.cancel-link:hover {
 </style>
 </head>
 <body>
+    <?php include __DIR__ . '/../layouts/sideBar.php'; ?>
 <div class="container">
     <h2>Crear Persona</h2>
     <div id="messageContainer"></div>

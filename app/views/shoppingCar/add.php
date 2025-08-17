@@ -70,6 +70,7 @@ button:hover {
 </style>
 </head>
 <body>
+    <?php include __DIR__ . '/../layouts/sideBar.php'; ?>
 <div class="container">
     <h2>Agregar Producto al Carrito</h2>
     <div id="messageContainer"></div>

@@ -22,6 +22,7 @@
     </style>
 </head>
 <body>
+    <?php include __DIR__ . '/../layouts/sideBar.php'; ?>
     <h1 style="text-align:center;">FAVORITOS</h1>
 
     <?php if (!$fav || empty($fav['products'])): ?>

@@ -114,30 +114,43 @@
             <a href="http://localhost:8000/user/create" style="color: #2575fc; text-decoration: none;">Crear cuenta aquí</a>
         </p>
     </div>
+
     <script>
-        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+        const form = document.getElementById('loginForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const messageContainer = document.getElementById('messageContainer');
+
+        form.addEventListener('submit', async function(e) {
             e.preventDefault();
-            const form = e.target;
-            const submitBtn = document.getElementById('submitBtn');
-            const messageContainer = document.getElementById('messageContainer');
             const formData = new FormData(form);
             messageContainer.innerHTML = '';
             submitBtn.disabled = true;
             submitBtn.textContent = 'Iniciando sesión...';
             form.classList.add('loading');
+
             try {
                 const response = await fetch('/user/loginUser', {
                     method: 'POST',
                     body: formData
                 });
                 const result = await response.json();
+
                 if (response.ok && result.status === 200) {
                     localStorage.setItem('role_id', result.role_id);
                     localStorage.setItem('id_person', result.id_person);
-                    window.location.href = 'http://localhost:8000/products/list';
+
                     showMessage('success', result.message || 'Login exitoso');
                     form.reset();
                     clearInputErrors();
+
+                    setTimeout(() => {
+                        const idPerson = localStorage.getItem('id_person');
+                        if (!idPerson || idPerson === "null") {
+                            window.location.href = 'http://localhost:8000/persons/create';
+                        } else {
+                            window.location.href = 'http://localhost:8000/products/list';
+                        }
+                    }, 500); 
                 } else {
                     showMessage('error', result.message || 'Credenciales inválidas');
                     highlightErrorFields(result.errors || {});
@@ -152,13 +165,13 @@
         });
 
         function showMessage(type, message) {
-            const messageContainer = document.getElementById('messageContainer');
             const messageBox = document.createElement('div');
             messageBox.className = `message-box ${type}`;
             const icon = type === 'success' ? '✅' : '⚠️';
             const title = type === 'success' ? '¡Éxito!' : 'Error:';
             messageBox.innerHTML = `<strong>${icon} ${title}</strong> ${message}`;
             messageContainer.appendChild(messageBox);
+
             if (type === 'success') {
                 setTimeout(() => {
                     messageBox.style.opacity = '0';

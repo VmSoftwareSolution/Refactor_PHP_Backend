@@ -80,7 +80,6 @@ a.cancel-link:hover {
 </style>
 </head>
 <body>
-    <?php include __DIR__ . '/../layouts/sideBar.php'; ?>
 <div class="container">
     <h2>Crear Persona</h2>
     <div id="messageContainer"></div>
@@ -140,7 +139,7 @@ function showMessage(type, message) {
             setTimeout(() => {
                 if (messageBox.parentNode) messageBox.parentNode.removeChild(messageBox);
             }, 500);
-        }, 5000);
+        }, 3000);
     }
 }
 
@@ -160,7 +159,7 @@ form.addEventListener('submit', async (e) => {
             showMessage('error', data.error || 'Ocurrió un error');
         } else {
             showMessage('success', 'Persona creada correctamente');
-            setTimeout(() => window.location.href = '/persons', 1000);
+            setTimeout(() => window.location.href = '/user/login', 1000);
         }
     } catch (err) {
         showMessage('error', 'Error de conexión con el servidor');

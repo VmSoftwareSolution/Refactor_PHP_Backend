@@ -132,7 +132,7 @@
                 });
                 const result = await response.json();
                 if (response.ok && result.status === 201) {
-                    window.location.href = 'http://localhost:8000/user/login';
+                    window.location.href = 'http://localhost:8000/persons/create';
                     showMessage('success', result.message || 'Usuario creado exitosamente');
                     form.reset();
                     clearInputErrors();

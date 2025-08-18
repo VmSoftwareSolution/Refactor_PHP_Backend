@@ -198,6 +198,7 @@
                 if (response.ok && result.status === 200) {
                     localStorage.setItem('role_id', result.role_id);
                     localStorage.setItem('id_person', result.id_person);
+                    localStorage.setItem('id_user', result.id_user);
 
                     showMessage('success', result.message || 'Login exitoso');
                     form.reset();

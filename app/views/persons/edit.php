@@ -5,12 +5,49 @@
 <title>Editar Perfil</title>
 <style>
     body {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-        background-color: #f0f0f0;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        display: flex;
+        background-color: #f0f2f5;
+    }
+    .sidebar {
+        background-color: #fff;
+        padding: 40px;
+        width: 250px;
+        min-height: 100vh;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+    }
+    .sidebar h3 {
+        color: #555;
+        font-size: 16px;
+        margin-top: 0;
+        margin-bottom: 20px;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+    .sidebar ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    .sidebar li {
+        margin-bottom: 5px;
+    }
+    .sidebar a {
+        display: block;
+        padding: 12px 15px;
+        color: #555;
+        text-decoration: none;
+        border-radius: 6px;
+        transition: background-color 0.3s, color 0.3s;
+    }
+    .sidebar a.active, .sidebar a:hover {
+        background-color: #8b5cf6;
+        color: white;
+    }
+    .main-content {
+        flex-grow: 1;
+        padding: 40px;
     }
     .container {
         background: #fff;
@@ -18,7 +55,7 @@
         border-radius: 8px;
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         width: 100%;
-        max-width: 700px;
+        max-width: 800px;
     }
     h2 {
         color: #8b5cf6;
@@ -103,57 +140,62 @@
 </style>
 </head>
 <body>
-<div class="container">
-    <div class="breadcrumb">
-            <a href="http://localhost:8000/products/list">Home</a>
-            <span>/</span>
-            <span class="current">Person</span>
+
+<div class="sidebar">
+    <h3>Manage My Account</h3>
+    <ul>
+        <li><a href="#" class="active">My Profile</a></li>
+        <li><a href="#" class="active" onclick="redirectToUserEdit()">Update Password</a></li>
+    </ul>
+</div>
+
+<div class="main-content">
+    <div class="container">
+        <h2>Edit Your Profile</h2>
+
+        <div id="messageContainer"></div>
+
+        <form id="editPersonForm" action="/persons/update" method="post">
+            <input type="hidden" name="id" value="<?= htmlspecialchars($person->id) ?>">
+            <input type="hidden" name="id_user" value="<?= htmlspecialchars($person->id_user) ?>">
+
+            <div class="form-section">
+                <div class="form-group">
+                    <div class="form-field">
+                        <label>Nombre completo</label>
+                        <input type="text" name="full_name" value="<?= htmlspecialchars($person->full_name) ?>" required>
+                    </div>
+                    <div class="form-field">
+                        <label>Teléfono</label>
+                        <input type="text" name="phone" value="<?= htmlspecialchars($person->phone) ?>">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-field">
+                        <label>Género</label>
+                        <select name="gender">
+                            <option value="male" <?= $person->gender === 'male' ? 'selected' : '' ?>>Male</option>
+                            <option value="female" <?= $person->gender === 'female' ? 'selected' : '' ?>>Female</option>
+                            <option value="other" <?= $person->gender === 'other' ? 'selected' : '' ?>>Other</option>
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <label>Fecha de nacimiento</label>
+                        <input type="date" name="date_of_birth" value="<?= htmlspecialchars($person->date_of_birth) ?>">
+                    </div>
+                </div>
+                <div class="form-field">
+                    <label>Avatar URL</label>
+                    <input type="text" name="avatar" value="<?= htmlspecialchars($person->avatar) ?>">
+                </div>
+            </div>
+
+            <div class="btn-container">
+                <a href="/persons/findById?id=<?= htmlspecialchars($person->id) ?>" class="btn btn-cancel">Cancel</a>
+                <button type="submit" class="btn btn-save">Save Changes</button>
+            </div>
+        </form>
     </div>
-    <h2>Edit Your Profile</h2>
-
-    <div id="messageContainer"></div>
-
-    <form id="editPersonForm" action="/persons/update" method="post">
-        <input type="hidden" name="id" value="<?= htmlspecialchars($person->id) ?>">
-        <input type="hidden" name="id_user" value="<?= htmlspecialchars($person->id_user) ?>">
-
-        <div class="form-section">
-            <div class="form-group">
-                <div class="form-field">
-                    <label>Nombre completo</label>
-                    <input type="text" name="full_name" value="<?= htmlspecialchars($person->full_name) ?>" required>
-                </div>
-                <div class="form-field">
-                    <label>Teléfono</label>
-                    <input type="text" name="phone" value="<?= htmlspecialchars($person->phone) ?>">
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="form-field">
-                    <label>Género</label>
-                    <select name="gender">
-                        <option value="male" <?= $person->gender === 'male' ? 'selected' : '' ?>>Male</option>
-                        <option value="female" <?= $person->gender === 'female' ? 'selected' : '' ?>>Female</option>
-                        <option value="other" <?= $person->gender === 'other' ? 'selected' : '' ?>>Other</option>
-                    </select>
-                </div>
-                <div class="form-field">
-                    <label>Fecha de nacimiento</label>
-                    <input type="date" name="date_of_birth" value="<?= htmlspecialchars($person->date_of_birth) ?>">
-                </div>
-            </div>
-            <div class="form-field">
-                <label>Avatar URL</label>
-                <input type="text" name="avatar" value="<?= htmlspecialchars($person->avatar) ?>">
-            </div>
-        </div>
-
-
-        <div class="btn-container">
-            <a href="/persons/findById?id=<?= htmlspecialchars($person->id) ?>" class="btn btn-cancel">Cancel</a>
-            <button type="submit" class="btn btn-save">Save Changes</button>
-        </div>
-    </form>
 </div>
 
 <script>
@@ -192,6 +234,16 @@
         messageContainer.innerHTML = '';
         messageContainer.appendChild(msg);
     }
+
+    function redirectToUserEdit() {
+        const userId = localStorage.getItem('id_user');
+        if (userId) {
+            window.location.href = `http://localhost:8000/user/editUser?id=${userId}`;
+        } else {
+            showMessage('error', 'No se encontró el ID de usuario. Por favor, inicie sesión nuevamente.');
+        }
+    }
 </script>
+
 </body>
 </html>

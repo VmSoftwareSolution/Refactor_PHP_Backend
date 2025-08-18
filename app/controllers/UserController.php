@@ -167,6 +167,7 @@ class UserController {
                 'status' => 200,
                 'message' => $messages['login_success'],
                 'role_id' => $user->role_id,
+                'id_user' => $user->id,
                 'id_person' => $id_person,
             ]);
         });

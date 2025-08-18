@@ -109,7 +109,6 @@
         <div class="card-icon">👨‍💻</div>
         <h3>Usuarios</h3>
         <div class="card-content">
-            <a href="/user/create">➕ Crear Usuario</a>
             <a href="/users">📜 Ver Todos</a>
             <a href="/user/edit">✏️ Editar Usuario</a>
         </div>
@@ -119,7 +118,6 @@
         <div class="card-icon">👤</div>
         <h3>Personas</h3>
         <div class="card-content">
-            <a href="/persons/create">➕ Crear Persona</a>
             <a href="/persons">📜 Ver Todos</a>
             <a href="/persons/edit">✏️ Editar Persona</a>
         </div>
@@ -139,8 +137,6 @@
         <div class="card-icon">🛒</div>
         <h3>Órdenes</h3>
         <div class="card-content">
-            <a href="/orders/fromCar">🛒 Orden desde Carrito</a>
-            <a href="/orders/fromProduct">📦 Orden desde Producto</a>
             <a href="/orders/show">🔍 Ver Orden</a>
             <a href="/orders/updateStatus">🔄 Actualizar Estado</a>
         </div>

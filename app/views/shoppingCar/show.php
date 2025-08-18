@@ -348,7 +348,6 @@
     </style>
 </head>
 <body>
-    
     <div class="main-content">
         <div class="breadcrumb">
             <a href="http://localhost:8000/products/list">Home</a>

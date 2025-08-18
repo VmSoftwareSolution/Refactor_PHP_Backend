@@ -62,16 +62,19 @@
         display: flex;
         gap: 20px;
     }
+    .nav-icons span {
+        cursor: pointer;
+    }
 </style>
 </head>
 <body>
 
 <div class="navbar">
     <div class="logo">
-        <img src="https://i.ibb.co/6P0x0sZ/shopnexts-logo.png" alt="SHOPNEXTS Logo">
+    <img src="/images/logo.png" alt="Imagen ilustrativa">
     </div>
     <div class="nav-links">
-        <a href="#" class="active">Home</a>
+        <a href="http://localhost:8000/products/list" class="active">Home</a>
         <a href="#">Contact</a>
         <a href="#">About</a>
         <a href="#">Sign Up</a>
@@ -82,10 +85,21 @@
     </div>
     <div class="nav-icons">
         <span class="wishlist-icon">♡</span>
-        <span class="cart-icon">🛒</span>
+        <span class="cart-icon" onclick="goToShoppingCar()">🛒</span>
         <span class="person-icon">👤</span>
     </div>
 </div>
+
+<script>
+    function goToShoppingCar() {
+        const personId = localStorage.getItem('id_person');
+        if (personId) {
+            window.location.href = 'http://localhost:8000/shoppingCar/show?id_person=' + personId;
+        } else {
+            alert('No se encontró el ID de la persona en el almacenamiento local. Inicia sesión para ver tu carrito.');
+        }
+    }
+</script>
 
 </body>
 </html>

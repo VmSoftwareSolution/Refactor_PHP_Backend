@@ -78,6 +78,7 @@
         <a href="#">Contact</a>
         <a href="#">About</a>
         <a href="#">Sign Up</a>
+        <a href="http://localhost:8000/tickets/create">PQR</a>
     </div>
     <div class="search-bar">
         <input type="text" placeholder="What are you looking for?">

@@ -109,5 +109,6 @@ h1 {
         <?php endif; ?>
         </div>
     </div>
+     <?php include __DIR__ . '/../layouts/footer.php'; ?>
 </body>
 </html>

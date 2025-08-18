@@ -23,7 +23,6 @@ $routes = [
     '/user/login'      => ['GET',  'UserController@loginView'],  
     '/user/loginUser'  => ['POST', 'UserController@login'],      
 
-
     '/persons'              => ['GET',  'PersonController@listPersons'],
     '/persons/findById'     => ['GET',  'PersonController@getPersonById'],
     '/persons/create'       => ['GET',  'PersonController@createPersonForm'],

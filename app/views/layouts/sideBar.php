@@ -71,9 +71,9 @@
 
 <div class="navbar">
     <div class="logo">
-    <img src="/images/logo.png" alt="Imagen ilustrativa">
+        <img src="/images/logo.png" alt="Logo de la tienda">
     </div>
-    <div class="nav-links">
+    <div class="nav-links" id="nav-links">
         <a href="http://localhost:8000/products/list" class="active">Home</a>
         <a href="#">Contact</a>
         <a href="#">About</a>
@@ -91,6 +91,19 @@
 </div>
 
 <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const roleId = localStorage.getItem('role_id');
+        const navLinks = document.getElementById('nav-links');
+
+        // Muestra el enlace "Admin" solo si el rol es 2 (administrador)
+        if (roleId === '2') {
+            const adminLink = document.createElement('a');
+            adminLink.href = 'http://localhost:8000/admin';
+            adminLink.textContent = 'Admin';
+            navLinks.appendChild(adminLink);
+        }
+    });
+
     function goToShoppingCar() {
         const personId = localStorage.getItem('id_person');
         if (personId) {
@@ -99,20 +112,22 @@
             alert('No se encontró el ID de la persona en el almacenamiento local. Inicia sesión para ver tu carrito.');
         }
     }
+    
     function goToFavorite() {
         const personId = localStorage.getItem('id_person');
         if (personId) {
             window.location.href = 'http://localhost:8000/favorites/show?id_person=' + personId;
         } else {
-            alert('No se encontró el ID de la persona en el almacenamiento local. Inicia sesión para ver tu carrito.');
+            alert('No se encontró el ID de la persona en el almacenamiento local. Inicia sesión para ver tus favoritos.');
         }
     }
+    
     function goToPerson() {
         const personId = localStorage.getItem('id_person');
         if (personId) {
             window.location.href = 'http://localhost:8000/persons/edit?id=' + personId;
         } else {
-            alert('No se encontró el ID de la persona en el almacenamiento local. Inicia sesión para ver tu carrito.');
+            alert('No se encontró el ID de la persona en el almacenamiento local. Inicia sesión para editar tu perfil.');
         }
     }
 </script>

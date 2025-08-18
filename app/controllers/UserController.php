@@ -172,5 +172,9 @@ class UserController {
         });
     }
 
+    public function showDashboard() {
+        require_once __DIR__ . '/../views/layouts/admin.php';
+    }
+
 
 }

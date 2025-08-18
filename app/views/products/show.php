@@ -225,7 +225,7 @@
             
 
             <div class="action-buttons">
-                <button class="btn btn-buy" onclick="buyNow(<?= htmlspecialchars($product->id) ?>)">Comprar ahora</button>
+                <button class="btn btn-buy" onclick="window.location.href='/orders/fromProduct?id_product=<?= htmlspecialchars($product->id) ?>'">Comprar ahora</button>
             </div>
 
             <div class="shipping-info">

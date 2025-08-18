@@ -2,164 +2,367 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Crear Orden Desde Producto</title>
+    <title>Comprar Producto</title>
     <style>
         body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            background-color: #f8f9fa;
+            color: #333;
             margin: 0;
+            padding: 20px;
         }
 
         .container {
-            background: #fff;
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            max-width: 1000px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .header {
+            margin-bottom: 20px;
+        }
+
+        .header .breadcrumb {
+            color: #888;
+        }
+
+        .header .breadcrumb a {
+            text-decoration: none;
+            color: #888;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        .main-form {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 40px;
+        }
+
+        .billing-details {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+
+        .form-group input, .form-group select {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+        
+        .name-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9em;
+        }
+
+        .order-summary {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+        }
+
+        .product-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+        }
+
+        .product-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .product-item .info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .product-item img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+        }
+
+        .price-details {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .price-details .row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .total-row {
+            font-size: 1.2em;
+            font-weight: bold;
+            border-top: 1px solid #ccc;
+            padding-top: 10px;
+        }
+
+        .payment-methods {
+            margin-top: 20px;
+        }
+        
+        .payment-methods label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .payment-methods img {
+            height: 20px;
+        }
+
+        .coupon-section {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .coupon-section input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .coupon-section button {
+            padding: 10px 20px;
+            background-color: #8b5cf6;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .place-order-btn {
             width: 100%;
-            max-width: 420px;
+            padding: 15px;
+            background-color: #8b5cf6;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1em;
+            margin-top: 20px;
+        }
+
+        .message-box {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
             text-align: center;
         }
-
-        h1 {
-            margin-bottom: 1.5rem;
-            font-size: 1.8rem;
-            color: #333;
+        .message-box.error {
+            background: #ffe0e0;
+            color: #900;
         }
-
-        label {
-            display: block;
-            text-align: left;
-            margin-bottom: 0.3rem;
-            font-weight: 600;
-            color: #444;
+        .message-box.success {
+            background: #e8f5e8;
+            color: #2e7d32;
         }
-
-        input, select {
-            width: 100%;
-            padding: 0.7rem;
-            margin-bottom: 1.2rem;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            font-size: 1rem;
-            appearance: none; /* quita estilos por defecto */
-            background-color: #fff;
-            background-image: url("data:image/svg+xml;utf8,<svg fill='%23666' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
-            background-repeat: no-repeat;
-            background-position: right 0.7rem center;
-            background-size: 1.2rem;
-            cursor: pointer;
-        }
-
-        select:focus, input:focus {
-            outline: none;
-            border-color: #6a11cb;
-            box-shadow: 0 0 5px rgba(106, 17, 203, 0.4);
-        }
-
-        button {
-            background: #6a11cb;
-            color: #fff;
-            border: none;
-            padding: 0.8rem 1.5rem;
-            border-radius: 8px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background 0.3s ease;
-            width: 100%;
-        }
-
-        button:hover {
-            background: #2575fc;
-        }
-
-        .message {
-            margin-bottom: 1rem;
-            padding: 0.8rem;
-            border-radius: 8px;
-            font-size: 0.95rem;
-            display: none;
-        }
-
-        .success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-
-        .error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
+        
+        @media (max-width: 768px) {
+            .main-form {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-    <?php include __DIR__ . '/../layouts/sideBar.php'; ?>
     <div class="container">
-        <h1>Crear Orden Desde Producto</h1>
+        <div class="header">
+            <div class="breadcrumb">
+                Account / My Account / Product / <a href="#">Checkout</a>
+            </div>
+            <h2>Comprar Ahora</h2>
+        </div>
 
-        <div id="message" class="message"></div>
+        <form id="orderForm" action="/orders/OrderFromProduct" method="POST" class="main-form">
+            <div class="billing-details">
+                <div class="name-group">
+                    <div class="form-group">
+                        <label for="first_name">First Name*</label>
+                        <input type="text" id="first_name" name="first_name">
+                    </div>
+                    <div class="form-group">
+                        <label for="company_name">Company Name</label>
+                        <input type="text" id="company_name" name="company_name">
+                    </div>
+                </div>
 
-        <form id="orderForm">
-            <label for="id_person">Selecciona Persona:</label>
-            <select id="id_person" name="id_person" required>
-                <?php foreach ($persons as $person): ?>
-                    <option value="<?= htmlspecialchars($person->id) ?>">
-                        <?= htmlspecialchars($person->full_name) ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
+                <div class="form-group">
+                    <label for="street_address">Street Address*</label>
+                    <input type="text" id="street_address" name="street_address">
+                </div>
+                
+                <div class="form-group">
+                    <label for="apartment">Apartment, floor, etc. (optional)</label>
+                    <input type="text" id="apartment" name="apartment">
+                </div>
+                
+                <div class="form-group">
+                    <label for="town_city">Town/City*</label>
+                    <input type="text" id="town_city" name="town_city">
+                </div>
 
-            <label for="id_product">Selecciona Producto:</label>
-            <select id="id_product" name="id_product" required>
-                <?php foreach ($products as $product): ?>
-                    <option value="<?= htmlspecialchars($product->id) ?>">
-                        <?= htmlspecialchars($product->name) ?> - $<?= htmlspecialchars($product->price) ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
+                <div class="form-group">
+                    <label for="phone_number">Phone Number*</label>
+                    <input type="text" id="phone_number" name="phone_number">
+                </div>
 
-            <button type="submit">Crear Orden</button>
+                <div class="form-group">
+                    <label for="email_address">Email Address*</label>
+                    <input type="email" id="email_address" name="email_address">
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="save_info" name="save_info">
+                    <label for="save_info">Save this information for faster check-out next time</label>
+                </div>
+            </div>
+
+            <div class="order-summary">
+                <div id="messageContainer"></div>
+                
+                <div class="product-list">
+                    <?php if (isset($product)): ?>
+                        <div class="product-item">
+                            <div class="info">
+                                <?php if (!empty($product->image)): ?>
+                                    <img src="<?= htmlspecialchars($product->image) ?>" alt="<?= htmlspecialchars($product->name) ?>">
+                                <?php endif; ?>
+                                <span><?= htmlspecialchars($product->name) ?></span>
+                                <span>(x1)</span> </div>
+                            <span>$<?= number_format($product->price ?? 0) ?></span>
+                        </div>
+                    <?php else: ?>
+                        <p>No hay productos para mostrar.</p>
+                    <?php endif; ?>
+                </div>
+                
+                <div class="price-details">
+                    <div class="row">
+                        <span>Subtotal:</span>
+                        <span>$<?= isset($product->price) ? number_format($product->price, 0) : '0' ?></span>
+                    </div>
+                    <div class="row">
+                        <span>Shipping:</span>
+                        <span>Free</span>
+                    </div>
+                    <div class="row total-row">
+                        <span>Total:</span>
+                        <span>$<?= isset($product->price) ? number_format($product->price, 0) : '0' ?></span>
+                    </div>
+                </div>
+
+                <div class="payment-methods">
+                    <div class="form-group">
+                        <label>
+                            <input type="radio" name="payment_method" value="bank" checked> Bank
+                            <img src="http://googleusercontent.com/file_content/2" alt="Bank icons">
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="radio" name="payment_method" value="cash"> Cash on delivery
+                        </label>
+                    </div>
+                </div>
+
+                <div class="coupon-section">
+                    <input type="text" placeholder="Coupon Code" name="coupon_code">
+                    <button type="button">Apply Coupon</button>
+                </div>
+                
+                <input type="hidden" name="id_product" value="<?= htmlspecialchars($product->id ?? '') ?>">
+                <input type="hidden" name="id_person" id="id_person">
+
+                <button type="submit" id="submitBtn" class="place-order-btn">Place Order</button>
+            </div>
         </form>
     </div>
 
     <script>
-        document.getElementById("orderForm").addEventListener("submit", async function(event) {
-            event.preventDefault();
-
-            const form = event.target;
-            const formData = new FormData(form);
-
-            try {
-                const response = await fetch("/orders/OrderFromProduct", {
-                    method: "POST",
-                    body: formData
-                });
-
-                const result = await response.json();
-                const messageDiv = document.getElementById("message");
-
-                if (response.ok && result.message) {
-                    messageDiv.textContent = result.message;
-                    messageDiv.className = "message success";
-                    messageDiv.style.display = "block";
-                    form.reset();
-                } else {
-                    messageDiv.textContent = result.error || "Error al crear la orden.";
-                    messageDiv.className = "message error";
-                    messageDiv.style.display = "block";
-                }
-            } catch (err) {
-                const messageDiv = document.getElementById("message");
-                messageDiv.textContent = "Error en la conexión con el servidor.";
-                messageDiv.className = "message error";
-                messageDiv.style.display = "block";
+        document.addEventListener('DOMContentLoaded', () => {
+            const id_person = localStorage.getItem('id_person');
+            const personInput = document.getElementById('id_person');
+            if (id_person) {
+                personInput.value = id_person;
+            } else {
+                alert('No se encontró el ID de persona. Por favor, inicie sesión.');
             }
+
+            const orderForm = document.getElementById('orderForm');
+            orderForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const submitBtn = document.getElementById('submitBtn');
+                const messageContainer = document.getElementById('messageContainer');
+
+                messageContainer.innerHTML = '';
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Creando orden...';
+                
+                const formData = new FormData(this);
+
+                try {
+                    const response = await fetch(this.action, { method: 'POST', body: formData });
+                    const result = await response.json();
+
+                    if (response.ok && result.message) {
+                        showMessage('success', result.message || 'Orden creada exitosamente');
+                    } else {
+                        showMessage('error', result.error || 'Error al crear la orden');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    showMessage('error', 'Error de conexión. Intenta nuevamente.');
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Place Order';
+                }
+            });
         });
+
+        function showMessage(type, message) {
+            const messageContainer = document.getElementById('messageContainer');
+            const messageBox = document.createElement('div');
+            messageBox.className = `message-box ${type}`;
+            const icon = type === 'success' ? '✅' : '⚠️';
+            const title = type === 'success' ? '¡Éxito!' : 'Error:';
+            messageBox.innerHTML = `<strong>${icon} ${title}</strong> ${message}`;
+            messageContainer.appendChild(messageBox);
+        }
     </script>
 </body>
 </html>

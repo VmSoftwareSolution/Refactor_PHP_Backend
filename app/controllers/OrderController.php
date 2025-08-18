@@ -48,19 +48,22 @@ class OrderController {
         });
     }
 
-    public function fromProduct() {
+        public function fromProduct() {
+        $id_product = isset($_GET['id_product']) ? (int)$_GET['id_product'] : null;
+        
+        require_once __DIR__ . '/../services/ProductService.php';
+        $productService = new ProductService();
+        
+        $product = $productService->getById($id_product);
+
         require_once __DIR__ . '/../services/PersonService.php';
         $personService = new PersonService();
         $personsResult = $personService->getAll(PHP_INT_MAX, 0);
         $persons = $personsResult['data'];
-
-        require_once __DIR__ . '/../services/ProductService.php';
-        $productService = new ProductService();
-        $productsResult = $productService->getAll(PHP_INT_MAX, 0);
-        $products = $productsResult['data'];
-
+        
         require_once __DIR__ . '/../views/orders/fromProduct.php';
     }
+
 
     public function OrderFromProduct(array $data): void {
         ErrorHandler::handle(function () use ($data) {

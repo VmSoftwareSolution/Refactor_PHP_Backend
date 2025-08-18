@@ -167,9 +167,18 @@ class UserController {
                 'status' => 200,
                 'message' => $messages['login_success'],
                 'role_id' => $user->role_id,
+                'id_user' => $user->id,
                 'id_person' => $id_person,
             ]);
         });
+    }
+
+    public function showDashboard() {
+        require_once __DIR__ . '/../views/layouts/admin.php';
+    }
+
+       public function blog() {
+        require_once __DIR__ . '/../views/blog/show.php';
     }
 
 

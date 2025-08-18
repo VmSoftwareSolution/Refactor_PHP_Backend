@@ -2,182 +2,130 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Menú</title>
+<title>Menú de navegación</title>
 <style>
-.navbar {
-    background-color: #1e1e2f;
-    color: white;
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-    width: 250px;
-    min-height: 100vh;
-    transition: all 0.3s;
-    overflow-y: auto;
-}
-.navbar h2 {
-    margin: 0 0 20px;
-    font-size: 20px;
-    text-align: center;
-    color: #f0f0f0;
-}
-.section {
-    margin-bottom: 10px;
-}
-.section-header {
-    background: #2b2b3d;
-    padding: 10px;
-    cursor: pointer;
-    border-radius: 5px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: #f0f0f0;
-    font-weight: bold;
-    transition: background 0.2s;
-}
-.section-header:hover {
-    background: #3a3a4f;
-}
-.section-content {
-    display: none;
-    flex-direction: column;
-    margin-left: 10px;
-    margin-top: 5px;
-}
-.section-content a, .section-content button {
-    color: #ccc;
-    text-decoration: none;
-    padding: 8px;
-    border-radius: 5px;
-    transition: background 0.2s;
-    background: none;
-    border: none;
-    text-align: left;
-    cursor: pointer;
-}
-.section-content a:hover, .section-content button:hover {
-    background: #333;
-    color: white;
-}
-.arrow {
-    transition: transform 0.3s;
-}
-.arrow.open {
-    transform: rotate(90deg);
-}
+    body, html {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+    }
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 20px;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .logo img {
+        height: 40px;
+    }
+    .nav-links {
+        display: flex;
+        gap: 25px;
+        align-items: center;
+    }
+    .nav-links a {
+        text-decoration: none;
+        color: #000;
+        font-size: 16px;
+        position: relative;
+        font-weight: bold;
+    }
+    .nav-links a.active::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        background-color: #000;
+        left: 0;
+        bottom: -5px;
+    }
+    .search-bar {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+    .search-bar input {
+        padding: 8px 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f0f0f0;
+        padding-right: 40px; 
+    }
+    .search-bar .search-icon {
+        position: absolute;
+        right: 15px;
+        cursor: pointer;
+    }
+    .nav-icons {
+        display: flex;
+        gap: 20px;
+    }
+    .nav-icons span {
+        cursor: pointer;
+    }
 </style>
 </head>
 <body>
 
 <div class="navbar">
-    <h2>Menú</h2>
-
-    <!-- Tickets -->
-    <div class="section" id="ticketsSectionWrapper">
-        <div class="section-header" onclick="toggleSection('ticketsSection', this)">
-            Tickets <span class="arrow">▶</span>
-        </div>
-        <div id="ticketsSection" class="section-content">
-            <a href="/tickets/create">➕ Crear Ticket</a>
-            <a href="/tickets/edit">✏️ Editar Ticket</a>
-        </div>
+    <div class="logo">
+        <img src="/images/logo.png" alt="Logo de la tienda">
     </div>
-
-    <!-- Órdenes -->
-    <div class="section" id="ordersSectionWrapper">
-        <div class="section-header" onclick="toggleSection('ordersSection', this)">
-            Órdenes <span class="arrow">▶</span>
-        </div>
-        <div id="ordersSection" class="section-content">
-            <a href="/orders/fromCar">🛒 Orden desde Carrito</a>
-            <a href="/orders/fromProduct">📦 Orden desde Producto</a>
-        </div>
+    <div class="nav-links" id="nav-links">
+        <a href="http://localhost:8000/products/list" class="active">Home</a>
+        <a href="http://localhost:8000/blog">About</a>
+        <a href="http://localhost:8000/tickets/create">PQR</a>
     </div>
-
-    <!-- Carrito -->
-    <div class="section" id="shoppingCarSectionWrapper">
-        <div class="section-header" onclick="toggleSection('shoppingCarSection', this)">
-            Carrito <span class="arrow">▶</span>
-        </div>
-        <div id="shoppingCarSection" class="section-content">
-            <button onclick="goToShoppingCar()">
-                🛒 Ver Mi Carrito
-            </button>
-            <a href="/shoppingCar/add">➕ Agregar Producto</a>
-        </div>
+    
+    <div class="nav-icons">
+        <span class="wishlist-icon" onclick="goToFavorite()">♡</span>
+        <span class="cart-icon" onclick="goToShoppingCar()">🛒</span>
+        <span class="person-icon" onclick="goToPerson()">👤</span>
     </div>
-
-    <!-- Favoritos -->
-    <div class="section" id="favoritesSectionWrapper">
-        <div class="section-header" onclick="toggleSection('favoritesSection', this)">
-            Favoritos <span class="arrow">▶</span>
-        </div>
-        <div id="favoritesSection" class="section-content">
-            <button onclick="goToFavorites()">
-                ⭐ Mis Favoritos
-            </button>
-            <a href="/favorites/add">➕ Agregar a Favoritos</a>
-        </div>
-    </div>
-
-    <!-- Pagos -->
-    <div class="section" id="payloadsSectionWrapper">
-        <div class="section-header" onclick="toggleSection('payloadsSection', this)">
-            Pagos <span class="arrow">▶</span>
-        </div>
-        <div id="payloadsSection" class="section-content">
-            <a href="/payloads/create">💳 Crear Pago</a>
-        </div>
-    </div>
-
 </div>
 
 <script>
-function toggleSection(sectionId, header) {
-    const section = document.getElementById(sectionId);
-    const arrow = header.querySelector(".arrow");
-    if (section.style.display === "flex") {
-        section.style.display = "none";
-        arrow.classList.remove("open");
-    } else {
-        section.style.display = "flex";
-        section.style.flexDirection = "column";
-        arrow.classList.add("open");
-    }
-}
+    document.addEventListener('DOMContentLoaded', function() {
+        const roleId = localStorage.getItem('role_id');
+        const navLinks = document.getElementById('nav-links');
 
-function goToShoppingCar() {
-    const personId = localStorage.getItem('id_person');
-    if (!personId) {
-        alert("No se encontró el ID de la persona en localStorage");
-        return;
-    }
-    window.location.href = '/shoppingCar/show?id_person=' + personId;
-}
+        // Muestra el enlace "Admin" solo si el rol es 2 (administrador)
+        if (roleId === '2') {
+            const adminLink = document.createElement('a');
+            adminLink.href = 'http://localhost:8000/admin';
+            adminLink.textContent = 'Admin';
+            navLinks.appendChild(adminLink);
+        }
+    });
 
-function goToFavorites() {
-    const personId = localStorage.getItem('id_person');
-    if (!personId) {
-        alert("No se encontró el ID de la persona en localStorage");
-        return;
+    function goToShoppingCar() {
+        const personId = localStorage.getItem('id_person');
+        if (personId) {
+            window.location.href = 'http://localhost:8000/shoppingCar/show?id_person=' + personId;
+        } else {
+            alert('No se encontró el ID de la persona en el almacenamiento local. Inicia sesión para ver tu carrito.');
+        }
     }
-    window.location.href = '/favorites/show?id_person=' + personId;
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-    const roleId = localStorage.getItem('role_id');
-
-    if(roleId === "1"){ 
-        ["shoppingCarSectionWrapper", "favoritesSectionWrapper"].forEach(id => {
-            document.getElementById(id).style.display = "block";
-        });
-    } else if(roleId === "2"){ 
-        ["ticketsSectionWrapper","ordersSectionWrapper","shoppingCarSectionWrapper","favoritesSectionWrapper","payloadsSectionWrapper"].forEach(id => {
-            document.getElementById(id).style.display = "block";
-        });
+    
+    function goToFavorite() {
+        const personId = localStorage.getItem('id_person');
+        if (personId) {
+            window.location.href = 'http://localhost:8000/favorites/show?id_person=' + personId;
+        } else {
+            alert('No se encontró el ID de la persona en el almacenamiento local. Inicia sesión para ver tus favoritos.');
+        }
     }
-});
+    
+    function goToPerson() {
+        const personId = localStorage.getItem('id_person');
+        if (personId) {
+            window.location.href = 'http://localhost:8000/persons/edit?id=' + personId;
+        } else {
+            alert('No se encontró el ID de la persona en el almacenamiento local. Inicia sesión para editar tu perfil.');
+        }
+    }
 </script>
 
 </body>

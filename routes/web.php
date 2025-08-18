@@ -22,7 +22,8 @@ $routes = [
     '/users/view' => ['GET', 'UserController@usersView'],
     '/user/login'      => ['GET',  'UserController@loginView'],  
     '/user/loginUser'  => ['POST', 'UserController@login'],      
-
+    '/admin' => ['GET', 'UserController@showDashboard'],
+    '/blog' => ['GET', 'UserController@blog'],
 
     '/persons'              => ['GET',  'PersonController@listPersons'],
     '/persons/findById'     => ['GET',  'PersonController@getPersonById'],

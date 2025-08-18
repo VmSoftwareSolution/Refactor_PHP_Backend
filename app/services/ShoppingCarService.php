@@ -121,5 +121,24 @@ class ShoppingCarService {
         ];
     }
 
+    public function getCarByPersonId(int $id_person): array {
+        $car = $this->repository->findByPersonId($id_person);
+
+        if (!$car) {
+            return [
+                'id' => null,
+                'id_person' => $id_person,
+                'total_price' => 0,
+                'products' => []
+            ];
+        }
+        
+        return [
+            'id' => $car->id,
+            'id_person' => $car->id_person,
+            'total_price' => $car->total_price,
+            'products' => $car->products
+        ];
+    }
 
 }

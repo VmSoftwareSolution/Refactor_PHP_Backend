@@ -48,4 +48,6 @@ class ShoppingCarRepository {
         $stmt->bind_param("sii", $jsonProducts, $totalPrice, $cartId);
         return $stmt->execute();
     }
+
+
 }

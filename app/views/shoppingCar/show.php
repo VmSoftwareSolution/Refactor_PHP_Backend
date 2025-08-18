@@ -442,14 +442,15 @@
             }
         }
 
-        function proceedToCheckout() {
-            if (!id_person) {
-                alert("No se encontró el ID de usuario.");
-                return;
-            }
-            
-            alert('Procediendo al checkout...');
+    function proceedToCheckout() {
+        if (!id_person) {
+            alert("No se encontró el ID de usuario. Inicia sesión para continuar.");
+            return;
         }
+        
+        // Construye la URL correctamente
+        window.location.href = `http://localhost:8000/orders/fromCar?id_person=${id_person}`;
+    }
     </script>
 </body>
 </html>

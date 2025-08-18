@@ -68,7 +68,7 @@
 
 <div class="navbar">
     <div class="logo">
-        <img src="/images/logo.png" alt="SHOPNEXTS Logo">
+        <img src="https://i.ibb.co/6P0x0sZ/shopnexts-logo.png" alt="SHOPNEXTS Logo">
     </div>
     <div class="nav-links">
         <a href="#" class="active">Home</a>
@@ -83,6 +83,7 @@
     <div class="nav-icons">
         <span class="wishlist-icon">♡</span>
         <span class="cart-icon">🛒</span>
+        <span class="person-icon">👤</span>
     </div>
 </div>
 

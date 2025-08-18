@@ -166,6 +166,7 @@
 </style>
 </head>
 <body>
+    <?php include __DIR__ . '/../layouts/sideBar.php'; ?>
 <div class="main-content">
 
     <div class="section">

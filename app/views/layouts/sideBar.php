@@ -86,7 +86,7 @@
     <div class="nav-icons">
         <span class="wishlist-icon" onclick="goToFavorite()">♡</span>
         <span class="cart-icon" onclick="goToShoppingCar()">🛒</span>
-        <span class="person-icon">👤</span>
+        <span class="person-icon" onclick="goToPerson()">👤</span>
     </div>
 </div>
 
@@ -99,10 +99,18 @@
             alert('No se encontró el ID de la persona en el almacenamiento local. Inicia sesión para ver tu carrito.');
         }
     }
-     function goToFavorite() {
+    function goToFavorite() {
         const personId = localStorage.getItem('id_person');
         if (personId) {
             window.location.href = 'http://localhost:8000/favorites/show?id_person=' + personId;
+        } else {
+            alert('No se encontró el ID de la persona en el almacenamiento local. Inicia sesión para ver tu carrito.');
+        }
+    }
+    function goToPerson() {
+        const personId = localStorage.getItem('id_person');
+        if (personId) {
+            window.location.href = 'http://localhost:8000/persons/edit?id=' + personId;
         } else {
             alert('No se encontró el ID de la persona en el almacenamiento local. Inicia sesión para ver tu carrito.');
         }

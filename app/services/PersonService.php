@@ -107,11 +107,6 @@ class PersonService {
         $full_name = $data['full_name'] ?? $existing->full_name;
         $id_user = isset($data['id_user']) ? (int)$data['id_user'] : $existing->id_user;
 
-        if ($this->repository->existsByUserId($id_user)) {
-            throw new AlreadyExistsException(str_replace(
-                    ':entity', 'Usuario', 
-                    $messages['entity_already_exists']));
-        }
         
         $phone = $data['phone'] ?? $existing->phone;
         $gender = $data['gender'] ?? $existing->gender;

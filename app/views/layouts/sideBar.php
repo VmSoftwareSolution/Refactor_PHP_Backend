@@ -75,15 +75,10 @@
     </div>
     <div class="nav-links" id="nav-links">
         <a href="http://localhost:8000/products/list" class="active">Home</a>
-        <a href="#">Contact</a>
-        <a href="#">About</a>
-        <a href="#">Sign Up</a>
+        <a href="http://localhost:8000/blog">About</a>
         <a href="http://localhost:8000/tickets/create">PQR</a>
     </div>
-    <div class="search-bar">
-        <input type="text" placeholder="What are you looking for?">
-        <span class="search-icon">🔍</span>
-    </div>
+    
     <div class="nav-icons">
         <span class="wishlist-icon" onclick="goToFavorite()">♡</span>
         <span class="cart-icon" onclick="goToShoppingCar()">🛒</span>

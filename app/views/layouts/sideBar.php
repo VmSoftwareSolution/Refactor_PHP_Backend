@@ -84,7 +84,7 @@
         <span class="search-icon">🔍</span>
     </div>
     <div class="nav-icons">
-        <span class="wishlist-icon">♡</span>
+        <span class="wishlist-icon" onclick="goToFavorite()">♡</span>
         <span class="cart-icon" onclick="goToShoppingCar()">🛒</span>
         <span class="person-icon">👤</span>
     </div>
@@ -95,6 +95,14 @@
         const personId = localStorage.getItem('id_person');
         if (personId) {
             window.location.href = 'http://localhost:8000/shoppingCar/show?id_person=' + personId;
+        } else {
+            alert('No se encontró el ID de la persona en el almacenamiento local. Inicia sesión para ver tu carrito.');
+        }
+    }
+     function goToFavorite() {
+        const personId = localStorage.getItem('id_person');
+        if (personId) {
+            window.location.href = 'http://localhost:8000/favorites/show?id_person=' + personId;
         } else {
             alert('No se encontró el ID de la persona en el almacenamiento local. Inicia sesión para ver tu carrito.');
         }

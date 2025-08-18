@@ -68,7 +68,7 @@
 
         .cart-header {
             display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr;
+            grid-template-columns: 2fr 1fr 1fr 1fr 0.1fr; /* Nueva columna para el ícono */
             gap: 20px;
             padding: 20px;
             background: #f8f9fa;
@@ -80,7 +80,7 @@
 
         .cart-item {
             display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr;
+            grid-template-columns: 2fr 1fr 1fr 1fr 0.1fr; /* Nueva columna para el ícono */
             gap: 20px;
             padding: 20px;
             border-bottom: 1px solid #f3f4f6;
@@ -121,49 +121,31 @@
             color: #111827;
         }
 
-        .quantity-control {
-            display: flex;
-            align-items: center;
-            border: 1px solid #d1d5db;
-            border-radius: 4px;
-            overflow: hidden;
-            width: fit-content;
-        }
-
-        .quantity-btn {
-            background: white;
-            border: none;
-            padding: 8px 12px;
-            cursor: pointer;
-            color: #374151;
-            font-size: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-width: 36px;
-        }
-
-        .quantity-btn:hover {
-            background: #f9fafb;
-        }
-
-        .quantity-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .quantity-input {
-            border: none;
+        .quantity-display {
+            font-weight: 500;
             text-align: center;
-            padding: 8px;
-            width: 50px;
-            outline: none;
-            font-size: 0.9rem;
         }
 
         .subtotal {
             font-weight: 600;
             color: #111827;
+        }
+        
+        .delete-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: #ef4444;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5px;
+            margin-left: auto; /* Mueve el botón a la derecha */
+        }
+
+        .delete-btn:hover {
+            color: #b91c1c;
         }
 
         .cart-actions {
@@ -340,10 +322,6 @@
             .product-info {
                 justify-content: flex-start;
             }
-            
-            .quantity-control {
-                align-self: flex-start;
-            }
         }
     </style>
 </head>
@@ -368,6 +346,7 @@
                         <div>Price</div>
                         <div>Quantity</div>
                         <div>Subtotal</div>
+                        <div></div>
                     </div>
 
                     <?php foreach ($car['products'] as $p): ?>
@@ -381,18 +360,11 @@
                             
                             <div class="price">$<?= number_format($p['price'], 0) ?></div>
                             
-                            <div class="quantity-control">
-                                <button class="quantity-btn" onclick="decreaseQuantity('<?= htmlspecialchars($p['name'], ENT_QUOTES) ?>')">-</button>
-                                <input type="number" 
-                                       class="quantity-input" 
-                                       id="quantity-<?= htmlspecialchars($p['name'], ENT_QUOTES) ?>" 
-                                       value="<?= (int)$p['quantity'] ?>" 
-                                       min="1"
-                                       onchange="validateQuantity('<?= htmlspecialchars($p['name'], ENT_QUOTES) ?>')">
-                                <button class="quantity-btn" onclick="increaseQuantity('<?= htmlspecialchars($p['name'], ENT_QUOTES) ?>')">+</button>
-                            </div>
+                            <div class="quantity-display"><?= (int)$p['quantity'] ?></div>
                             
                             <div class="subtotal">$<?= number_format($p['price'] * $p['quantity'], 0) ?></div>
+                            
+                            <button class="delete-btn" onclick="deleteProductByName('<?= htmlspecialchars($p['name'], ENT_QUOTES) ?>')">🗑️</button>
                         </div>
                     <?php endforeach; ?>
 
@@ -425,26 +397,7 @@
     <script>
         const id_person = localStorage.getItem('id_person');
 
-        function increaseQuantity(name) {
-            const input = document.getElementById(`quantity-${name}`);
-            input.value = parseInt(input.value) + 1;
-        }
-
-        function decreaseQuantity(name) {
-            const input = document.getElementById(`quantity-${name}`);
-            if (parseInt(input.value) > 1) {
-                input.value = parseInt(input.value) - 1;
-            }
-        }
-
-        function validateQuantity(name) {
-            const input = document.getElementById(`quantity-${name}`);
-            if (parseInt(input.value) < 1) {
-                input.value = 1;
-            }
-        }
-
-        async function updateQuantity(name, quantity) {
+        async function updateProductInCart(name, quantity) {
             if (!id_person) {
                 alert("No se encontró el ID de usuario.");
                 return;
@@ -466,7 +419,7 @@
                 if (response.ok) {
                     window.location.reload();
                 } else {
-                    alert(result.message || 'Error al actualizar la cantidad.');
+                    alert(result.message || 'Error al actualizar el carrito.');
                 }
             } catch (error) {
                 console.error(error);
@@ -474,19 +427,10 @@
             }
         }
 
-        async function updateAllQuantities() {
-            const inputs = document.querySelectorAll('.quantity-input');
-            
-            for (let input of inputs) {
-                const name = input.id.replace('quantity-', '');
-                const quantity = input.value;
-                await updateQuantity(name, quantity);
+        async function deleteProductByName(name) {
+            if (confirm(`¿Seguro que quieres eliminar "${name}" del carrito?`)) {
+                await updateProductInCart(name, 0);
             }
-        }
-
-        async function deleteProduct(name) {
-            if (!confirm(`¿Seguro que quieres eliminar "${name}" del carrito?`)) return;
-            await updateQuantity(name, 0);
         }
 
         function applyCoupon() {

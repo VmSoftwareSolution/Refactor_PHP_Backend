@@ -195,7 +195,6 @@
     <div class="section">
         <div class="section-header">
             <div class="section-title"><span></span> Flash Sales</div>
-            <a href="#" class="btn-view">View All Products</a>
         </div>
         <div class="flash-sales">
             <?php if (!empty($products)) : ?>
@@ -240,7 +239,6 @@
     <div class="section">
         <div class="section-header">
             <div class="section-title"><span></span> Best Selling Products</div>
-            <a href="#" class="btn-view">View All</a>
         </div>
         <div class="flash-sales">
             <div class="product-card" data-product-id="1">

@@ -289,8 +289,13 @@
                 <div class="payment-methods">
                     <div class="form-group">
                         <label>
-                            <input type="radio" name="payment_method" value="bank" checked> Bank
-                            <img src="http://googleusercontent.com/file_content/2" alt="Bank icons">
+                            <div class="form-group">
+                                <label>
+                                    <input type="radio" name="payment_method" value="bank" checked> Bank
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Visa.svg" alt="Visa" style="height:20px;">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" style="height:20px;">
+                                </label>
+                            </div>
                         </label>
                     </div>
                     <div class="form-group">

@@ -103,7 +103,6 @@ button:hover {
 </style>
 </head>
 <body>
-    <?php include __DIR__ . '/../layouts/sideBar.php'; ?>
 <div class="container">
     <h2>Detalle de la Orden</h2>
 
@@ -184,6 +183,7 @@ form.addEventListener('submit', async e => {
         const div = document.createElement('div');
         div.className = 'message-box ' + (response.ok ? 'success' : 'error');
         div.textContent = result.message || (response.ok ? 'Orden actualizada correctamente' : 'Error al actualizar');
+        window.location.href = 'http://localhost:8000/orders/list';
         messageContainer.appendChild(div);
     } catch (error) {
         const div = document.createElement('div');
@@ -196,5 +196,7 @@ form.addEventListener('submit', async e => {
     }
 });
 </script>
+<script src="/js/sessionCheck.js"></script>
+<script src="/js/accessControl.js"></script>
 </body>
 </html>

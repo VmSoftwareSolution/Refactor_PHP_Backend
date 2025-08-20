@@ -175,85 +175,88 @@
       </p>
     </div>
   </div>
-    <script>
-        const form = document.getElementById('loginForm');
-        const submitBtn = document.getElementById('submitBtn');
-        const messageContainer = document.getElementById('messageContainer');
 
-        form.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const formData = new FormData(form);
-            messageContainer.innerHTML = '';
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Iniciando sesión...';
-            form.classList.add('loading');
+  <script>
+    const form = document.getElementById('loginForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const messageContainer = document.getElementById('messageContainer');
 
-            try {
-                const response = await fetch('/user/loginUser', {
-                    method: 'POST',
-                    body: formData
-                });
-                const result = await response.json();
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const formData = new FormData(form);
+        messageContainer.innerHTML = '';
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Iniciando sesión...';
+        form.classList.add('loading');
 
-                if (response.ok && result.status === 200) {
-                    localStorage.setItem('role_id', result.role_id);
-                    localStorage.setItem('id_person', result.id_person);
-                    localStorage.setItem('id_user', result.id_user);
-
-                    showMessage('success', result.message || 'Login exitoso');
-                    form.reset();
-                    clearInputErrors();
-
-                    setTimeout(() => {
-                        const idPerson = localStorage.getItem('id_person');
-                        if (!idPerson || idPerson === "null") {
-                            window.location.href = 'http://localhost:8000/persons/create';
-                        } else {
-                            window.location.href = 'http://localhost:8000/products/list';
-                        }
-                    }, 500); 
-                } else {
-                    showMessage('error', result.message || 'Credenciales inválidas');
-                    highlightErrorFields(result.errors || {});
-                }
-            } catch (error) {
-                showMessage('error', 'Error de conexión. Intenta nuevamente.');
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Iniciar Sesión';
-                form.classList.remove('loading');
-            }
-        });
-
-        function showMessage(type, message) {
-            const messageBox = document.createElement('div');
-            messageBox.className = `message-box ${type}`;
-            const icon = type === 'success' ? '✅' : '⚠️';
-            const title = type === 'success' ? '¡Éxito!' : 'Error:';
-            messageBox.innerHTML = `<strong>${icon} ${title}</strong> ${message}`;
-            messageContainer.appendChild(messageBox);
-
-            if (type === 'success') {
-                setTimeout(() => {
-                    messageBox.style.opacity = '0';
-                    messageBox.style.transform = 'translateY(-10px)';
-                    setTimeout(() => {
-                        if (messageBox.parentNode) messageBox.parentNode.removeChild(messageBox);
-                    }, 500);
-                }, 5000);
-            }
-        }
-
-        function clearInputErrors() {
-            document.querySelectorAll('input.error').forEach(input => input.classList.remove('error'));
-        }
-
-        function highlightErrorFields(errors) {
-            Object.keys(errors).forEach(fieldName => {
-                const field = document.getElementById(fieldName);
-                if (field) field.classList.add('error');
+        try {
+            const response = await fetch('/user/loginUser', {
+                method: 'POST',
+                body: formData
             });
+            const result = await response.json();
+
+            if (response.ok && result.status === 200) {
+                // Guardar datos y tiempo de login
+                localStorage.setItem('role_id', result.role_id);
+                localStorage.setItem('id_person', result.id_person);
+                localStorage.setItem('id_user', result.id_user);
+                localStorage.setItem('loginTime', Date.now());
+
+                showMessage('success', result.message || 'Login exitoso');
+                form.reset();
+                clearInputErrors();
+
+                setTimeout(() => {
+                    const idPerson = localStorage.getItem('id_person');
+                    if (!idPerson || idPerson === "null") {
+                        window.location.href = 'http://localhost:8000/persons/create';
+                    } else {
+                        window.location.href = 'http://localhost:8000/products/list';
+                    }
+                }, 500);
+            } else {
+                showMessage('error', result.message || 'Credenciales inválidas');
+                highlightErrorFields(result.errors || {});
+            }
+        } catch (error) {
+            showMessage('error', 'Error de conexión. Intenta nuevamente.');
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Iniciar Sesión';
+            form.classList.remove('loading');
         }
-    </script>
+    });
+
+    function showMessage(type, message) {
+        const messageBox = document.createElement('div');
+        messageBox.className = `message-box ${type}`;
+        const icon = type === 'success' ? '✅' : '⚠️';
+        const title = type === 'success' ? '¡Éxito!' : 'Error:';
+        messageBox.innerHTML = `<strong>${icon} ${title}</strong> ${message}`;
+        messageContainer.appendChild(messageBox);
+
+        if (type === 'success') {
+            setTimeout(() => {
+                messageBox.style.opacity = '0';
+                messageBox.style.transform = 'translateY(-10px)';
+                setTimeout(() => {
+                    if (messageBox.parentNode) messageBox.parentNode.removeChild(messageBox);
+                }, 500);
+            }, 5000);
+        }
+    }
+
+    function clearInputErrors() {
+        document.querySelectorAll('input.error').forEach(input => input.classList.remove('error'));
+    }
+
+    function highlightErrorFields(errors) {
+        Object.keys(errors).forEach(fieldName => {
+            const field = document.getElementById(fieldName);
+            if (field) field.classList.add('error');
+        });
+    }
+  </script>
 </body>
 </html>

@@ -48,7 +48,7 @@ class OrderController {
         });
     }
 
-        public function fromProduct() {
+    public function fromProduct() {
         $id_product = isset($_GET['id_product']) ? (int)$_GET['id_product'] : null;
         
         require_once __DIR__ . '/../services/ProductService.php';
@@ -87,13 +87,15 @@ class OrderController {
         });
     }
 
-    public function updateStatus(array $data): void {
+    public function updateStatus(?array $data = null): void {
         global $messages;
 
-        ErrorHandler::handle(function () use ($data,$messages) {
+        ErrorHandler::handle(function () use ($data, $messages) {
+            if (!$data) {
+                $data = json_decode(file_get_contents('php://input'), true);
+            }
             $id = isset($data['id']) ? (int)$data['id'] : 0;
-            $status = isset($data['status']) ? (string)$data['status'] : 0;
-
+            $status = isset($data['status']) ? (string)$data['status'] : '';
 
             $result = $this->service->changeOrderStatus($id, $status);
 
@@ -103,4 +105,15 @@ class OrderController {
             ]);
         });
     }
+
+
+    public function listOrders() {
+        ErrorHandler::handle(function () {
+            $orders = $this->service->getAllOrders();
+            require_once __DIR__ . '/../views/orders/list.php';
+        });
+    }
+
+
+
 }

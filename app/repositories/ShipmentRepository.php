@@ -59,4 +59,28 @@ class ShipmentRepository {
         $stmt->bind_param("si", $status, $id);
         return $stmt->execute();
     }
+
+    public function getAll(): array {
+        $stmt = $this->conn->prepare("
+            SELECT id, id_order, address, status, created_at
+            FROM shipments
+            ORDER BY created_at DESC
+        ");
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        $shipments = [];
+        while ($row = $result->fetch_assoc()) {
+            $shipments[] = new Shipment(
+                id_order: (int)$row['id_order'],
+                address: $row['address'],
+                status: $row['status'],
+                created_at: $row['created_at'],
+                id: (int)$row['id']
+            );
+        }
+
+        return $shipments;
+    }
+
 }

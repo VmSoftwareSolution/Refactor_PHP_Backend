@@ -448,9 +448,10 @@
             return;
         }
         
-        // Construye la URL correctamente
         window.location.href = `http://localhost:8000/orders/fromCar?id_person=${id_person}`;
     }
     </script>
+<script src="/js/sessionCheck.js"></script>
+<script src="/js/accessControl.js"></script>
 </body>
 </html>

@@ -11,12 +11,26 @@ class ProductRepository {
         $this->conn = Database::connect();
     }
 
-    public function existsByName(string $name): bool {
-        $stmt = $this->conn->prepare("SELECT id FROM products WHERE name = ?");
-        $stmt->bind_param("s", $name);
+    // ✅ Ahora acepta un $excludeId opcional
+    public function existsByName(string $name, ?int $excludeId = null): bool {
+        if ($excludeId !== null) {
+            $stmt = $this->conn->prepare("SELECT id FROM products WHERE name = ? AND id != ?");
+            $stmt->bind_param("si", $name, $excludeId);
+            error_log("[ProductRepository][existsByName] Checking name='$name' excluding id=$excludeId");
+        } else {
+            $stmt = $this->conn->prepare("SELECT id FROM products WHERE name = ?");
+            $stmt->bind_param("s", $name);
+            error_log("[ProductRepository][existsByName] Checking name='$name' with no exclusion");
+        }
+
         $stmt->execute();
         $result = $stmt->get_result();
-        return (bool) $result->fetch_assoc();
+        $row = $result->fetch_assoc();
+
+        $exists = (bool) $row;
+        error_log("[ProductRepository][existsByName] exists=" . ($exists ? "true" : "false"));
+
+        return $exists;
     }
 
     public function create(Product $product): bool {
@@ -24,43 +38,64 @@ class ProductRepository {
             INSERT INTO products (name, description, price, stock, category, image)
             VALUES (?, ?, ?, ?, ?, ?)
         ");
-        $stmt->bind_param("ssiiss", $product->name, $product->description, $product->price, $product->stock, $product->category, $product->image);
+        $stmt->bind_param(
+            "ssiiss", 
+            $product->name, 
+            $product->description, 
+            $product->price, 
+            $product->stock, 
+            $product->category, 
+            $product->image
+        );
         return $stmt->execute();
     }
 
-     public function findById(int $id): ?Product {
+    public function findById(int $id): ?Product {
         $stmt = $this->conn->prepare("SELECT * FROM products WHERE id = ?");
         $stmt->bind_param("i", $id);
         $stmt->execute();
         $result = $stmt->get_result();
 
         if ($row = $result->fetch_assoc()) {
-        return new Product(
-            $row['name'],
-            $row['description'],
-            (int) $row['price'],
-            (int) $row['stock'],
-            $row['category'],
-            $row['image'],
-            (int) $row['id']
-        );
-    }
+            return new Product(
+                $row['name'],
+                $row['description'],
+                (int) $row['price'],
+                (int) $row['stock'],
+                $row['category'],
+                $row['image'],
+                (int) $row['id']
+            );
+        }
 
         return null;
     }
 
-     public function deleteById(int $id): bool {
+    public function deleteById(int $id): bool {
         $stmt = $this->conn->prepare("DELETE FROM products WHERE id = ?");
         $stmt->bind_param("i", $id);
         return $stmt->execute();
     }
 
-     public function update(Product $product): bool {
-        $stmt = $this->conn->prepare("UPDATE products SET name = ?, description = ?, price = ?, stock = ?, category = ?, image = ? WHERE id = ?");
-        $stmt->bind_param("ssiissi", $product->name, $product->description, $product->price, $product->stock, $product->category, $product->image ,$product->id);
+    public function update(Product $product): bool {
+        $stmt = $this->conn->prepare("
+            UPDATE products 
+            SET name = ?, description = ?, price = ?, stock = ?, category = ?, image = ? 
+            WHERE id = ?
+        ");
+        $stmt->bind_param(
+            "ssiissi", 
+            $product->name, 
+            $product->description, 
+            $product->price, 
+            $product->stock, 
+            $product->category, 
+            $product->image,
+            $product->id
+        );
 
+        error_log("[ProductRepository][update] id={$product->id}, name={$product->name}");
         return $stmt->execute();
-
     }
 
     public function findAll(int $limit = 100, int $offset = 0): array {
@@ -78,7 +113,8 @@ class ProductRepository {
                 (int)$row['stock'], 
                 $row['category'], 
                 $row['image'], 
-                (int)$row['id']);
+                (int)$row['id']
+            );
         }
 
         return $products;

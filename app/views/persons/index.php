@@ -64,7 +64,6 @@ h2 {
 </style>
 </head>
 <body>
-    <?php include __DIR__ . '/../layouts/sideBar.php'; ?>
 
     <div class="main-content">
         <h2>Personas</h2>
@@ -80,5 +79,7 @@ h2 {
         <?php endforeach; ?>
         </div>
     </div>
+<script src="/js/sessionCheck.js"></script>
+<script src="/js/accessControl.js"></script>
 </body>
 </html>

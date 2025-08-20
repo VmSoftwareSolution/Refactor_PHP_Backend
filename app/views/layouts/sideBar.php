@@ -98,6 +98,13 @@
             adminLink.textContent = 'Admin';
             navLinks.appendChild(adminLink);
         }
+
+        if (roleId === '3') {
+            const adminLink = document.createElement('a');
+            adminLink.href = 'http://localhost:8000/dashboardVendedor';
+            adminLink.textContent = 'Dashboard';
+            navLinks.appendChild(adminLink);
+        }
     });
 
     function goToShoppingCar() {

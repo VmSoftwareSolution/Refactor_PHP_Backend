@@ -63,7 +63,6 @@ button:hover {
 </style>
 </head>
 <body>
-    <?php include __DIR__ . '/../layouts/sideBar.php'; ?>
 <div class="container">
     <h1>Crear Producto</h1>
 
@@ -122,6 +121,7 @@ document.getElementById('createProductForm').addEventListener('submit', async fu
         const result = await response.json();
         if (response.ok && result.status === 201) {
             showMessage('success', result.message || 'Producto creado exitosamente');
+            window.location.href = 'http://localhost:8000/products/list';
             form.reset();
         } else {
             showMessage('error', result.message || 'Error al crear el producto');
@@ -154,5 +154,7 @@ function showMessage(type, message) {
     }
 }
 </script>
+<script src="/js/sessionCheck.js"></script>
+<script src="/js/accessControl.js"></script>
 </body>
 </html>

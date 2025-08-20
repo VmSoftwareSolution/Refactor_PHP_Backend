@@ -82,7 +82,6 @@ input.error {
 </style>
 </head>
 <body>
-    <?php include __DIR__ . '/../layouts/sideBar.php'; ?>
 <div class="container">
     <h1>Crear Entrega</h1>
 
@@ -167,5 +166,7 @@ function highlightErrorFields(errors) {
     });
 }
 </script>
+<script src="/js/sessionCheck.js"></script>
+<script src="/js/accessControl.js"></script>
 </body>
 </html>

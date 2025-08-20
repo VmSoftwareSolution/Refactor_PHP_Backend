@@ -99,7 +99,6 @@ input.error, textarea.error {
 </style>
 </head>
 <body>
-    <?php include __DIR__ . '/../layouts/sideBar.php'; ?>
 <div class="container">
     <h2>Crear Rol</h2>
     <div id="messageContainer"></div>
@@ -133,6 +132,7 @@ document.getElementById('createRoleForm').addEventListener('submit', async funct
 
         if (response.ok && result.status === 201) {
             showMessage('success', result.message || 'Rol creado exitosamente');
+            window.location.href = 'http://localhost:8000/roles/list';
             form.reset();
             clearInputErrors();
         } else {
@@ -179,5 +179,7 @@ function highlightErrorFields(errors) {
     });
 }
 </script>
+<script src="/js/sessionCheck.js"></script>
+<script src="/js/accessControl.js"></script>
 </body>
 </html>

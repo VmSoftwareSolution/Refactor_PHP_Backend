@@ -63,7 +63,6 @@ button:hover {
 </style>
 </head>
 <body>
-    <?php include __DIR__ . '/../layouts/sideBar.php'; ?>
 <div class="container">
     <h2>Editar Producto</h2>
 
@@ -118,6 +117,7 @@ document.getElementById('editProductForm').addEventListener('submit', async func
         const result = await response.json();
         if (response.ok && result.status === 200) {
             showMessage('success', result.message || 'Producto actualizado exitosamente');
+            window.location.href = 'http://localhost:8000/products/list';
         } else {
             showMessage('error', result.message || 'Error al actualizar el producto');
         }
@@ -149,5 +149,7 @@ function showMessage(type, message) {
     }
 }
 </script>
+<script src="/js/sessionCheck.js"></script>
+<script src="/js/accessControl.js"></script>
 </body>
 </html>

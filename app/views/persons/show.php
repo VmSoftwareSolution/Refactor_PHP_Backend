@@ -70,7 +70,6 @@ h2 {
 </style>
 </head>
 <body>
-    <?php include __DIR__ . '/../layouts/sideBar.php'; ?>
 <div class="container">
     <h2>Persona #<?= htmlspecialchars($person->id) ?></h2>
 
@@ -114,5 +113,7 @@ h2 {
         <a href="/persons" class="btn-back">Volver al listado</a>
     </div>
 </div>
+<script src="/js/sessionCheck.js"></script>
+<script src="/js/accessControl.js"></script>
 </body>
 </html>

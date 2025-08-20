@@ -261,6 +261,7 @@
             </div>
         </div>
     </section>
-
+<script src="/js/sessionCheck.js"></script>
+<script src="/js/accessControl.js"></script>
 </body>
 </html>

@@ -181,9 +181,12 @@ class UserController {
         require_once __DIR__ . '/../views/blog/show.php';
     }
 
-     public function dashboardAdmin() {
+    public function dashboardAdmin() {
         require_once __DIR__ . '/../views/dashboard/dashboardAdmin.php';
     }
 
+    public function dashboardVendedor() {
+        require_once __DIR__ . '/../views/dashboard/dashboardVendedor.php';
+    }
 
 }

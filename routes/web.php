@@ -25,6 +25,7 @@ $routes = [
     '/admin' => ['GET', 'UserController@showDashboard'],
     '/blog' => ['GET', 'UserController@blog'],
     '/dashboardAdmin' => ['GET', 'UserController@dashboardAdmin'],
+    '/dashboardVendedor' => ['GET', 'UserController@dashboardVendedor'],
 
     '/persons'              => ['GET',  'PersonController@listPersons'],
     '/persons/findById'     => ['GET',  'PersonController@getPersonById'],

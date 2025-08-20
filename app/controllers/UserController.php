@@ -189,4 +189,34 @@ class UserController {
         require_once __DIR__ . '/../views/dashboard/dashboardVendedor.php';
     }
 
+    public function generateResetCode($data) {
+        global $messages;
+        
+        ErrorHandler::handle(function () use ($data, $messages) {
+            $email = $data['email'] ?? '';
+            $result = $this->service->generateResetCode($email);
+
+            JsonResponder::success([
+                'status' => 200,
+                'message' => $messages['reset_code_generated'],
+                'reset_code' => $result['reset_code'],
+                'id_user' => $result['user']->id,   
+                'id_person' => $result['id_person']
+            ]);
+        });
+    }
+
+    public function generateResetCodeShow() {
+        require_once __DIR__ . '/../views/user/resetPassword.php';
+    }
+
+    public function validateResetCodeShow() {
+        require_once __DIR__ . '/../views/user/validateResetCode.php';
+    }
+
+    public function fortgetPasswordShow() {
+        require_once __DIR__ . '/../views/user/forgetPassword.php';
+    }
+
+
 }

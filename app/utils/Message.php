@@ -25,4 +25,6 @@ return [
     'updated_successfully' => "actualizado exitosamente.",
     'deleted_successfully' => "eliminado exitosamente.",
     'update_password_success' => "Contraseña actualizada exitosamente.",
+    'reset_code_generated' => 'Se generó el código de verificación exitosamente.',
+
 ];

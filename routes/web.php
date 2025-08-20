@@ -27,6 +27,10 @@ $routes = [
     '/blog'                 => ['GET', 'UserController@blog'],
     '/dashboardAdmin'       => ['GET', 'UserController@dashboardAdmin'],
     '/dashboardVendedor'    => ['GET', 'UserController@dashboardVendedor'],
+    '/resetPassword'    => ['GET', 'UserController@generateResetCodeShow'],
+    '/user/generateResetCode' => ['POST', 'UserController@generateResetCode'],
+    '/validateResetCode' => ['GET', 'UserController@validateResetCodeShow'],
+    '/forgetPassword' => ['GET', 'UserController@fortgetPasswordShow'],
 
     '/persons'              => ['GET',  'PersonController@listPersons'],
     '/persons/findById'     => ['GET',  'PersonController@getPersonById'],

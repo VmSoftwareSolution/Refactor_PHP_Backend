@@ -208,5 +208,9 @@ class UserController {
         require_once __DIR__ . '/../views/user/resetPassword.php';
     }
 
+    public function validateResetCodeShow() {
+        require_once __DIR__ . '/../views/user/validateResetCode.php';
+    }
+
 
 }

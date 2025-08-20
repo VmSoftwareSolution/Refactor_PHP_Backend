@@ -102,7 +102,6 @@
                     data = { status: response.status, message: "Respuesta inválida del servidor" };
                 }
 
-                console.log("Respuesta del servidor:", data);
 
                 const msgDiv = document.getElementById("message");
                 msgDiv.style.display = "block";
@@ -113,8 +112,7 @@
 
                     localStorage.setItem("reset_code", data.reset_code);
                     localStorage.setItem("reset_email", email);
-
-                    console.log("Código guardado en localStorage:", data.reset_code);
+                    window.location.href = 'http://localhost:8000/validateResetCode';
                 } else {
                     msgDiv.textContent = `Error ${data.status}: ${data.message}`;
                     msgDiv.className = "error";

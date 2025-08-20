@@ -10,51 +10,81 @@ body {
     margin: 0;
     padding: 2rem;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
 }
-.container {
-    background: #fff;
-    padding: 30px;
-    border-radius: 15px;
-    width: 90%;
-    max-width: 900px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-}
-h2 {
-    text-align: center;
-    color: #333;
+#messageContainer {
+    width: 100%;
+    max-width: 1200px;
     margin-bottom: 20px;
 }
-table {
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
     width: 100%;
-    border-collapse: collapse;
+    max-width: 1200px;
 }
-th, td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
+.card {
+    background: #fff;
+    border-radius: 15px;
+    padding: 20px;
+    width: 300px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
-th {
-    background-color: #2575fc;
+.card h3 {
+    margin: 0 0 10px 0;
+    color: #333;
+    text-align: center;
+}
+.card .label {
+    font-weight: bold;
+    color: #555;
+    margin-top: 5px;
+}
+.card .value {
+    margin-bottom: 10px;
+    color: #333;
+}
+.card button {
+    padding: 10px;
+    margin-top: 10px;
+    background: #2575fc;
     color: #fff;
-}
-tr:hover {
-    background-color: #f4f4f4;
-}
-.btn-view, .btn-edit, .btn-delete {
-    padding: 6px 12px;
     border: none;
-    border-radius: 5px;
-    color: #fff;
+    border-radius: 10px;
     cursor: pointer;
-    margin-right: 5px;
+    font-size: 1rem;
+    transition: background 0.3s ease;
 }
-.btn-view { background-color: #2e7d32; }
-.btn-view:hover { background-color: #1b4d1b; }
-.btn-edit { background-color: #2575fc; }
-.btn-edit:hover { background-color: #1a5edb; }
-.btn-delete { background-color: #e74c3c; }
-.btn-delete:hover { background-color: #c0392b; }
+.card button:hover {
+    background: #1a5edb;
+}
+
+.back-btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 18px;
+    background: linear-gradient(135deg, #2575fc, #6a11cb);
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+.back-btn:hover {
+    background: linear-gradient(135deg, #1a5edb, #4a0fa3);
+    transform: scale(1.05);
+}
+
 .message-box {
     padding: 12px;
     border-radius: 8px;
@@ -66,57 +96,44 @@ tr:hover {
 </style>
 </head>
 <body>
-    <?php include __DIR__ . '/../layouts/sideBar.php'; ?>
-<div class="container">
-    <h2>Lista de Tickets</h2>
-    <div id="messageContainer"></div>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Título</th>
-                <th>Mensaje</th>
-                <th>Prioridad</th>
-                <th>Estado</th>
-                <th>ID Persona</th>
-                <th>Creado el</th>
-            </tr>
-        </thead>
-        <tbody>
-        <?php foreach ($tickets as $ticket): ?>
-            <tr>
-                <td><?= htmlspecialchars($ticket->id) ?></td>
-                <td><?= htmlspecialchars($ticket->tittle) ?></td>
-                <td><?= htmlspecialchars($ticket->message) ?></td>
-                <td><?= htmlspecialchars($ticket->priority) ?></td>
-                <td><?= htmlspecialchars($ticket->status) ?></td>
-                <td><?= htmlspecialchars($ticket->id_person) ?></td>
-                <td><?= htmlspecialchars($ticket->created_at) ?></td>
-            </tr>
-        <?php endforeach; ?>
-        </tbody>
-    </table>
+
+<div id="messageContainer"></div>
+
+<div class="back-container">
+    <a href="http://localhost:8000/admin" class="back-btn">⬅ Back</a>
 </div>
 
-<script>
-function showMessage(type, message) {
-    const messageContainer = document.getElementById('messageContainer');
-    const messageBox = document.createElement('div');
-    messageBox.className = `message-box ${type}`;
-    const icon = type === 'success' ? '✅' : '⚠️';
-    const title = type === 'success' ? '¡Éxito!' : 'Error:';
-    messageBox.innerHTML = `<strong>${icon} ${title}</strong> ${message}`;
-    messageContainer.appendChild(messageBox);
-    if (type === 'success') {
-        setTimeout(() => {
-            messageBox.style.opacity = '0';
-            messageBox.style.transform = 'translateY(-10px)';
-            setTimeout(() => {
-                if (messageBox.parentNode) messageBox.parentNode.removeChild(messageBox);
-            }, 500);
-        }, 5000);
-    }
-}
-</script>
+<div class="container">
+<?php foreach ($tickets as $ticket): ?>
+    <div class="card">
+        <h3>Ticket #<?= htmlspecialchars($ticket->id) ?></h3>
+
+        <div class="label">Título:</div>
+        <div class="value"><?= htmlspecialchars($ticket->tittle) ?></div>
+        
+        <div class="label">Mensaje:</div>
+        <div class="value"><?= htmlspecialchars($ticket->message) ?></div>
+        
+        <div class="label">Prioridad:</div>
+        <div class="value"><?= htmlspecialchars($ticket->priority) ?></div>
+        
+        <div class="label">Estado:</div>
+        <div class="value"><?= htmlspecialchars($ticket->status) ?></div>
+        
+        <div class="label">ID Persona:</div>
+        <div class="value"><?= htmlspecialchars($ticket->id_person) ?></div>
+        
+        <div class="label">Creado el:</div>
+        <div class="value"><?= htmlspecialchars($ticket->created_at) ?></div>
+
+        <!-- Botón de Editar -->
+        <form action="/tickets/edit" method="GET">
+            <input type="hidden" name="id" value="<?= htmlspecialchars($ticket->id) ?>">
+            <button type="submit">Editar</button>
+        </form>
+    </div>
+<?php endforeach; ?>
+</div>
+
 </body>
 </html>

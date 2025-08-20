@@ -138,9 +138,7 @@
         <div class="card-icon">🎫</div>
         <h3>Tickets</h3>
         <div class="card-content">
-            <a href="/tickets/create">➕ Crear Ticket</a>
-            <a href="/tickets/show">🔍 Ver Ticket</a>
-            <a href="/tickets/edit">✏️ Editar Ticket</a>
+            <a href="/tickets/list">🔍 Ver Ticket</a>
         </div>
     </div>
     

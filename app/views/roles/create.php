@@ -132,6 +132,7 @@ document.getElementById('createRoleForm').addEventListener('submit', async funct
 
         if (response.ok && result.status === 201) {
             showMessage('success', result.message || 'Rol creado exitosamente');
+            window.location.href = 'http://localhost:8000/roles/list';
             form.reset();
             clearInputErrors();
         } else {

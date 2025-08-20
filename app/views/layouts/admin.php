@@ -87,7 +87,6 @@
     </style>
 </head>
 <body>
-
 <div class="dashboard-header">
     <h1>Panel de Administración</h1>
     <p>Utiliza las tarjetas de abajo para gestionar las distintas secciones de la tienda.</p>
@@ -99,9 +98,7 @@
         <div class="card-icon">👥</div>
         <h3>Roles</h3>
         <div class="card-content">
-            <a href="/role/create">➕ Crear Rol</a>
-            <a href="/roles">📜 Ver Todos</a>
-            <a href="/role/edit">✏️ Editar Rol</a>
+            <a href="/roles/list">📜 Ver Todos</a>
         </div>
     </div>
     
@@ -119,7 +116,6 @@
         <h3>Personas</h3>
         <div class="card-content">
             <a href="/persons">📜 Ver Todos</a>
-            <a href="/persons/edit">✏️ Editar Persona</a>
         </div>
     </div>
 

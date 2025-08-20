@@ -99,7 +99,6 @@ input.error, textarea.error {
 </style>
 </head>
 <body>
-    <?php include __DIR__ . '/../layouts/sideBar.php'; ?>
 <div class="container">
     <h2>Editar Rol</h2>
     <div id="messageContainer"></div>
@@ -135,6 +134,7 @@ document.getElementById('editRoleForm').addEventListener('submit', async functio
 
         if (response.ok && result.status === 200) {
             showMessage('success', result.message || 'Rol actualizado exitosamente');
+            window.location.href = 'http://localhost:8000/roles/list';
             clearInputErrors();
         } else {
             showMessage('error', result.message || 'Error al actualizar el rol');

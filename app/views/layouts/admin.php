@@ -106,8 +106,7 @@
         <div class="card-icon">👨‍💻</div>
         <h3>Usuarios</h3>
         <div class="card-content">
-            <a href="/users">📜 Ver Todos</a>
-            <a href="/user/edit">✏️ Editar Usuario</a>
+            <a href="/users/view">📜 Ver Todos</a>
         </div>
     </div>
     

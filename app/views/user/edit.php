@@ -99,7 +99,6 @@ input.error, select.error {
 </style>
 </head>
 <body>
-    <?php include __DIR__ . '/../layouts/sideBar.php'; ?>
 <div class="container">
     <h2>Editar Usuario</h2>
     <div id="messageContainer"></div>
@@ -143,6 +142,7 @@ document.getElementById('editUserForm').addEventListener('submit', async functio
         if (response.ok && result.status === 200) {
             showMessage('success', result.message || 'Usuario actualizado exitosamente');
             clearInputErrors();
+            window.location.href = 'http://localhost:8000/users/view';
         } else {
             showMessage('error', result.message || 'Error al actualizar el usuario');
             highlightErrorFields(result.errors || {});

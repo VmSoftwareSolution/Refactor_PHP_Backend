@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Lista de Usuarios</title>
+<title>Usuarios Registrados</title>
 <style>
 body {
     display: flex;
@@ -16,42 +16,96 @@ body {
     background: #fff;
     padding: 30px;
     border-radius: 15px;
-    width: 700px;
+    width: 900px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+.back-container {
+    text-align: left;
+    margin-bottom: 20px;
+}
+.back-btn {
+    display: inline-block;
+    padding: 10px 18px;
+    background: linear-gradient(135deg, #2575fc, #6a11cb);
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+.back-btn:hover {
+    background: linear-gradient(135deg, #1a5edb, #4a0fa3);
+    transform: scale(1.05);
 }
 h2 {
     text-align: center;
     color: #333;
     margin-bottom: 20px;
+    font-size: 1.8rem;
 }
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 25px;
 }
-th, td {
-    padding: 12px;
-    border-bottom: 1px solid #ccc;
-    text-align: left;
+.card {
+    background: #fff;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    min-height: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
-th {
-    background: #2575fc;
-    color: #fff;
-    border-radius: 8px 8px 0 0;
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
 }
-tr:hover {
-    background: #f2f2f2;
+.card h3 {
+    margin: 0 0 15px 0;
+    color: #34495e;
+    font-size: 1.3rem;
+    word-wrap: break-word;
 }
-button {
-    padding: 8px 15px;
-    background: #e74c3c;
-    color: white;
-    border: none;
+.card p {
+    margin: 5px 0;
+    color: #555;
+    font-size: 1rem;
+}
+.card-actions {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+.card-btn {
+    padding: 8px 16px;
     border-radius: 8px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    border: none;
     cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
 }
-button:hover {
+.card-btn.update {
+    background: linear-gradient(135deg, #2575fc, #6a11cb);
+    color: #fff;
+}
+.card-btn.update:hover {
+    background: linear-gradient(135deg, #1a5edb, #4a0fa3);
+    transform: scale(1.05);
+}
+.card-btn.delete {
+    background: #e74c3c;
+    color: #fff;
+}
+.card-btn.delete:hover {
     background: #c0392b;
+    transform: scale(1.05);
 }
 .message-box {
     padding: 12px;
@@ -70,28 +124,23 @@ button:hover {
 </style>
 </head>
 <body>
-    <?php include __DIR__ . '/../layouts/sideBar.php'; ?>
 <div class="container">
+    <div class="back-container">
+        <a href="http://localhost:8000/admin" class="back-btn">⬅ Back</a>
+    </div>
+
     <h2>Usuarios Registrados</h2>
+
     <div id="messageContainer"></div>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Email</th>
-                <th>Role ID</th>
-            </tr>
-        </thead>
-        <tbody id="userTableBody">
-        </tbody>
-    </table>
+
+    <div class="grid" id="userGrid"></div>
 </div>
 
 <script>
 async function loadUsers() {
-    const tableBody = document.getElementById('userTableBody');
+    const grid = document.getElementById('userGrid');
     const messageContainer = document.getElementById('messageContainer');
-    tableBody.innerHTML = '';
+    grid.innerHTML = '';
     messageContainer.innerHTML = '';
 
     try {
@@ -100,13 +149,17 @@ async function loadUsers() {
 
         if (response.ok && result.data) {
             result.data.forEach(user => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${user.id}</td>
-                    <td>${user.email}</td>
-                    <td>${user.role_id}</td>
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <h3>👤 ${user.email}</h3>
+                    <p><strong>ID:</strong> ${user.id}</p>
+                    <p><strong>Rol:</strong> ${user.role_id}</p>
+                    <div class="card-actions">
+                        <a href="/user/edit?id=${user.id}" class="card-btn update">Editar</a>
+                    </div>
                 `;
-                tableBody.appendChild(tr);
+                grid.appendChild(card);
             });
         } else {
             showMessage('error', 'No se pudieron cargar los usuarios');

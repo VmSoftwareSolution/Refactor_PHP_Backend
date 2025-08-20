@@ -69,6 +69,7 @@ $routes = [
     '/orders/OrderFromProduct'  => ['POST', 'OrderController@OrderFromProduct'],
     '/orders/show'              => ['GET',  'OrderController@getOrderById'],
     '/orders/updateStatus'      => ['POST', 'OrderController@updateStatus'],
+    '/orders/list'              => ['GET',  'OrderController@listOrders'],
 
     '/shipments/create'             => ['GET',  'ShipmentController@create'],
     '/shipments/createShipment'     => ['POST', 'ShipmentController@createShipment'],

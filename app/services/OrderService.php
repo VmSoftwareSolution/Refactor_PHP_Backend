@@ -111,4 +111,9 @@ class OrderService {
         $order = $this->repository->findById($id);
         return $this->repository->updateStatus($id, $status);
     }
+
+    public function getAllOrders(): array {
+        return $this->repository->findAll();
+    }
+
 }

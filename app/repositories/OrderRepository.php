@@ -53,4 +53,30 @@ class OrderRepository {
         $stmt->bind_param("si", $status, $id);
         return $stmt->execute();
     }
+
+    public function findAll(): array {
+        $orders = [];
+        $query = "
+            SELECT id, id_person, products, total_price, created_at, status
+            FROM orders
+            ORDER BY created_at DESC
+        ";
+        $result = $this->conn->query($query);
+
+        if ($result) {
+            while ($row = $result->fetch_assoc()) {
+                $orders[] = new Order(
+                    id_person: (int)$row['id_person'],
+                    products: json_decode($row['products'], true) ?? [],
+                    total_price: (int)$row['total_price'],
+                    created_at: $row['created_at'],
+                    status: $row['status'],
+                    id: (int)$row['id']
+                );
+            }
+        }
+
+        return $orders;
+    }
+
 }

@@ -122,9 +122,7 @@
         <div class="card-icon">📦</div>
         <h3>Productos</h3>
         <div class="card-content">
-            <a href="/products/create">➕ Crear Producto</a>
-            <a href="/products">📜 Ver Todos</a>
-            <a href="/products/edit">✏️ Editar Producto</a>
+            <a href="/products/list">📜 Ver Todos</a>
         </div>
     </div>
     

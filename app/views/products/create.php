@@ -121,6 +121,7 @@ document.getElementById('createProductForm').addEventListener('submit', async fu
         const result = await response.json();
         if (response.ok && result.status === 201) {
             showMessage('success', result.message || 'Producto creado exitosamente');
+            window.location.href = 'http://localhost:8000/products/list';
             form.reset();
         } else {
             showMessage('error', result.message || 'Error al crear el producto');

@@ -47,18 +47,24 @@ class ProductController {
 
     }
 
-     public function deleteProduct($data) {
+    public function deleteProduct($data) {
         global $messages;
 
-        ErrorHandler::handle(function () use ($data, $messages) {
-            $id = (int) ($data['id'] ?? 0);
+        ErrorHandler::handle(function () use ($messages) {
+            $id = (int) ($_POST['id'] ?? 0);
+            if ($id <= 0) {
+                throw new InvalidArgumentException("ID inválido");
+            }
+
             $this->service->deleteById($id);
+
             JsonResponder::success([
                 'status' => 200,
                 'message' => $messages['deleted_successfully'],
             ]);
         });
     }
+
 
     public function editProduct($data) {
 

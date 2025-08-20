@@ -12,6 +12,7 @@ class ProductService {
 
     public function __construct() {
         $this->repository = new ProductRepository();
+        error_log("[ProductService] Service initialized");
     }
 
     public function create(
@@ -24,38 +25,45 @@ class ProductService {
     ): void {
         global $messages;
 
+        error_log("[ProductService][create] name=$name, description=$description, price=$price, stock=$stock, category=$category, image=$image");
+
         IsNotEmpty($name, 'name');
         IsNotEmpty($description, 'description');
         IsNotNegativeNumber($price, 'price');
         IsNotNegativeNumber($stock, 'stock');
 
         if ($this->repository->existsByName($name)) {
+            error_log("[ProductService][create] Producto duplicado: $name");
             throw new AlreadyExistsException(
-                str_replace(
-                    ':entity', 'Producto', 
-                    $messages['entity_already_exists'])); 
+                str_replace(':entity', 'Producto', $messages['entity_already_exists'])
+            ); 
         }
 
         $product = new Product($name, $description, $price, $stock, $category, $image);
+        error_log("[ProductService][create] Creando producto -> " . print_r($product, true));
+
         $success = $this->repository->create($product);
 
         if (!$success) {
+            error_log("[ProductService][create] ERROR inesperado al guardar producto");
             throw new UnexcpectedErrorException($messages['unexpected_error']);
         }
     }
 
-     public function getById(int $id): Product {
+    public function getById(int $id): Product {
         global $messages;
+
+        error_log("[ProductService][getById] id=$id");
 
         ValidateId($id);
 
         $product = $this->repository->findById($id);
 
         if (!$product) {
+            error_log("[ProductService][getById] Producto no encontrado con id=$id");
             throw new NotFoundException(
-                str_replace(
-                    ':value', 'Producto con ID ' . $id, 
-                    $messages['not_found']));
+                str_replace(':value', 'Producto con ID ' . $id, $messages['not_found'])
+            );
         }
 
         return $product;
@@ -64,19 +72,21 @@ class ProductService {
     public function deleteById(int $id): void {
         global $messages;
 
+        error_log("[ProductService][deleteById] id=$id");
+
         ValidateId($id);
-  
 
         $product = $this->repository->findById($id);
         if (!$product) {
+            error_log("[ProductService][deleteById] Producto no existe id=$id");
             throw new NotFoundException(
-                str_replace(
-                    ':value', 'Producto con ID ' . $id, 
-                    $messages['not_found']));
+                str_replace(':value', 'Producto con ID ' . $id, $messages['not_found'])
+            );
         }
 
         $success = $this->repository->deleteById($id);
         if (!$success) {
+            error_log("[ProductService][deleteById] ERROR inesperado al eliminar id=$id");
             throw new UnexcpectedErrorException($messages['unexpected_error']);
         }
     }
@@ -97,14 +107,14 @@ class ProductService {
         IsNotNegativeNumber($price, 'price');
         IsNotNegativeNumber($stock, 'stock');
 
-       if ($this->repository->existsByName($name)) {
+        if ($this->repository->existsByName($name, $id ?? null)) {
             throw new AlreadyExistsException(
-                str_replace(
-                    ':entity', 'Usuario', 
-                    $messages['entity_already_exists']));   
+                str_replace(':entity', 'Producto', $messages['entity_already_exists'])
+            );   
         }
 
-        $product = new Product($name, $description, $price, $category, $image, $id);
+        $product = new Product($name, $description, $price, $stock, $category, $image, $id);
+
         $success = $this->repository->update($product);
 
         if (!$success) {
@@ -115,10 +125,14 @@ class ProductService {
     public function getAll(int $limit = 100, int $offset = 0): array {
         global $messages;
         
+        error_log("[ProductService][getAll] limit=$limit, offset=$offset");
+
         validateParamPagination($offset, $limit);
 
         $products = $this->repository->findAll($limit, $offset);
         $total = $this->repository->countAll();
+
+        error_log("[ProductService][getAll] encontrados=" . count($products));
 
         return [
             'data' => $products,
@@ -127,5 +141,4 @@ class ProductService {
             'offset' => $offset,
         ];
     }
-
 }

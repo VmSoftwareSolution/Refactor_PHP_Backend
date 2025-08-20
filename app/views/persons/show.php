@@ -70,7 +70,6 @@ h2 {
 </style>
 </head>
 <body>
-    <?php include __DIR__ . '/../layouts/sideBar.php'; ?>
 <div class="container">
     <h2>Persona #<?= htmlspecialchars($person->id) ?></h2>
 

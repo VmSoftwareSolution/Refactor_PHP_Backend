@@ -64,7 +64,6 @@ h2 {
 </style>
 </head>
 <body>
-    <?php include __DIR__ . '/../layouts/sideBar.php'; ?>
 
     <div class="main-content">
         <h2>Personas</h2>

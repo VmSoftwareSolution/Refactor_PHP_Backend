@@ -130,8 +130,7 @@
         <div class="card-icon">🛒</div>
         <h3>Órdenes</h3>
         <div class="card-content">
-            <a href="/orders/show">🔍 Ver Orden</a>
-            <a href="/orders/updateStatus">🔄 Actualizar Estado</a>
+            <a href="/orders/list">🔍 Ver Orden</a>
         </div>
     </div>
 

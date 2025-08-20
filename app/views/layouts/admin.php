@@ -147,7 +147,7 @@
         <h3>Envíos</h3>
         <div class="card-content">
             <a href="/shipments/create">🚚 Crear Envío</a>
-            <a href="/shipments/show">🔍 Ver Envío</a>
+            <a href="/shipments/list">🔍 Ver Envío</a>
         </div>
     </div>
 

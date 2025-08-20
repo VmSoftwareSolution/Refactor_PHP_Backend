@@ -59,4 +59,9 @@ class ShipmentService {
     public function changeShipmentStatus(int $id, string $status): bool {
         return $this->repository->updateStatus($id, $status);
     }
+
+    public function getAllShipments(): array {
+        return $this->repository->getAll();
+    }
+
 }

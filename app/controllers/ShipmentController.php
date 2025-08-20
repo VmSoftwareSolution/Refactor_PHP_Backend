@@ -55,9 +55,18 @@ private ShipmentService $service;
             $result = $this->service->changeShipmentStatus($id, $status);
 
             JsonResponder::success([
+                'status' => 200,
                 'message' => $messages['updated_successfully'],
                 'envio' => $result
             ]);
         });
     }
+
+    public function listShipments() {
+    ErrorHandler::handle(function () {
+        $shipments = $this->service->getAllShipments();
+        require __DIR__ . '/../views/shipments/list.php';
+    });
+}
+
 }

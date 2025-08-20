@@ -84,7 +84,6 @@ select.error {
 </style>
 </head>
 <body>
-    <?php include __DIR__ . '/../layouts/sideBar.php'; ?>
 <div class="container">
     <h2>Editar Envío</h2>
 
@@ -140,6 +139,7 @@ document.getElementById('updateShipmentForm').addEventListener('submit', async f
 
         if (response.ok && result.status === 200) {
             showMessage('success', result.message || 'Envío actualizado correctamente');
+            window.location.href = 'http://localhost:8000/shipments/list';
             clearInputErrors();
         } else {
             showMessage('error', result.message || 'Error al actualizar el envío');

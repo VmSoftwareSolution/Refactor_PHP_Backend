@@ -160,6 +160,14 @@
             <a href="/shipments/show">🔍 Ver Envío</a>
         </div>
     </div>
+
+     <div class="card">
+        <div class="card-icon">Admin</div>
+        <h3>Ver registro</h3>
+        <div class="card-content">
+            <a href="/dashboardAdmin">Dashboard</a>
+        </div>
+    </div>
     
 
 </div>

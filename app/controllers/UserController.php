@@ -177,8 +177,12 @@ class UserController {
         require_once __DIR__ . '/../views/layouts/admin.php';
     }
 
-       public function blog() {
+    public function blog() {
         require_once __DIR__ . '/../views/blog/show.php';
+    }
+
+     public function dashboardAdmin() {
+        require_once __DIR__ . '/../views/dashboard/dashboardAdmin.php';
     }
 
 

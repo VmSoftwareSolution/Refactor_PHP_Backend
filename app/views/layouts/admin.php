@@ -12,6 +12,22 @@
             color: #333;
         }
 
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 10px 18px;
+            background: #6a11cb;
+            color: #fff;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .back-btn:hover {
+            background: #4b0fa5;
+        }
+
         .dashboard-header {
             text-align: center;
             margin-bottom: 40px;
@@ -87,80 +103,82 @@
     </style>
 </head>
 <body>
-<div class="dashboard-header">
-    <h1>Panel de Administración</h1>
-    <p>Utiliza las tarjetas de abajo para gestionar las distintas secciones de la tienda.</p>
-</div>
 
-<div class="dashboard-grid">
+    <a href="http://localhost:8000/products/list" class="back-btn">⬅ Volver al Dashboard de Productos</a>
 
-    <div class="card">
-        <div class="card-icon">👥</div>
-        <h3>Roles</h3>
-        <div class="card-content">
-            <a href="/roles/list">📜 Ver Todos</a>
-        </div>
-    </div>
-    
-    <div class="card">
-        <div class="card-icon">👨‍💻</div>
-        <h3>Usuarios</h3>
-        <div class="card-content">
-            <a href="/users/view">📜 Ver Todos</a>
-        </div>
-    </div>
-    
-    <div class="card">
-        <div class="card-icon">👤</div>
-        <h3>Personas</h3>
-        <div class="card-content">
-            <a href="/persons">📜 Ver Todos</a>
-        </div>
+    <div class="dashboard-header">
+        <h1>Panel de Administración</h1>
+        <p>Utiliza las tarjetas de abajo para gestionar las distintas secciones de la tienda.</p>
     </div>
 
-    <div class="card">
-        <div class="card-icon">📦</div>
-        <h3>Productos</h3>
-        <div class="card-content">
-            <a href="/products/list">📜 Ver Todos</a>
-        </div>
-    </div>
-    
-    <div class="card">
-        <div class="card-icon">🛒</div>
-        <h3>Órdenes</h3>
-        <div class="card-content">
-            <a href="/orders/list">🔍 Ver Orden</a>
-        </div>
-    </div>
+    <div class="dashboard-grid">
 
-    <div class="card">
-        <div class="card-icon">🎫</div>
-        <h3>Tickets</h3>
-        <div class="card-content">
-            <a href="/tickets/list">🔍 Ver Ticket</a>
+        <div class="card">
+            <div class="card-icon">👥</div>
+            <h3>Roles</h3>
+            <div class="card-content">
+                <a href="/roles/list">📜 Ver Todos</a>
+            </div>
         </div>
-    </div>
-    
-    <div class="card">
-        <div class="card-icon">🚚</div>
-        <h3>Envíos</h3>
-        <div class="card-content">
-            <a href="/shipments/create">🚚 Crear Envío</a>
-            <a href="/shipments/list">🔍 Ver Envío</a>
+        
+        <div class="card">
+            <div class="card-icon">👨‍💻</div>
+            <h3>Usuarios</h3>
+            <div class="card-content">
+                <a href="/users/view">📜 Ver Todos</a>
+            </div>
         </div>
-    </div>
+        
+        <div class="card">
+            <div class="card-icon">👤</div>
+            <h3>Personas</h3>
+            <div class="card-content">
+                <a href="/persons/dashboard">📜 Ver Todos</a>
+            </div>
+        </div>
 
-     <div class="card">
-        <div class="card-icon">Admin</div>
-        <h3>Ver registro</h3>
-        <div class="card-content">
-            <a href="/dashboardAdmin">Dashboard</a>
+        <div class="card">
+            <div class="card-icon">📦</div>
+            <h3>Productos</h3>
+            <div class="card-content">
+                <a href="/products/dashboard">📜 Ver Todos</a>
+            </div>
         </div>
-    </div>
-    
+        
+        <div class="card">
+            <div class="card-icon">🛒</div>
+            <h3>Órdenes</h3>
+            <div class="card-content">
+                <a href="/orders/list">🔍 Ver Orden</a>
+            </div>
+        </div>
 
-</div>
+        <div class="card">
+            <div class="card-icon">🎫</div>
+            <h3>Tickets</h3>
+            <div class="card-content">
+                <a href="/tickets/list">🔍 Ver Ticket</a>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-icon">🚚</div>
+            <h3>Envíos</h3>
+            <div class="card-content">
+                <a href="/shipments/create">🚚 Crear Envío</a>
+                <a href="/shipments/list">🔍 Ver Envío</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-icon">Admin</div>
+            <h3>Ver registro</h3>
+            <div class="card-content">
+                <a href="/dashboardAdmin">Dashboard</a>
+            </div>
+        </div>
+
+    </div>
 
 </body>
 </html>

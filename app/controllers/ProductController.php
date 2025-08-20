@@ -145,5 +145,24 @@ class ProductController {
         });
     }
 
+    public function showProductosdashboard(array $data = []){
+        ErrorHandler::handle(function () use ($data) {
+            $productsObjects = $this->service->getAll(); 
+
+            $products = array_map(function($p) {
+                return [
+                    'id' => $p->id,
+                    'name' => $p->name,
+                    'description' => $p->description,
+                    'price' => $p->price,
+                    'stock' => $p->stock,
+                    'category' => $p->category,
+                    'image' => $p->image,
+                ];
+            }, $productsObjects['data'] ?? []);
+
+            require_once __DIR__ . '/../views/products/productosShow.php';
+        });
+    }
    
 }

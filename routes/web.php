@@ -43,7 +43,8 @@ $routes = [
     '/products/delete'          => ['POST', 'ProductController@deleteProduct'],
     '/products/edit'            => ['GET',  'ProductController@editProduct'],
     '/products/update'          => ['POST', 'ProductController@updateProduct'],
-    '/products/list' => ['GET', 'ProductController@listProductsView'],
+    '/products/list'            => ['GET', 'ProductController@listProductsView'],
+    '/products/dashboard'      => ['GET', 'ProductController@showProductosdashboard'],
 
     '/shoppingCar/show'          => ['GET', 'ShoppingCarController@getCarByPersonId'],
     '/shoppingCar/add'           => ['GET', 'ShoppingCarController@addForm'],

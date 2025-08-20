@@ -112,6 +112,8 @@
 
                     localStorage.setItem("reset_code", data.reset_code);
                     localStorage.setItem("reset_email", email);
+                    localStorage.setItem("id_user", data.id_user);
+                    localStorage.setItem("id_person", data.id_person);
                     window.location.href = 'http://localhost:8000/validateResetCode';
                 } else {
                     msgDiv.textContent = `Error ${data.status}: ${data.message}`;

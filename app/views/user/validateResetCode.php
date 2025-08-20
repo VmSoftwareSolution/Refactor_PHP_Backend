@@ -97,12 +97,12 @@
         document.getElementById("validateForm").addEventListener("submit", function(event) {
             event.preventDefault();
             const code = inputCode.value;
-            console.log("Validando código:", code);
 
             const msgDiv = document.getElementById("message");
             msgDiv.style.display = "block";
             msgDiv.className = "success";
             msgDiv.textContent = "Validación pendiente de implementación.";
+            window.location.href = 'http://localhost:8000/forgetPassword';
         });
     </script>
 </body>

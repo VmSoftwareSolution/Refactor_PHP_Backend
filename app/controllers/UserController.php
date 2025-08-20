@@ -194,12 +194,14 @@ class UserController {
         
         ErrorHandler::handle(function () use ($data, $messages) {
             $email = $data['email'] ?? '';
-            $code = $this->service->generateResetCode($email);
+            $result = $this->service->generateResetCode($email);
 
             JsonResponder::success([
                 'status' => 200,
                 'message' => $messages['reset_code_generated'],
-                'reset_code' => $code
+                'reset_code' => $result['reset_code'],
+                'id_user' => $result['user']->id,   
+                'id_person' => $result['id_person']
             ]);
         });
     }
@@ -210,6 +212,10 @@ class UserController {
 
     public function validateResetCodeShow() {
         require_once __DIR__ . '/../views/user/validateResetCode.php';
+    }
+
+    public function fortgetPasswordShow() {
+        require_once __DIR__ . '/../views/user/forgetPassword.php';
     }
 
 

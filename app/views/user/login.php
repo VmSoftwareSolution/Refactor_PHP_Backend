@@ -133,18 +133,21 @@
       opacity: 0.7;
     }
 
-    .register-link {
+    .register-link,
+    .forgot-link {
       margin-top: 15px;
       font-size: 14px;
       color: #555;
     }
 
-    .register-link a {
+    .register-link a,
+    .forgot-link a {
       color: #6a11cb;
       text-decoration: none;
     }
 
-    .register-link a:hover {
+    .register-link a:hover,
+    .forgot-link a:hover {
       text-decoration: underline;
     }
   </style>
@@ -169,6 +172,10 @@
 
         <button type="submit" id="submitBtn">Ingresar</button>
       </form>
+
+      <p class="forgot-link">
+        <a href="http://localhost:8000/resetPassword">¿Olvidaste tu contraseña?</a>
+      </p>
 
       <p class="register-link">
         ¿No tienes cuenta? <a href="http://localhost:8000/user/create">Regístrate aquí</a>

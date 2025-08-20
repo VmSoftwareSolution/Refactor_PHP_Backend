@@ -171,7 +171,7 @@ class UserService {
         ];
     }
 
-    public function generateResetCode(string $email): string {
+    public function generateResetCode(string $email): array {
         global $messages;
 
         validateEmail($email);
@@ -186,7 +186,22 @@ class UserService {
 
         $code = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
 
-        return $code;
+        require_once __DIR__ . '/PersonService.php';
+        $personService = new PersonService();
+        try {
+            $person = $personService->getByUserId($user->id);
+            $id_person = $person->id;
+        } catch (NotFoundException $e) {
+            $id_person = null;
+        }
+
+        return [
+            'reset_code' => $code,
+            'user'       => $user,
+            'id_person'  => $id_person
+        ];
     }
+
+
 
 }

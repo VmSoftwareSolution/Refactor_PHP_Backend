@@ -197,5 +197,6 @@ form.addEventListener('submit', async e => {
 });
 </script>
 <script src="/js/sessionCheck.js"></script>
+<script src="/js/accessControl.js"></script>
 </body>
 </html>

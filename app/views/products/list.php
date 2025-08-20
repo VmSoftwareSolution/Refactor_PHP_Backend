@@ -196,7 +196,6 @@
         <div class="flash-sales">
             <?php if (!empty($products)) : ?>
                 <?php foreach ($products as $product) : ?>
-                    <a href="/products/findById?id=<?= htmlspecialchars($product['id'] ?? '') ?>" class="product-link">
                         <div class="product-card" data-product-id="<?= htmlspecialchars($product['id'] ?? '') ?>">
                             <span class="favorite-icon" data-product-id="<?= htmlspecialchars($product['id'] ?? '') ?>">&#x2661;</span>
                             <?php if(!empty($product['image'])): ?>
@@ -211,7 +210,6 @@
                             </div>
                             <button class="btn-add" onclick="event.stopPropagation();">Add To Cart</button>
                         </div>
-                    </a>
                 <?php endforeach; ?>
             <?php else: ?>
                 <p>No hay productos disponibles</p>
@@ -410,5 +408,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 <script src="/js/sessionCheck.js"></script>
+<script src="/js/accessControl.js"></script>
 </body>
 </html>

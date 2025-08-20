@@ -108,4 +108,5 @@
   </script>
 </body>
 <script src="/js/sessionCheck.js"></script>
+<script src="/js/accessControl.js"></script>
 </html>

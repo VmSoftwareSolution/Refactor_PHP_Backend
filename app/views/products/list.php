@@ -409,6 +409,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
-
+<script src="/js/sessionCheck.js"></script>
 </body>
 </html>

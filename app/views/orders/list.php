@@ -159,5 +159,6 @@ h2 {
     <?php endif; ?>
     </div>
 </div>
+<script src="/js/sessionCheck.js"></script>
 </body>
 </html>

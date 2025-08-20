@@ -261,6 +261,6 @@
             </div>
         </div>
     </section>
-
+<script src="/js/sessionCheck.js"></script>
 </body>
 </html>

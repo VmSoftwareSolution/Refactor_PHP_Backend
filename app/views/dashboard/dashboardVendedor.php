@@ -107,4 +107,5 @@
     });
   </script>
 </body>
+<script src="/js/sessionCheck.js"></script>
 </html>

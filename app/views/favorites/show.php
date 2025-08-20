@@ -286,5 +286,6 @@
              alert(`Funcionalidad de añadir "${name}" al carrito en desarrollo.`);
         }
     </script>
+<script src="/js/sessionCheck.js"></script>
 </body>
 </html>

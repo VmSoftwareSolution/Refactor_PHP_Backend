@@ -104,30 +104,7 @@ document.querySelectorAll('.delete-form').forEach(form => {
         .catch(err => alert('Error al eliminar el producto.'));
     });
 });
-<script>
-document.querySelectorAll('.delete-form').forEach(form => {
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        if (!confirm('¿Seguro que deseas eliminar este producto?')) return;
-
-        const productId = this.dataset.id;
-
-        fetch('/products/delete', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: 'id=' + encodeURIComponent(productId)
-        })
-        .then(res => res.json())
-        .then(data => {
-            const messageDiv = document.getElementById('message');
-            messageDiv.textContent = data.message || 'Producto eliminado';
-            const card = document.getElementById('product-' + productId);
-            if(card) card.remove();
-        })
-        .catch(err => alert('Error al eliminar el producto.'));
-    });
-});
 </script>
-
+<script src="/js/sessionCheck.js"></script>
 </body>
 </html>

@@ -201,11 +201,11 @@ function showMessage(type, message) {
     box.textContent = message;
     container.appendChild(box);
 
-    // Eliminar mensaje automáticamente después de 3 segundos
     setTimeout(() => box.remove(), 3000);
 }
 
 window.onload = loadUsers;
 </script>
+<script src="/js/sessionCheck.js"></script>
 </body>
 </html>

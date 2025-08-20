@@ -179,5 +179,6 @@ function highlightErrorFields(errors) {
     });
 }
 </script>
+<script src="/js/sessionCheck.js"></script>
 </body>
 </html>

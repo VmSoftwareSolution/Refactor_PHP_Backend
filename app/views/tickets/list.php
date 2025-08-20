@@ -134,6 +134,6 @@ body {
     </div>
 <?php endforeach; ?>
 </div>
-
+<script src="/js/sessionCheck.js"></script>
 </body>
 </html>

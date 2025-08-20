@@ -113,5 +113,6 @@ h2 {
         <a href="/persons" class="btn-back">Volver al listado</a>
     </div>
 </div>
+<script src="/js/sessionCheck.js"></script>
 </body>
 </html>

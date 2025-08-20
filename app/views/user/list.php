@@ -151,16 +151,41 @@ async function loadUsers() {
             result.data.forEach(user => {
                 const card = document.createElement('div');
                 card.className = 'card';
+                card.id = 'user-' + user.id;
                 card.innerHTML = `
                     <h3>👤 ${user.email}</h3>
                     <p><strong>ID:</strong> ${user.id}</p>
                     <p><strong>Rol:</strong> ${user.role_id}</p>
                     <div class="card-actions">
                         <a href="/user/edit?id=${user.id}" class="card-btn update">Editar</a>
+                        <button class="card-btn delete" data-id="${user.id}">Eliminar</button>
                     </div>
                 `;
                 grid.appendChild(card);
             });
+
+            // Asignar eventos de delete
+            document.querySelectorAll('.card-btn.delete').forEach(btn => {
+                btn.addEventListener('click', async function() {
+                    if(!confirm('¿Seguro que deseas eliminar este usuario?')) return;
+
+                    const userId = this.dataset.id;
+                    try {
+                        const res = await fetch('/user/delete', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                            body: 'id=' + encodeURIComponent(userId)
+                        });
+                        const data = await res.json();
+                        showMessage('success', data.message || 'Usuario eliminado');
+                        const userCard = document.getElementById('user-' + userId);
+                        if(userCard) userCard.remove();
+                    } catch (err) {
+                        showMessage('error', 'Error al eliminar el usuario');
+                    }
+                });
+            });
+
         } else {
             showMessage('error', 'No se pudieron cargar los usuarios');
         }
@@ -175,6 +200,9 @@ function showMessage(type, message) {
     box.className = `message-box ${type}`;
     box.textContent = message;
     container.appendChild(box);
+
+    // Eliminar mensaje automáticamente después de 3 segundos
+    setTimeout(() => box.remove(), 3000);
 }
 
 window.onload = loadUsers;
